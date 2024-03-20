@@ -6,7 +6,8 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import java.io.IOException;
-
+import okhttp3.*
+import org.json.JSONObject
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -20,15 +21,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONException
-import org.json.JSONObject
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 // Simple data class to represent a heart rate entry
-data class HeartRateData(val dateTime: String, val value: Int)
-private val heartRateList = ArrayList<Int>()
+// Data Structures
+private val heartRateList = mutableListOf<Int>() // Mutable list for storing heart rate data
+private lateinit var heartRateTextView: TextView // Declare your TextView
 //private lateinit var heartRateAdapter: HeartRateAdapter // Assuming you'll use an adapter
 private lateinit var recyclerView: RecyclerView
 
@@ -59,6 +60,7 @@ class MainActivity : AppCompatActivity() {
         authorizeButton = findViewById(R.id.authorize_button)
         heartrate_button = findViewById(R.id.get_heart_rate_button)
         authorizationStatusText = findViewById(R.id.authorization_status)
+        heartRateTextView = findViewById(R.id.hearRate)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -203,22 +205,34 @@ class MainActivity : AppCompatActivity() {
         // TODO: Implement secure storage of tokensData (access token, refresh token, expires in) using encryption to database
     }
 
-    fun parseHeartRateData(responseBodyString: String): Int {
+    private fun parseHeartRateData(responseBodyString: String): Int {
         val gson = Gson()
 
-        // 1. ADJUST the path based on the Fitbit API response structure
-        val heartRateValues = gson.fromJson(responseBodyString, JsonObject::class.java)
-            .getAsJsonObject("activities-heart-intraday")
-            .getAsJsonArray("dataset")
+        try {
+            val heartRateValues = gson.fromJson(responseBodyString, JsonObject::class.java)
+                ?.getAsJsonObject("activities-heart")
+                ?.getAsJsonArray("value") // Get the 'value' array
+                ?.get(0)?.asJsonObject // Get the first element in the 'value' array
+                ?.getAsJsonArray("heartRateZones")
 
-        // 2. EXTRACT the relevant heart rate value (replace placeholder)
-        val currentHeartRate = heartRateValues.last() // Assuming the last entry is the most recent
-            .asJsonObject
-            .get("value")
-            .asInt
+            val currentHeartRate = heartRateValues?.last()?.asJsonObject?.get("min")?.asInt ?: 0
 
-        return currentHeartRate
+            return currentHeartRate
+        } catch (e: Exception) {
+            Log.e("FitbitHeartRateParsing", "Error parsing he art rate data", e)
+            return 0 // Return a default value on error
+        }
     }
+    private fun updateHeartRateDisplay() {
+        val heartRateDisplayText = heartRateList.joinToString(separator = "\n") // Format as you like
+        runOnUiThread {
+            heartRateTextView.text = heartRateDisplayText
+        }
+    }
+
+    // Example function to make an API call using the access token
+    // Define a variable to store the response
+    private var lastHeartRateResponse: String = ""
 
     // Example function to make an API call using the access token
     private fun fetchHeartRateData(accessToken: String) {
@@ -242,27 +256,37 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                val responseBodyString = response.body?.string() ?: "" // Handle potential null body
-                Log.d("FitbitHeartRate", "Response Body: $responseBodyString")
-                if (response.isSuccessful) {
-
-                    val heartRate = parseHeartRateData(responseBodyString) // Implement your parsing
-                    heartRateList.add(heartRate)
-
-//                    // Update UI on the main thread
-//                    Handler(Looper.getMainLooper()).post {
-//                        heartRateAdapter.notifyDataSetChanged() // Update your RecyclerView
-//                    }
-                    Log.d("FitbitHeartRateDATA", "Response: succesfull")
-                } else {
-                    // Handle error response from Fitbit using response.code()
+                try {
+                    if (response.isSuccessful && response.body != null) {
+                        val responseBodyString = response.body!!.string()
+                        lastHeartRateResponse = responseBodyString // Save the response
+                        heartRateTextView.text = responseBodyString
+                        val heartRate = parseHeartRateData(responseBodyString)
+                        //heartRateList.add(lastHeartRateResponse) //testinis
+                        //heartRateList.add(heartRate) // Add the heart rate to the list
+                        //updateHeartRateDisplay() // Update the TextView
+                        Log.d("FitbitHeartRateDATA", "Response: $responseBodyString")
+                    } else {
+                        // Handle error response from Fitbit using response.code()
+                        runOnUiThread {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Error retrieving heart rate data",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("FetchHeartRateData", "Error handling response: ${e.message}")
                     runOnUiThread {
                         Toast.makeText(
                             this@MainActivity,
-                            "Error retrieving heart rate data",
+                            "Error handling response",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                } finally {
+                    response.body?.close() // Ensure response body is closed after reading
                 }
             }
         })
