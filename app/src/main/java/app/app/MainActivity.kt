@@ -11,8 +11,7 @@ import org.json.JSONObject
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.service.autofill.UserData
 import android.util.Base64
 import android.util.Log
 import android.webkit.WebView
@@ -70,6 +69,47 @@ class MainActivity : AppCompatActivity() {
         }
 
         handleCallbackIntent(getIntent());
+
+        //db testing cases
+        val dbHelper = DBHelper(this)
+
+        // Example user data
+        val newUser = User(
+            name = "John",
+            surname = "Doe",
+            height = 180.0,
+            weight = 75.0,
+            birthdate = "1990-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+        )
+        // Inserting user into the database
+        val insertedUserId = dbHelper.addUser(newUser)
+
+        //Example heart rate data
+        val newRate = HeartRate(
+            rate = 75,
+            time = "2024-03-20, 22:02"
+        )
+
+        // Inserting heart rate into the database
+        val insertedRateId = dbHelper.addHeartRate(newRate)
+
+        // Example contact data
+        val newContact = Contact(
+            name = "John",
+            surname = "Doe",
+            phoneNumber = "+370564375"
+        )
+        // Inserting contact into the database
+        val insertedContactId = dbHelper.addContact(newContact)
+
+        //Example threshold data
+        val newThreshold = Threshold(
+            minRate = 65,
+            maxRate = 120
+        )
+
+        // Inserting heart rate into the database
+        val insertedThresholdId = dbHelper.addThreshold(newThreshold)
     }
 
     override fun onNewIntent(intent: Intent?) {
