@@ -33,5 +33,12 @@
         android:layout_marginTop="16dp"
         android:text="Authorization Pending"
         android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/goToDataInfoButton"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Go to data info" />
 </LinearLayout>
 

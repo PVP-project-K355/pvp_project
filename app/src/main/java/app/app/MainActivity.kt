@@ -11,8 +11,7 @@ import org.json.JSONObject
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+import android.service.autofill.UserData
 import android.util.Base64
 import android.util.Log
 import android.webkit.WebView
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var authorizeButton: Button
     private lateinit var heartrate_button: Button
     private lateinit var authorizationStatusText: TextView
+    private lateinit var goToData: Button
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -61,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         heartrate_button = findViewById(R.id.get_heart_rate_button)
         authorizationStatusText = findViewById(R.id.authorization_status)
         heartRateTextView = findViewById(R.id.hearRate)
+        goToData = findViewById(R.id.goToDataInfoButton)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -68,8 +69,52 @@ class MainActivity : AppCompatActivity() {
         heartrate_button.setOnClickListener {
             fetchHeartRateData(ACCESSTOKEN)
         }
-
+        goToData.setOnClickListener{
+            val intent = Intent(this, HealthInfoActivity::class.java)
+            startActivity(intent)
+        }
         handleCallbackIntent(getIntent());
+
+        //db testing cases
+        val dbHelper = DBHelper(this)
+
+        // Example user data
+        val newUser = User(
+            name = "John",
+            surname = "Doe",
+            height = 180.0,
+            weight = 75.0,
+            birthdate = "1990-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+        )
+        // Inserting user into the database
+        val insertedUserId = dbHelper.addUser(newUser)
+
+        //Example heart rate data
+        val newRate = HeartRate(
+            rate = 75,
+            time = "2024-03-20, 22:02"
+        )
+
+        // Inserting heart rate into the database
+        val insertedRateId = dbHelper.addHeartRate(newRate)
+
+        // Example contact data
+        val newContact = Contact(
+            name = "John",
+            surname = "Doe",
+            phoneNumber = "+370564375"
+        )
+        // Inserting contact into the database
+        val insertedContactId = dbHelper.addContact(newContact)
+
+        //Example threshold data
+        val newThreshold = Threshold(
+            minRate = 65,
+            maxRate = 120
+        )
+
+        // Inserting heart rate into the database
+        val insertedThresholdId = dbHelper.addThreshold(newThreshold)
     }
 
     override fun onNewIntent(intent: Intent?) {
