@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Header Section -->
+    <RelativeLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/prevDayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Last Day"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"/>
+        />
+
+        <TextView
+            android:id="@+id/currentDateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Today's Date"
+            android:textSize="18sp"
+            android:layout_marginTop="30dp"
+        />
+
+        <!-- Next Day Button (if needed) -->
+        <Button
+            android:id="@+id/nextDayButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next Day"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="20dp"/>
+        />
+
+    </RelativeLayout>
+
+    <!-- Graph Section -->
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/graphView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_below="@id/headerLayout"
+        android:layout_marginTop="20dp"/>
+
+    <!-- Summary Section -->
+
+    <!-- Navigation Section -->
+
+    <TextView
+        android:id="@+id/summaryTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/graphView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Health Summary"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/dayAverageTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/summaryTextView"
+        android:layout_marginTop="30dp"
+        android:text="Day Average"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
+        />
+
+    <TextView
+        android:id="@+id/weekAverageTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/summaryTextView"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="50dp"
+        android:layout_marginTop="30dp"
+        android:text="Week Average"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/dayAverageTitleTextView"
+        android:text="Number"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="70dp"
+        android:layout_marginTop="30dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weekAverageTitleTextView"
+        android:text="Number"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="70dp"
+        android:layout_marginTop="30dp"/>
+
+
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Back to Main Page"
+        android:layout_marginBottom="10dp" />
+
+</RelativeLayout>
