@@ -25,14 +25,14 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-// Simple data class to represent a heart rate entry
+
 // Data Structures
 private val heartRateList = mutableListOf<Int>() // Mutable list for storing heart rate data
 private lateinit var heartRateTextView: TextView // Declare your TextView
-//private lateinit var heartRateAdapter: HeartRateAdapter // Assuming you'll use an adapter
+
 private lateinit var recyclerView: RecyclerView
 
-// Simple data class to hold token data
+
 data class TokensData(val accessToken: String, val refreshToken: String, val expiresIn: Int)
 
 class MainActivity : AppCompatActivity() {
@@ -52,11 +52,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) // Assuming you have a layout
-        //recyclerView = findViewById(R.id.recycler_view)
-        //heartRateAdapter = HeartRateAdapter(heartRateList)
-        //recyclerView.adapter = heartRateAdapter
-
+        setContentView(R.layout.activity_main) 
         authorizeButton = findViewById(R.id.authorize_button)
         heartrate_button = findViewById(R.id.get_heart_rate_button)
         authorizationStatusText = findViewById(R.id.authorization_status)
@@ -199,9 +195,6 @@ class MainActivity : AppCompatActivity() {
                     val tokensData = extractTokens(responseBodyString)
 
                     if (tokensData != null) {
-                        //storeTokens(tokensData) TODO: store tokens data in database
-                        // Start updates when needed (e.g., after login)
-                        //startScheduledHeartRateUpdates(tokensData.accessToken)
                         runOnUiThread {
                             val tokenInfo = "Access Token: ${tokensData.accessToken}\n" +
                                     "Refresh Token: ${tokensData.refreshToken}\n" +
@@ -218,7 +211,6 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    // Handle error response from Fitbit using response.code()
                     runOnUiThread {
                         authorizationStatusText.text = "Authorization failed from Fitbit"
                         Toast.makeText(
@@ -275,8 +267,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Example function to make an API call using the access token
-    // Define a variable to store the response
     private var lastHeartRateResponse: String = ""
 
     // Example function to make an API call using the access token
