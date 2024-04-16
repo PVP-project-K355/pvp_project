@@ -34,15 +34,24 @@ data class Threshold(
     val maxRate: Int
 )
 
+data class API(
+    val id: Int = 0,
+    val clientId: String,
+    val clientSecret: String,
+    val accessToken: String,
+    val refreshToken: String,
+    val expiresIn: Int
+)
+
 class DBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 1
+        private const val DATABASE_VERSION = 2
         private const val DATABASE_NAME = "Database.db"
 
         // User table
-        private const val table_user = "User"
+        private const val table_user = "User_data"
         private const val user_id = "Id"
         private const val user_name = "Name"
         private const val user_surname = "Surname"
@@ -57,7 +66,7 @@ class DBHelper(context: Context) :
         private const val heart_time = "Heart_rate_measurement_time"
 
         //Contact person table
-        private const val table_Contact = "Contact"
+        private const val table_Contact = "Contact_data"
         private const val contact_id = "Id"
         private const val contact_name = "Name"
         private const val contact_surname = "Surname"
@@ -68,6 +77,15 @@ class DBHelper(context: Context) :
         private const val threshold_id = "Id"
         private const val threshold_minRate = "Min_heart_rate"
         private const val threshold_maxRate = "Max_heart_rate"
+
+        //API table
+        private const val table_api = "API_data"
+        private const val api_id = "Id"
+        private const val api_clientId = "Client_id"
+        private const val api_clientSecret = "Client_secret"
+        private const val api_accessToken = "Access_token"
+        private const val api_refresfToken = "Refresh_token"
+        private const val api_expiresIn = "Expires_in"
 
     }
 
@@ -105,6 +123,16 @@ class DBHelper(context: Context) :
 
                 + ")")
         db.execSQL(createThresholdTable)
+
+        val createAPITable = ("CREATE TABLE $table_api("
+                + "$api_id INTEGER PRIMARY KEY,"
+                + "$api_clientId TEXT,"
+                + "$api_clientSecret TEXT,"
+                + "$api_accessToken TEXT,"
+                + "$api_refresfToken TEXT,"
+                + "$api_expiresIn INTEGER"
+                + ")")
+        db.execSQL(createAPITable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -112,11 +140,12 @@ class DBHelper(context: Context) :
         db.execSQL("DROP TABLE IF EXISTS $table_Heart_Rate")
         db.execSQL("DROP TABLE IF EXISTS $table_Contact")
         db.execSQL("DROP TABLE IF EXISTS $table_threshold")
+        db.execSQL("DROP TABLE IF EXISTS $table_api")
         onCreate(db)
     }
 
     //User table
-    // Adding new user
+    //Add user data
     fun addUser(user: User): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -130,7 +159,7 @@ class DBHelper(context: Context) :
         return id
     }
 
-    // Getting single user
+    //Get user data
     @SuppressLint("Range")
     fun getUser(id: Int): User? {
         val db = this.readableDatabase
@@ -160,7 +189,7 @@ class DBHelper(context: Context) :
         return user
     }
 
-    // Updating single user
+    //Update user data
     fun updateUser(user: User): Int {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -177,7 +206,7 @@ class DBHelper(context: Context) :
     }
 
     //Heart rate table
-    // Adding heart rate data
+    //Add heart rate data
     fun addHeartRate(heartRate: HeartRate): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -188,7 +217,7 @@ class DBHelper(context: Context) :
         return id
     }
 
-    // Getting single heart rate
+    //Get single heart rate data
     @SuppressLint("Range")
     fun getSingleRate(id: Int): HeartRate? {
         val db = this.readableDatabase
@@ -212,6 +241,7 @@ class DBHelper(context: Context) :
         return rate
     }
 
+    //Get all heart rates data
     @SuppressLint("Range")
     fun getAllRate(): ArrayList<HeartRate> {
         val rateList = ArrayList<HeartRate>()
@@ -233,7 +263,7 @@ class DBHelper(context: Context) :
     }
 
     //Contact table
-    // Adding new contact
+    //Add new contact data
     fun addContact(contact: Contact): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -245,7 +275,7 @@ class DBHelper(context: Context) :
         return id
     }
 
-    // Getting single contact
+    //Get single contact data
     @SuppressLint("Range")
     fun getContact(id: Int): Contact? {
         val db = this.readableDatabase
@@ -271,7 +301,7 @@ class DBHelper(context: Context) :
         return contact
     }
 
-    //Get all contacts
+    //Get all contacts data
     @SuppressLint("Range")
     fun getAllContacts(): ArrayList<Contact> {
         val contactsList = ArrayList<Contact>()
@@ -293,7 +323,7 @@ class DBHelper(context: Context) :
         return contactsList
     }
 
-    // Updating contact
+    //Update contact data
     fun updateContact(contact: Contact): Int {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -307,7 +337,7 @@ class DBHelper(context: Context) :
         )
     }
 
-    //Delete contact
+    //Delete contact data
     fun deleteContact(contact: Contact) {
         val db = this.writableDatabase
         db.delete(
@@ -318,7 +348,7 @@ class DBHelper(context: Context) :
     }
 
     //Threshold table
-    // Adding heart rate data
+    //Add threshold data
     fun addThreshold(threshold: Threshold): Long {
         val db = this.writableDatabase
         val values = ContentValues()
@@ -328,6 +358,115 @@ class DBHelper(context: Context) :
         val id = db.insert(table_threshold, null, values)
         db.close()
         return id
+    }
+
+    //Get threshold data
+    @SuppressLint("Range")
+    fun getThreshold(id: Int): Threshold? {
+        val db = this.readableDatabase
+        val cursor = db.query(
+            table_threshold, arrayOf(
+                threshold_id,
+                threshold_minRate,
+                threshold_maxRate
+            ), "$threshold_id=?", arrayOf(id.toString()), null, null, null, null
+        )
+        cursor?.moveToFirst()
+
+        val threshold = cursor?.let {
+            Threshold(
+                it.getInt(it.getColumnIndex(threshold_id)),
+                it.getInt(it.getColumnIndex(threshold_minRate)),
+                it.getInt(it.getColumnIndex(threshold_maxRate))
+            )
+        }
+        cursor?.close()
+        return threshold
+    }
+
+    //Update threshold data
+    fun updateThreshold(threshold: Threshold): Int {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(threshold_minRate, threshold.minRate)
+        values.put(threshold_maxRate, threshold.maxRate)
+
+        return db.update(
+            table_threshold, values, "$threshold_id = ?",
+            arrayOf(threshold.id.toString())
+        )
+    }
+
+    //API table
+    //Add api data
+    fun addApi(api: API): Long{
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(api_clientId, api.clientId)
+        values.put(api_clientSecret, api.clientSecret)
+        values.put(api_accessToken, api.accessToken)
+        values.put(api_refresfToken, api.refreshToken)
+        values.put(api_expiresIn, api.expiresIn)
+
+        val id = db.insert(table_api, null, values)
+        db.close()
+        return id
+    }
+
+    //Get api data
+    @SuppressLint("Range")
+    fun getApi(id: Int): API? {
+        val db = this.readableDatabase
+        val cursor = db.query(
+            table_api, arrayOf(
+                api_id,
+                api_clientId,
+                api_clientSecret,
+                api_accessToken,
+                api_refresfToken,
+                api_expiresIn
+            ), "$api_id=?", arrayOf(id.toString()), null, null, null, null
+        )
+        cursor?.moveToFirst()
+
+        val api = cursor?.let {
+            API(
+                it.getInt(it.getColumnIndex(contact_id)),
+                it.getString(it.getColumnIndex(api_clientId)),
+                it.getString(it.getColumnIndex(api_clientSecret)),
+                it.getString(it.getColumnIndex(api_accessToken)),
+                it.getString(it.getColumnIndex(api_refresfToken)),
+                it.getInt(it.getColumnIndex(api_expiresIn))
+            )
+        }
+        cursor?.close()
+        return api
+    }
+
+    //Update api data
+    fun updateApi(api: API): Int{
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(api_clientId, api.clientId)
+        values.put(api_clientSecret, api.clientSecret)
+        values.put(api_accessToken, api.accessToken)
+        values.put(api_refresfToken, api.refreshToken)
+        values.put(api_expiresIn, api.expiresIn)
+
+        return db.update(
+            table_api, values, "$api_id = ?",
+            arrayOf(api.id.toString())
+        )
+    }
+
+    //Delete api data
+    fun deleteApi(api: API) {
+        val db = this.writableDatabase
+        db.delete(
+            table_api, "$api_id = ?",
+            arrayOf(api.id.toString())
+        )
+        db.close()
     }
 
 }
