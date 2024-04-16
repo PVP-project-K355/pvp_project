@@ -76,14 +76,26 @@ class MainActivity : AppCompatActivity() {
 
         // Example user data
         val newUser = User(
+            id = 1,
             name = "John",
             surname = "Doe",
-            height = 180.0,
-            weight = 75.0,
-            birthdate = "1990-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+            height = 175.0,
+            weight = 80.0,
+            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
         )
         // Inserting user into the database
         val insertedUserId = dbHelper.addUser(newUser)
+
+        // Example user data
+        val updateUser = User(
+            id = 1,
+            name = "John",
+            surname = "Doe",
+            height = 175.0,
+            weight = 80.0,
+            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+        )
+        //dbHelper.updateUser(updateUser)
 
         //Example heart rate data
         val newRate = HeartRate(
@@ -111,6 +123,32 @@ class MainActivity : AppCompatActivity() {
 
         // Inserting heart rate into the database
         val insertedThresholdId = dbHelper.addThreshold(newThreshold)
+
+        //Example API data
+        val newApi = API(
+            clientId = "afasd4",
+            clientSecret = "df646b1s",
+            accessToken = "dsfsdfgsdgsdfvsdgfsf",
+            refreshToken = "dsfsdgvsdbgv4565116165",
+            expiresIn = 365
+        )
+        //Inserting api into database
+        val insertApiID = dbHelper.addApi(newApi)
+
+        val userId = 1 // Replace with the ID of the user you want to retrieve
+        val user = dbHelper.getUser(userId)
+
+        if (user != null) {
+            println("User found:")
+            println("ID: ${user.id}")
+            println("Name: ${user.name}")
+            println("Surname: ${user.surname}")
+            println("Height: ${user.height}")
+            println("Weight: ${user.weight}")
+            println("Birthdate: ${user.birthdate}")
+        } else {
+            println("User not found.")
+        }
     }
 
     override fun onNewIntent(intent: Intent?) {
