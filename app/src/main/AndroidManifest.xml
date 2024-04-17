@@ -14,9 +14,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SeniorMonitoringApp"
         tools:targetApi="31">
+        <activity android:name=".DataInputPage" />
         <activity
             android:name=".HealthInfoActivity"
-            android:exported="false" />
+            android:exported="true" >
+                <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.VIEW" />
+
+            <category android:name="android.intent.category.DEFAULT" />
+            <category android:name="android.intent.category.BROWSABLE" />
+
+            <data
+                android:host="callbackdata"
+                android:scheme="seniorhealthmonitoringapplication2024pvp" />
+                </intent-filter>
+        </activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">

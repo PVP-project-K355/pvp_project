@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var heartrate_button: Button
     private lateinit var authorizationStatusText: TextView
     private lateinit var goToData: Button
+    private lateinit var goToDataInputPage: Button
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -58,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         authorizationStatusText = findViewById(R.id.authorization_status)
         heartRateTextView = findViewById(R.id.hearRate)
         goToData = findViewById(R.id.goToDataInfoButton)
+        goToDataInputPage = findViewById(R.id.goToDataInputPage)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -67,6 +69,11 @@ class MainActivity : AppCompatActivity() {
         }
         goToData.setOnClickListener{
             val intent = Intent(this, HealthInfoActivity::class.java)
+            startActivity(intent)
+        }
+        handleCallbackIntent(getIntent());
+        goToDataInputPage.setOnClickListener{
+            val intent = Intent(this, DataInputPage::class.java)
             startActivity(intent)
         }
         handleCallbackIntent(getIntent());

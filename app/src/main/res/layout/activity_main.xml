@@ -40,5 +40,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Go to data info" />
+
+    <Button
+        android:id="@+id/goToDataInputPage"
+        android:layout_width="176dp"
+        android:layout_height="wrap_content"
+        android:text="Data input page" />
 </LinearLayout>
 
