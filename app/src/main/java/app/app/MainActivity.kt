@@ -73,10 +73,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, HealthInfoActivity::class.java)
             startActivity(intent)
         }
-//        smsSender_button.setOnClickListener{
-//            val intent = Intent(this, SmsSender::class.java)
-//            startActivity(intent)
-//        }
+        smsSender_button.setOnClickListener{
+            val intent = Intent(this, SmsSender::class.java)
+            startActivity(intent)
+        }
 //        requestPermissionLauncher.launch(
 //            android.Manifest.permission.READ_PHONE_STATE
 //        )
@@ -92,14 +92,14 @@ class MainActivity : AppCompatActivity() {
 //            requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
 //        }
 
-        smsSender_button.setOnClickListener{
-            if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                val intent = Intent(this, SmsSender::class.java)
-                startActivity(intent)
-            } else {
-                requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
-            }
-        }
+//        smsSender_button.setOnClickListener{
+//            if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+//                val intent = Intent(this, SmsSender::class.java)
+//                startActivity(intent)
+//            } else {
+//                requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
+//            }
+//        }
 
         handleCallbackIntent(getIntent());
 
