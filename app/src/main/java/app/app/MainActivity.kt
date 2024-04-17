@@ -9,6 +9,7 @@ import java.io.IOException;
 import okhttp3.*
 import org.json.JSONObject
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.service.autofill.UserData
@@ -18,6 +19,7 @@ import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONException
 import androidx.recyclerview.widget.RecyclerView
@@ -42,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var heartrate_button: Button
     private lateinit var authorizationStatusText: TextView
     private lateinit var goToData: Button
+    private lateinit var smsSender_button: Button
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -58,6 +61,7 @@ class MainActivity : AppCompatActivity() {
         authorizationStatusText = findViewById(R.id.authorization_status)
         heartRateTextView = findViewById(R.id.hearRate)
         goToData = findViewById(R.id.goToDataInfoButton)
+        smsSender_button = findViewById(R.id.sms_sender_page_button)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -69,6 +73,34 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, HealthInfoActivity::class.java)
             startActivity(intent)
         }
+//        smsSender_button.setOnClickListener{
+//            val intent = Intent(this, SmsSender::class.java)
+//            startActivity(intent)
+//        }
+//        requestPermissionLauncher.launch(
+//            android.Manifest.permission.READ_PHONE_STATE
+//        )
+//        requestPermissionLauncher.launch(
+//            android.Manifest.permission.SEND_SMS
+//        )
+
+//        if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+//            val intent = Intent(this, SmsSender::class.java)
+//            startActivity(intent)
+//        } else {
+//            // Permission not granted, request it
+//            requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
+//        }
+
+        smsSender_button.setOnClickListener{
+            if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                val intent = Intent(this, SmsSender::class.java)
+                startActivity(intent)
+            } else {
+                requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
+            }
+        }
+
         handleCallbackIntent(getIntent());
 
         //db testing cases
