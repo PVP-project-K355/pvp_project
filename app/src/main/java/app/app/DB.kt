@@ -3,6 +3,7 @@ package app.app
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -47,7 +48,7 @@ class DBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
         private const val DATABASE_NAME = "Database.db"
 
         // User table
@@ -402,10 +403,10 @@ class DBHelper(context: Context) :
     fun addApi(api: API): Long{
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(api_clientId, api.clientId)
-        values.put(api_clientSecret, api.clientSecret)
-        values.put(api_accessToken, api.accessToken)
-        values.put(api_refresfToken, api.refreshToken)
+        values.put(api_clientId, EncryptionUtils.encrypt(api.clientId))
+        values.put(api_clientSecret, EncryptionUtils.encrypt(api.clientSecret))
+        values.put(api_accessToken, EncryptionUtils.encrypt(api.accessToken))
+        values.put(api_refresfToken, EncryptionUtils.encrypt(api.refreshToken))
         values.put(api_expiresIn, api.expiresIn)
 
         val id = db.insert(table_api, null, values)
@@ -416,41 +417,35 @@ class DBHelper(context: Context) :
     //Get api data
     @SuppressLint("Range")
     fun getApi(id: Int): API? {
-        val db = this.readableDatabase
-        val cursor = db.query(
-            table_api, arrayOf(
-                api_id,
-                api_clientId,
-                api_clientSecret,
-                api_accessToken,
-                api_refresfToken,
-                api_expiresIn
-            ), "$api_id=?", arrayOf(id.toString()), null, null, null, null
-        )
-        cursor?.moveToFirst()
+        var apiData: API? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_api, null, selection, selectionArgs, null, null, null)
 
-        val api = cursor?.let {
-            API(
-                it.getInt(it.getColumnIndex(contact_id)),
-                it.getString(it.getColumnIndex(api_clientId)),
-                it.getString(it.getColumnIndex(api_clientSecret)),
-                it.getString(it.getColumnIndex(api_accessToken)),
-                it.getString(it.getColumnIndex(api_refresfToken)),
-                it.getInt(it.getColumnIndex(api_expiresIn))
-            )
+        if (cursor.moveToFirst()) {
+            val clientId = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_clientId)))
+            val clientSecret = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_clientSecret)))
+            val accessToken = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_accessToken)))
+            val refreshToken = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_refresfToken)))
+            val expiresIn = cursor.getInt(cursor.getColumnIndex(api_expiresIn))
+
+            apiData = API(id, clientId, clientSecret, accessToken, refreshToken, expiresIn)
         }
-        cursor?.close()
-        return api
+
+        cursor.close()
+        db.close()
+        return apiData
     }
 
     //Update api data
     fun updateApi(api: API): Int{
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(api_clientId, api.clientId)
-        values.put(api_clientSecret, api.clientSecret)
-        values.put(api_accessToken, api.accessToken)
-        values.put(api_refresfToken, api.refreshToken)
+        values.put(api_clientId, EncryptionUtils.encrypt(api.clientId))
+        values.put(api_clientSecret, EncryptionUtils.encrypt(api.clientSecret))
+        values.put(api_accessToken, EncryptionUtils.encrypt(api.accessToken))
+        values.put(api_refresfToken, EncryptionUtils.encrypt(api.refreshToken))
         values.put(api_expiresIn, api.expiresIn)
 
         return db.update(
