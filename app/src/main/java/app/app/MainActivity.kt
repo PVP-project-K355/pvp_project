@@ -108,7 +108,6 @@ class MainActivity : AppCompatActivity() {
 
         // Example user data
         val newUser = User(
-            id = 1,
             name = "John",
             surname = "Doe",
             height = 175.0,
@@ -116,7 +115,7 @@ class MainActivity : AppCompatActivity() {
             birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
         )
         // Inserting user into the database
-        val insertedUserId = dbHelper.addUser(newUser)
+        //dbHelper.addUser(newUser)
 
         // Example user data
         val updateUser = User(
@@ -134,9 +133,8 @@ class MainActivity : AppCompatActivity() {
             rate = 75,
             time = "2024-03-20, 22:02"
         )
-
         // Inserting heart rate into the database
-        val insertedRateId = dbHelper.addHeartRate(newRate)
+        //dbHelper.addHeartRate(newRate)
 
         // Example contact data
         val newContact = Contact(
@@ -145,7 +143,7 @@ class MainActivity : AppCompatActivity() {
             phoneNumber = "+370564375"
         )
         // Inserting contact into the database
-        val insertedContactId = dbHelper.addContact(newContact)
+        //dbHelper.addContact(newContact)
 
         //Example threshold data
         val newThreshold = Threshold(
@@ -154,33 +152,46 @@ class MainActivity : AppCompatActivity() {
         )
 
         // Inserting heart rate into the database
-        val insertedThresholdId = dbHelper.addThreshold(newThreshold)
+        //dbHelper.addThreshold(newThreshold)
 
         //Example API data
         val newApi = API(
-            clientId = "afasd4",
-            clientSecret = "df646b1s",
-            accessToken = "dsfsdfgsdgsdfvsdgfsf",
-            refreshToken = "dsfsdgvsdbgv4565116165",
+            clientId = "Petras",
+            clientSecret = "petraspetras",
+            accessToken = "petrasdu",
+            refreshToken = "petrastrys",
             expiresIn = 365
         )
         //Inserting api into database
-        val insertApiID = dbHelper.addApi(newApi)
+        dbHelper.addApi(newApi)
 
-        val userId = 1 // Replace with the ID of the user you want to retrieve
-        val user = dbHelper.getUser(userId)
+        //Update API data
+        val updateAPI = API(
+            id = 1,
+            clientId = "Petras",
+            clientSecret = "petraspetras",
+            accessToken = "petrasdu",
+            refreshToken = "petraspenki",
+            expiresIn = 365
+        )
+        //Updating api data
+        //dbHelper.updateApi(updateAPI)
 
-        if (user != null) {
-            println("User found:")
-            println("ID: ${user.id}")
-            println("Name: ${user.name}")
-            println("Surname: ${user.surname}")
-            println("Height: ${user.height}")
-            println("Weight: ${user.weight}")
-            println("Birthdate: ${user.birthdate}")
+        val apiID = 1 // Replace with the ID of the user you want to retrieve
+        val api = dbHelper.getApi(apiID)
+
+        if (api != null) {
+            println("API found:")
+            println("ID: ${api.id}")
+            println("Client: ${api.clientId}")
+            println("Secret: ${api.clientSecret}")
+            println("Access token: ${api.accessToken}")
+            println("Refresh token: ${api.refreshToken}")
+            println("Expires in: ${api.expiresIn}")
         } else {
-            println("User not found.")
+            println("API not found.")
         }
+
     }
 
     override fun onNewIntent(intent: Intent?) {
