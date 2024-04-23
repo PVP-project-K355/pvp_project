@@ -46,9 +46,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var goToData: Button
     private lateinit var smsSender_button: Button
 
-    private val CLIENT_ID = "23RTB5"
+    private val CLIENT_ID = "23RT82"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
-    private val CLIENT_SECRET = "f448e71dc034bd7466a0b5719a03e8cf"
+    private val CLIENT_SECRET = "7ae655202ef53382ee2f5a95e3622623"
     private val SCOPES = "activity heartrate sleep profile"
     private val FITBIT_TOKEN_ENDPOINT = "https://api.fitbit.com/oauth2/token"
     private var ACCESSTOKEN = ""
@@ -344,8 +344,8 @@ class MainActivity : AppCompatActivity() {
         val client = OkHttpClient()
 
         // Specify the endpoint to retrieve heart rate data
-        val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec.json"
-
+        val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/2024-04-23/1d/1min/time/22:00/22:30.json"
+        //val endpoint = "https://api.fitbit.com/1/user/-/activities/date/2024-04-23.json"
         val request = Request.Builder()
             .url(endpoint)
             .header("Authorization", "Bearer $accessToken")
@@ -373,6 +373,7 @@ class MainActivity : AppCompatActivity() {
                         Log.d("FitbitHeartRateDATA", "Response: $responseBodyString")
                     } else {
                         // Handle error response from Fitbit using response.code()
+                        Log.d("Heart rate data ", "Blogas response!!!!!!!!!!!")
                         runOnUiThread {
                             Toast.makeText(
                                 this@MainActivity,
