@@ -315,7 +315,7 @@ class DBHelper(context: Context) :
                     cursor.getInt(cursor.getColumnIndex(contact_id)),
                     cursor.getString(cursor.getColumnIndex(contact_name)),
                     cursor.getString(cursor.getColumnIndex(contact_surname)),
-                    cursor.getString(cursor.getColumnIndex(contact_surname))
+                    cursor.getString(cursor.getColumnIndex(contact_phone))
                 )
                 contactsList.add(contact)
             } while (cursor.moveToNext())
