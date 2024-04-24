@@ -163,31 +163,25 @@ class DBHelper(context: Context) :
     //Get user data
     @SuppressLint("Range")
     fun getUser(id: Int): User? {
-        val db = this.readableDatabase
-        val cursor = db.query(
-            table_user, arrayOf(
-                user_id,
-                user_name,
-                user_surname,
-                user_height,
-                user_weight,
-                user_birthdate
-            ), "$user_id=?", arrayOf(id.toString()), null, null, null, null
-        )
-        cursor?.moveToFirst()
+        var user: User? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_user, null, selection, selectionArgs, null, null, null)
 
-        val user = cursor?.let {
-            User(
-                it.getInt(it.getColumnIndex(user_id)),
-                it.getString(it.getColumnIndex(user_name)),
-                it.getString(it.getColumnIndex(user_surname)),
-                it.getDouble(it.getColumnIndex(user_height)),
-                it.getDouble(it.getColumnIndex(user_weight)),
-                it.getString(it.getColumnIndex(user_birthdate))
-            )
+        if (cursor.moveToFirst()) {
+            val name = cursor.getString(cursor.getColumnIndex(user_name))
+            val surname = cursor.getString(cursor.getColumnIndex(user_surname))
+            val height = cursor.getDouble(cursor.getColumnIndex(user_height))
+            val weight = cursor.getDouble(cursor.getColumnIndex(user_weight))
+            val birth = cursor.getString(cursor.getColumnIndex(user_birthdate))
+
+            user = User(id, name, surname, height, weight, birth)
         }
-        cursor?.close()
-        return user
+
+        cursor.close()
+        db.close()
+        return if (user != null) user else null
     }
 
     //Update user data
@@ -221,25 +215,22 @@ class DBHelper(context: Context) :
     //Get single heart rate data
     @SuppressLint("Range")
     fun getSingleRate(id: Int): HeartRate? {
-        val db = this.readableDatabase
-        val cursor = db.query(
-            table_Heart_Rate, arrayOf(
-                heart_id,
-                heart_rate,
-                heart_time
-            ), "$heart_id=?", arrayOf(id.toString()), null, null, null, null
-        )
-        cursor?.moveToFirst()
+        var rate: HeartRate? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_Heart_Rate, null, selection, selectionArgs, null, null, null)
 
-        val rate = cursor?.let {
-            HeartRate(
-                it.getInt(it.getColumnIndex(heart_id)),
-                it.getInt(it.getColumnIndex(heart_rate)),
-                it.getString(it.getColumnIndex(heart_time))
-            )
+        if (cursor.moveToFirst()) {
+            val heartRate = cursor.getInt(cursor.getColumnIndex(heart_rate))
+            val time = cursor.getString(cursor.getColumnIndex(heart_time))
+
+            rate = HeartRate(id, heartRate, time)
         }
-        cursor?.close()
-        return rate
+
+        cursor.close()
+        db.close()
+        return if (rate != null) rate else null
     }
 
     //Get all heart rates data
@@ -263,6 +254,23 @@ class DBHelper(context: Context) :
         return rateList
     }
 
+    //Delete single heart rate data
+    fun deleteSingleHeartRate(rate: HeartRate) {
+        val db = this.writableDatabase
+        db.delete(
+            table_Heart_Rate, "$heart_id = ?",
+            arrayOf(rate.id.toString())
+        )
+        db.close()
+    }
+
+    // Delete all heart rates
+    fun deleteAllHeartRates() {
+        val db = this.writableDatabase
+        db.delete(table_Heart_Rate, null, null)
+        db.close()
+    }
+
     //Contact table
     //Add new contact data
     fun addContact(contact: Contact): Long {
@@ -279,27 +287,23 @@ class DBHelper(context: Context) :
     //Get single contact data
     @SuppressLint("Range")
     fun getContact(id: Int): Contact? {
-        val db = this.readableDatabase
-        val cursor = db.query(
-            table_Contact, arrayOf(
-                contact_id,
-                contact_name,
-                contact_surname,
-                contact_phone
-            ), "$contact_id=?", arrayOf(id.toString()), null, null, null, null
-        )
-        cursor?.moveToFirst()
+        var contact: Contact? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_Contact, null, selection, selectionArgs, null, null, null)
 
-        val contact = cursor?.let {
-            Contact(
-                it.getInt(it.getColumnIndex(contact_id)),
-                it.getString(it.getColumnIndex(contact_name)),
-                it.getString(it.getColumnIndex(contact_surname)),
-                it.getString(it.getColumnIndex(contact_phone))
-            )
+        if (cursor.moveToFirst()) {
+            val name = cursor.getString(cursor.getColumnIndex(contact_name))
+            val surname = cursor.getString(cursor.getColumnIndex(contact_surname))
+            val phone = cursor.getString(cursor.getColumnIndex(contact_phone))
+
+            contact = Contact(id, name, surname, phone)
         }
-        cursor?.close()
-        return contact
+
+        cursor.close()
+        db.close()
+        return if (contact != null) contact else null
     }
 
     //Get all contacts data
@@ -364,25 +368,22 @@ class DBHelper(context: Context) :
     //Get threshold data
     @SuppressLint("Range")
     fun getThreshold(id: Int): Threshold? {
-        val db = this.readableDatabase
-        val cursor = db.query(
-            table_threshold, arrayOf(
-                threshold_id,
-                threshold_minRate,
-                threshold_maxRate
-            ), "$threshold_id=?", arrayOf(id.toString()), null, null, null, null
-        )
-        cursor?.moveToFirst()
+        var threshold: Threshold? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_threshold, null, selection, selectionArgs, null, null, null)
 
-        val threshold = cursor?.let {
-            Threshold(
-                it.getInt(it.getColumnIndex(threshold_id)),
-                it.getInt(it.getColumnIndex(threshold_minRate)),
-                it.getInt(it.getColumnIndex(threshold_maxRate))
-            )
+        if (cursor.moveToFirst()) {
+            val minRate = cursor.getInt(cursor.getColumnIndex(threshold_minRate))
+            val maxRate = cursor.getInt(cursor.getColumnIndex(threshold_maxRate))
+
+            threshold = Threshold(id, minRate, maxRate)
         }
-        cursor?.close()
-        return threshold
+
+        cursor.close()
+        db.close()
+        return if (threshold != null) threshold else null
     }
 
     //Update threshold data
@@ -435,7 +436,7 @@ class DBHelper(context: Context) :
 
         cursor.close()
         db.close()
-        return apiData
+        return if (apiData != null) apiData else null
     }
 
     //Update api data
