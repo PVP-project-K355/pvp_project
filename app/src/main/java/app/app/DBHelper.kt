@@ -235,7 +235,7 @@ class DBHelper(context: Context) :
 
     //Get all heart rates data
     @SuppressLint("Range")
-    fun getAllRate(): ArrayList<HeartRate> {
+    fun getAllRates(): ArrayList<HeartRate> {
         val rateList = ArrayList<HeartRate>()
         val selectQuery = "SELECT * FROM $table_Heart_Rate"
         val db = this.readableDatabase

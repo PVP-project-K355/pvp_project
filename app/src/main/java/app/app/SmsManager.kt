@@ -2,6 +2,8 @@ package app.app
 
 import android.telephony.SmsManager
 
+//This class is used to send sms messages
+
 class SmsManager {
 
     fun sendSMS(phoneNumber: String, message: String) {

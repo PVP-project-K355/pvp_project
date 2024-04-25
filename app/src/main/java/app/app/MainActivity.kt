@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         val dbHelper = DBHelper(this)
 
         if(dbHelper.getUser(1)==null){
-            // Example user data
+            //Example user data
             val newUser = User(
                 name = "John",
                 surname = "Doe",
@@ -115,7 +115,7 @@ class MainActivity : AppCompatActivity() {
                 weight = 80.0,
                 birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
             )
-            // Inserting user into the database
+            //Inserting user data into the database
             dbHelper.addUser(newUser)
         }
         else{
@@ -128,7 +128,7 @@ class MainActivity : AppCompatActivity() {
                 minRate = 60,
                 maxRate = 100
             )
-            // Inserting threshold data into the database
+            //Inserting threshold data into the database
             dbHelper.addThreshold(newThreshold)
         }
         else{
@@ -144,7 +144,7 @@ class MainActivity : AppCompatActivity() {
                 refreshToken = "petrastrys",
                 expiresIn = 365
             )
-            //Inserting api into database
+            //Inserting api data into database
             dbHelper.addApi(newApi)
         }
         else{
@@ -152,13 +152,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         if(dbHelper.getContact(1)==null){
-            // Example contact data
+            //Example contact data
             val newContact = Contact(
                 name = "John",
                 surname = "Doe",
                 phoneNumber = "+3706"
             )
-            // Inserting contact into the database
+            //Inserting contact data into the database
             dbHelper.addContact(newContact)
         }
         else{
@@ -172,11 +172,12 @@ class MainActivity : AppCompatActivity() {
             surname = "Doe",
             height = 175.0,
             weight = 80.0,
-            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+            birthdate = "1999-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
         )
+        //Updating user data
         //dbHelper.updateUser(updateUser)
 
-        //Update API data
+        //Example API data
         val updateAPI = API(
             id = 1,
             clientId = "Petras",
@@ -190,11 +191,13 @@ class MainActivity : AppCompatActivity() {
 
         //Example heart rate data
         val newRate = HeartRate(
-            rate = 145,
+            rate = 50,
             time = "2024-03-20, 22:02"
         )
-        // Inserting heart rate into the database
+        // Inserting heart rate into the database and getting inserted heart rate id
         //val insertedRateId = dbHelper.addHeartRate(newRate)
+
+        //CheckData(this).checkRate(insertedRateId.toInt(), 1)
 
         val apiID = 1 // Replace with the ID of the user you want to retrieve
         val api = dbHelper.getApi(apiID)
@@ -210,8 +213,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             println("API not found.")
         }
-
-        //CheckData(this).checkRate(insertedRateId.toInt(), 1)
 
     }
 

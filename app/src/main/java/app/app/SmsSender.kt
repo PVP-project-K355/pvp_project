@@ -8,6 +8,8 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 
+//This class is used to sent sms messages from GUI
+
 class SmsSender : AppCompatActivity() {
 
     // on below line we are creating variable
