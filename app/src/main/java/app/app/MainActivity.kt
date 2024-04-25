@@ -106,76 +106,98 @@ class MainActivity : AppCompatActivity() {
         //db testing cases
         val dbHelper = DBHelper(this)
 
-        // Example user data
-        val newUser = User(
-            name = "John",
-            surname = "Doe",
-            height = 175.0,
-            weight = 80.0,
-            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
-        )
-        // Inserting user into the database
-        //dbHelper.addUser(newUser)
+        if(dbHelper.getUser(1)==null){
+            //Example user data
+            val newUser = User(
+                name = "John",
+                surname = "Doe",
+                height = 175.0,
+                weight = 80.0,
+                birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+            )
+            //Inserting user data into the database
+            dbHelper.addUser(newUser)
+        }
+        else{
+            println("User exists")
+        }
+
+        if(dbHelper.getThreshold(1)==null){
+            //Example threshold data
+            val newThreshold = Threshold(
+                minRate = 60,
+                maxRate = 100
+            )
+            //Inserting threshold data into the database
+            dbHelper.addThreshold(newThreshold)
+        }
+        else{
+            println("Threshold exists")
+        }
+
+        if(dbHelper.getApi(1)==null){
+            //Example API data
+            val newApi = API(
+                clientId = "Petras",
+                clientSecret = "petraspetras",
+                accessToken = "petrasdu",
+                refreshToken = "petrastrys",
+                expiresIn = 365
+            )
+            //Inserting api data into database
+            dbHelper.addApi(newApi)
+        }
+        else{
+            println("API exists")
+        }
+
+        if(dbHelper.getContact(1)==null){
+            //Example contact data
+            val newContact = Contact(
+                name = "John",
+                surname = "Doe",
+                phoneNumber = "+3706"
+            )
+            //Inserting contact data into the database
+            dbHelper.addContact(newContact)
+        }
+        else{
+            println("Contact exists")
+        }
 
         // Example user data
         val updateUser = User(
             id = 1,
-            name = "John",
+            name = "Petras",
             surname = "Doe",
             height = 175.0,
             weight = 80.0,
-            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+            birthdate = "1999-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
         )
+        //Updating user data
         //dbHelper.updateUser(updateUser)
 
-        //Example heart rate data
-        val newRate = HeartRate(
-            rate = 75,
-            time = "2024-03-20, 22:02"
-        )
-        // Inserting heart rate into the database
-        //dbHelper.addHeartRate(newRate)
-
-        // Example contact data
-        val newContact = Contact(
-            name = "John",
-            surname = "Doe",
-            phoneNumber = "+370564375"
-        )
-        // Inserting contact into the database
-        //dbHelper.addContact(newContact)
-
-        //Example threshold data
-        val newThreshold = Threshold(
-            minRate = 65,
-            maxRate = 120
-        )
-
-        // Inserting heart rate into the database
-        //dbHelper.addThreshold(newThreshold)
-
         //Example API data
-        val newApi = API(
-            clientId = "Petras",
-            clientSecret = "petraspetras",
-            accessToken = "petrasdu",
-            refreshToken = "petrastrys",
-            expiresIn = 365
-        )
-        //Inserting api into database
-        dbHelper.addApi(newApi)
-
-        //Update API data
         val updateAPI = API(
             id = 1,
             clientId = "Petras",
             clientSecret = "petraspetras",
             accessToken = "petrasdu",
             refreshToken = "petraspenki",
-            expiresIn = 365
+            expiresIn = 300
         )
         //Updating api data
         //dbHelper.updateApi(updateAPI)
+
+        //Example heart rate data
+        val newRate = HeartRate(
+            rate = 50,
+            time = "2024-03-20, 22:02"
+        )
+        // Inserting heart rate into the database and getting inserted heart rate id
+        //val insertedRateId = dbHelper.addHeartRate(newRate)
+
+        //CheckData(this).checkRate(insertedRateId.toInt(), 1)
 
         val apiID = 1 // Replace with the ID of the user you want to retrieve
         val api = dbHelper.getApi(apiID)
