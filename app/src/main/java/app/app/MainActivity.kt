@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                 phoneNumber = "+3706"
             )
             //Inserting contact data into the database
-            dbHelper.addContact(newContact)
+            //dbHelper.addContact(newContact)
         }
         else{
             println("Contact exists")
@@ -191,8 +191,8 @@ class MainActivity : AppCompatActivity() {
 
         //Example heart rate data
         val newRate = HeartRate(
-            rate = 50,
-            time = "2024-03-20, 22:02"
+            rate = 65,
+            time = "2024-03-20 22:02"
         )
         // Inserting heart rate into the database and getting inserted heart rate id
         //val insertedRateId = dbHelper.addHeartRate(newRate)
