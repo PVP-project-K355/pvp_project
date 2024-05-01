@@ -7,6 +7,7 @@ import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
 
+//This class is used to send notifications to user phone
 class NotificationsManager(private val context: Context) {
 
     private val notificationManager: NotificationManager by lazy {

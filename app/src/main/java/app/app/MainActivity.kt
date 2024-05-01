@@ -197,6 +197,7 @@ class MainActivity : AppCompatActivity() {
         // Inserting heart rate into the database and getting inserted heart rate id
         //val insertedRateId = dbHelper.addHeartRate(newRate)
 
+        //Checking if inserted heart rate is between thresholds
         //CheckData(this).checkRate(insertedRateId.toInt(), 1)
 
         val apiID = 1 // Replace with the ID of the user you want to retrieve

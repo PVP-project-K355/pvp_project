@@ -43,7 +43,7 @@ class CheckData(private val context: Context) {
 
         if (allContacts.isNotEmpty()){
             allContacts.forEach{ c ->
-                //SmsManager().sendSMS(c.phoneNumber, message)
+                SmsManager().sendSMS(c.phoneNumber, message)
             }
         }
         else{
