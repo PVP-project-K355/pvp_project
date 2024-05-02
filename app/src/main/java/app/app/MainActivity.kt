@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
             )
             //Inserting user data into the database
-            dbHelper.addUser(newUser)
+            //dbHelper.addUser(newUser)
         }
         else{
             println("User exists")
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 maxRate = 100
             )
             //Inserting threshold data into the database
-            dbHelper.addThreshold(newThreshold)
+            //dbHelper.addThreshold(newThreshold)
         }
         else{
             println("Threshold exists")
@@ -145,7 +145,7 @@ class MainActivity : AppCompatActivity() {
                 expiresIn = 365
             )
             //Inserting api data into database
-            dbHelper.addApi(newApi)
+            //dbHelper.addApi(newApi)
         }
         else{
             println("API exists")
@@ -159,7 +159,7 @@ class MainActivity : AppCompatActivity() {
                 phoneNumber = "+3706"
             )
             //Inserting contact data into the database
-            dbHelper.addContact(newContact)
+            //dbHelper.addContact(newContact)
         }
         else{
             println("Contact exists")
@@ -191,15 +191,16 @@ class MainActivity : AppCompatActivity() {
 
         //Example heart rate data
         val newRate = HeartRate(
-            rate = 50,
-            time = "2024-03-20, 22:02"
+            rate = 65,
+            time = "2024-03-20 22:02"
         )
         // Inserting heart rate into the database and getting inserted heart rate id
         //val insertedRateId = dbHelper.addHeartRate(newRate)
 
+        //Checking if inserted heart rate is between thresholds
         //CheckData(this).checkRate(insertedRateId.toInt(), 1)
 
-        val apiID = 1 // Replace with the ID of the user you want to retrieve
+        /*val apiID = 1 // Replace with the ID of the user you want to retrieve
         val api = dbHelper.getApi(apiID)
 
         if (api != null) {
@@ -212,7 +213,7 @@ class MainActivity : AppCompatActivity() {
             println("Expires in: ${api.expiresIn}")
         } else {
             println("API not found.")
-        }
+        }*/
 
     }
 

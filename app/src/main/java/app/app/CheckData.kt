@@ -5,7 +5,7 @@ import android.content.Context
 /*This class is used to check if data is between thresholds and if it is outside thresholds
 sends automatic emergency sms messages for added contacts using SmsManager class*/
 
-class CheckData(context: Context) {
+class CheckData(private val context: Context) {
 
     private val dbHelper = DBHelper(context)
 
@@ -20,12 +20,12 @@ class CheckData(context: Context) {
             val maxRate = dbHelper.getThreshold(id=thresholdId)!!.maxRate
 
             if (rate < minRate ){
-                println("$name heart rate is too low. Rate: $rate, time: $time")
-                sendSms("Automatic message. $name heart rate is too low. Rate: $rate, time: $time")
+                sendSms("Automatic message. $name heart rate is too low. Rate: $rate BPM, time: $time")
+                NotificationsManager(context).sendNotification(1,"Warning", "$name, your heart rate is too low. Rate: $rate BPM")
             }
             else if(rate > maxRate){
-                println("$name heart rate is too high. Rate: $rate, time: $time")
-                sendSms("Automatic message. $name heart rate is too high. Rate: $rate, time: $time")
+                sendSms("Automatic message. $name heart rate is too high. Rate: $rate BPM, time: $time")
+                NotificationsManager(context).sendNotification(2,"Warning", "$name, your heart rate is too high. Rate: $rate BPM")
             }
             else{
                 println("$name heart rate is good. Rate: $rate, time: $time")
@@ -43,7 +43,7 @@ class CheckData(context: Context) {
 
         if (allContacts.isNotEmpty()){
             allContacts.forEach{ c ->
-                //SmsManager().sendSMS(c.phoneNumber, message)
+                SmsManager().sendSMS(c.phoneNumber, message)
             }
         }
         else{
