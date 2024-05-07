@@ -77,29 +77,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SmsSender::class.java)
             startActivity(intent)
         }
-//        requestPermissionLauncher.launch(
-//            android.Manifest.permission.READ_PHONE_STATE
-//        )
-//        requestPermissionLauncher.launch(
-//            android.Manifest.permission.SEND_SMS
-//        )
 
-//        if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-//            val intent = Intent(this, SmsSender::class.java)
-//            startActivity(intent)
-//        } else {
-//            // Permission not granted, request it
-//            requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
-//        }
-
-//        smsSender_button.setOnClickListener{
-//            if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-//                val intent = Intent(this, SmsSender::class.java)
-//                startActivity(intent)
-//            } else {
-//                requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
-//            }
-//        }
+        if (!PermissionsManager(this).checkPermissions()){
+            PermissionsManager(this).requestPermissions(this)
+        }
 
         handleCallbackIntent(getIntent());
 
