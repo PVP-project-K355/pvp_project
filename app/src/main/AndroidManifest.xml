@@ -29,6 +29,15 @@
             android:name=".SmsSender"
             android:exported="false" />
         <activity
+            android:name=".ThresholdInputPage"
+            android:exported="false" />
+        <activity
+            android:name=".DataInputPage"
+            android:exported="false" />
+        <activity
+            android:name=".SettingsPage"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
