@@ -6,20 +6,16 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import java.io.IOException;
-import okhttp3.*
 import org.json.JSONObject
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.util.Base64
 import android.util.Log
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONException
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var authorizationStatusText: TextView
     private lateinit var goToData: Button
     private lateinit var smsSender_button: Button
+    private lateinit var settingsButton: Button
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -62,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         heartRateTextView = findViewById(R.id.hearRate)
         goToData = findViewById(R.id.goToDataInfoButton)
         smsSender_button = findViewById(R.id.sms_sender_page_button)
+        settingsButton = findViewById(R.id.settingsButton)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -78,13 +76,18 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsPage::class.java)
+            startActivity(intent)
+        }
+
         if (!PermissionsManager(this).checkPermissions()){
             PermissionsManager(this).requestPermissions(this)
         }
 
         handleCallbackIntent(getIntent());
 
-        //db testing cases
+        //db test cases
         val dbHelper = DBHelper(this)
 
         if(dbHelper.getUser(1)==null){
@@ -94,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 surname = "Doe",
                 height = 175.0,
                 weight = 80.0,
-                birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+                birthdate = "1990-02-19" // Assuming birthdate is in "YYYY-MM-DD" format
             )
             //Inserting user data into the database
             //dbHelper.addUser(newUser)
@@ -104,13 +107,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         if(dbHelper.getThreshold(1)==null){
-            //Example threshold data
-            val newThreshold = Threshold(
-                minRate = 60,
-                maxRate = 100
-            )
-            //Inserting threshold data into the database
-            //dbHelper.addThreshold(newThreshold)
+            val intent = Intent(this, ThresholdInputPage::class.java)
+            startActivity(intent)
         }
         else{
             println("Threshold exists")
@@ -153,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             surname = "Doe",
             height = 175.0,
             weight = 80.0,
-            birthdate = "1999-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+            birthdate = "1990-06-01" // Assuming birthdate is in "YYYY-MM-DD" format
         )
         //Updating user data
         //dbHelper.updateUser(updateUser)

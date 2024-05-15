@@ -32,7 +32,8 @@ data class Contact(
 data class Threshold(
     val id: Int = 0,
     val minRate: Int,
-    val maxRate: Int
+    val maxRate: Int,
+    val stepsGoal: Int
 )
 
 data class API(
@@ -78,6 +79,7 @@ class DBHelper(context: Context) :
         private const val threshold_id = "Id"
         private const val threshold_minRate = "Min_heart_rate"
         private const val threshold_maxRate = "Max_heart_rate"
+        private const val threshold_stepGoal = "Daily_steps_goal"
 
         //API table
         private const val table_api = "API_data"
@@ -120,7 +122,8 @@ class DBHelper(context: Context) :
         val createThresholdTable = ("CREATE TABLE $table_threshold("
                 + "$threshold_id INTEGER PRIMARY KEY,"
                 + "$threshold_minRate INTEGER,"
-                + "$threshold_maxRate INTEGER"
+                + "$threshold_maxRate INTEGER,"
+                + "$threshold_stepGoal INTEGER"
 
                 + ")")
         db.execSQL(createThresholdTable)
@@ -359,6 +362,7 @@ class DBHelper(context: Context) :
         val values = ContentValues()
         values.put(threshold_minRate, threshold.minRate)
         values.put(threshold_maxRate, threshold.maxRate)
+        values.put(threshold_stepGoal, threshold.stepsGoal)
 
         val id = db.insert(table_threshold, null, values)
         db.close()
@@ -377,8 +381,9 @@ class DBHelper(context: Context) :
         if (cursor.moveToFirst()) {
             val minRate = cursor.getInt(cursor.getColumnIndex(threshold_minRate))
             val maxRate = cursor.getInt(cursor.getColumnIndex(threshold_maxRate))
+            val steps = cursor.getInt(cursor.getColumnIndex(threshold_stepGoal))
 
-            threshold = Threshold(id, minRate, maxRate)
+            threshold = Threshold(id, minRate, maxRate, steps)
         }
 
         cursor.close()
@@ -392,6 +397,7 @@ class DBHelper(context: Context) :
         val values = ContentValues()
         values.put(threshold_minRate, threshold.minRate)
         values.put(threshold_maxRate, threshold.maxRate)
+        values.put(threshold_stepGoal, threshold.stepsGoal)
 
         return db.update(
             table_threshold, values, "$threshold_id = ?",
