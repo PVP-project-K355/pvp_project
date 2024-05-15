@@ -97,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 surname = "Doe",
                 height = 175.0,
                 weight = 80.0,
-                birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+                birthdate = "1990-02-19" // Assuming birthdate is in "YYYY-MM-DD" format
             )
             //Inserting user data into the database
             //dbHelper.addUser(newUser)
@@ -151,7 +151,7 @@ class MainActivity : AppCompatActivity() {
             surname = "Doe",
             height = 175.0,
             weight = 80.0,
-            birthdate = "1999-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
+            birthdate = "1990-06-01" // Assuming birthdate is in "YYYY-MM-DD" format
         )
         //Updating user data
         //dbHelper.updateUser(updateUser)

@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF8DC"
+    android:backgroundTint="#FFF8DC"
     android:maxWidth="390dp"
     android:maxHeight="747dp">
 
@@ -16,7 +18,9 @@
         android:layout_marginBottom="30dp"
         android:text="BACK TO MAIN PAGE"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -30,7 +34,9 @@
         android:layout_marginBottom="100dp"
         android:text="Edit Thresholds"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toTopOf="@+id/goToMain"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -44,7 +50,9 @@
         android:layout_marginBottom="25dp"
         android:text="Edit user data"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toTopOf="@+id/goToThreshold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -58,7 +66,9 @@
         android:layout_marginBottom="25dp"
         android:text="Change account"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toTopOf="@+id/goToData"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -72,7 +82,9 @@
         android:layout_marginBottom="25dp"
         android:text="Change subscription"
         android:textAlignment="center"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toTopOf="@+id/changeAcc"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

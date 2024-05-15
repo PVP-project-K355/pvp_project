@@ -36,6 +36,7 @@ class ThresholdInputPage : AppCompatActivity() {
         cancel.setOnClickListener {
             loadThreshold()
             showToast("Changes have been canceled")
+            finish()
         }
 
         settings.setOnClickListener {
@@ -72,6 +73,7 @@ class ThresholdInputPage : AppCompatActivity() {
                 dbHelper.updateThreshold(threshold)
             }
             showToast("Data saved successfully")
+            finish()
         }
         else{
             // Inform the user that input is invalid

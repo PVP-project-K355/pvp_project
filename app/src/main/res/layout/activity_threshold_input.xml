@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF8DC"
+    android:backgroundTint="#FFF8DC"
     android:maxWidth="390dp"
     android:maxHeight="747dp">
 
@@ -15,7 +17,9 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="30dp"
         android:text="BACK TO SETTINGS"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -28,7 +32,9 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="30dp"
         android:text="Save"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#228B22"
         app:layout_constraintBottom_toTopOf="@+id/goToSettings"
         app:layout_constraintEnd_toStartOf="@+id/cancel"
         app:layout_constraintStart_toStartOf="parent" />
@@ -41,7 +47,9 @@
         android:layout_marginEnd="25dp"
         android:layout_marginBottom="30dp"
         android:text="Cancel"
+        android:textColor="#000000"
         android:textSize="24sp"
+        app:backgroundTint="#DC143C"
         app:layout_constraintBottom_toTopOf="@+id/goToSettings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/save" />
