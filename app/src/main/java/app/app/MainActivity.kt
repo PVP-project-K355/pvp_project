@@ -91,16 +91,8 @@ class MainActivity : AppCompatActivity() {
         val dbHelper = DBHelper(this)
 
         if(dbHelper.getUser(1)==null){
-            //Example user data
-            val newUser = User(
-                name = "John",
-                surname = "Doe",
-                height = 175.0,
-                weight = 80.0,
-                birthdate = "1990-02-19" // Assuming birthdate is in "YYYY-MM-DD" format
-            )
-            //Inserting user data into the database
-            //dbHelper.addUser(newUser)
+            val intent = Intent(this, DataInputPage::class.java)
+            startActivity(intent)
         }
         else{
             println("User exists")
@@ -143,18 +135,6 @@ class MainActivity : AppCompatActivity() {
         else{
             println("Contact exists")
         }
-
-        // Example user data
-        val updateUser = User(
-            id = 1,
-            name = "Petras",
-            surname = "Doe",
-            height = 175.0,
-            weight = 80.0,
-            birthdate = "1990-06-01" // Assuming birthdate is in "YYYY-MM-DD" format
-        )
-        //Updating user data
-        //dbHelper.updateUser(updateUser)
 
         //Example API data
         val updateAPI = API(
