@@ -54,18 +54,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main) 
         authorizeButton = findViewById(R.id.authorize_button)
-        heartrate_button = findViewById(R.id.get_heart_rate_button)
         authorizationStatusText = findViewById(R.id.authorization_status)
-        heartRateTextView = findViewById(R.id.hearRate)
         goToData = findViewById(R.id.goToDataInfoButton)
         smsSender_button = findViewById(R.id.sms_sender_page_button)
         settingsButton = findViewById(R.id.settingsButton)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
-        }
-        heartrate_button.setOnClickListener {
-            fetchHeartRateData(ACCESSTOKEN)
         }
         goToData.setOnClickListener{
             val intent = Intent(this, HealthInfoActivity::class.java).putExtra("accestoken", ACCESSTOKEN)
@@ -154,27 +149,6 @@ class MainActivity : AppCompatActivity() {
             rate = 65,
             time = "2024-03-20 22:02"
         )
-        // Inserting heart rate into the database and getting inserted heart rate id
-        //val insertedRateId = dbHelper.addHeartRate(newRate)
-
-        //Checking if inserted heart rate is between thresholds
-        //CheckData(this).checkRate(insertedRateId.toInt(), 1)
-
-        /*val apiID = 1 // Replace with the ID of the user you want to retrieve
-        val api = dbHelper.getApi(apiID)
-
-        if (api != null) {
-            println("API found:")
-            println("ID: ${api.id}")
-            println("Client: ${api.clientId}")
-            println("Secret: ${api.clientSecret}")
-            println("Access token: ${api.accessToken}")
-            println("Refresh token: ${api.refreshToken}")
-            println("Expires in: ${api.expiresIn}")
-        } else {
-            println("API not found.")
-        }*/
-
     }
 
     override fun onNewIntent(intent: Intent?) {
@@ -263,7 +237,7 @@ class MainActivity : AppCompatActivity() {
                             val tokenInfo = "Access Token: ${tokensData.accessToken}\n" +
                                     "Refresh Token: ${tokensData.refreshToken}\n" +
                                     "Expires In: ${tokensData.expiresIn}"
-                            authorizationStatusText.text = tokenInfo
+                            authorizationStatusText.text = "Authorization successful!"
                             ACCESSTOKEN = tokensData.accessToken;
                             Log.d("Access token ", "Access token: ${tokensData.accessToken}")
                             Log.d("Refresh token", "Refresh token: ${tokensData.refreshToken}")
@@ -391,14 +365,4 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    // Call repeatedly to fetch data
-    private fun startScheduledHeartRateUpdates(accessToken: String) {
-        val executor = Executors.newSingleThreadScheduledExecutor()
-        executor.scheduleAtFixedRate(
-            { fetchHeartRateData(accessToken) },
-            0, // Initial delay
-            30, // Delay between updates in seconds
-            TimeUnit.SECONDS
-        )
-    }
 }
