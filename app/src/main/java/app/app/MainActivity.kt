@@ -6,20 +6,16 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 import java.io.IOException;
-import okhttp3.*
 import org.json.JSONObject
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.service.autofill.UserData
 import android.util.Base64
 import android.util.Log
 import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONException
 import androidx.recyclerview.widget.RecyclerView
@@ -45,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var authorizationStatusText: TextView
     private lateinit var goToData: Button
     private lateinit var smsSender_button: Button
+    private lateinit var settingsButton: Button
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -62,6 +59,7 @@ class MainActivity : AppCompatActivity() {
         heartRateTextView = findViewById(R.id.hearRate)
         goToData = findViewById(R.id.goToDataInfoButton)
         smsSender_button = findViewById(R.id.sms_sender_page_button)
+        settingsButton = findViewById(R.id.settingsButton)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -77,107 +75,91 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, SmsSender::class.java)
             startActivity(intent)
         }
-//        requestPermissionLauncher.launch(
-//            android.Manifest.permission.READ_PHONE_STATE
-//        )
-//        requestPermissionLauncher.launch(
-//            android.Manifest.permission.SEND_SMS
-//        )
 
-//        if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-//            val intent = Intent(this, SmsSender::class.java)
-//            startActivity(intent)
-//        } else {
-//            // Permission not granted, request it
-//            requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
-//        }
+        settingsButton.setOnClickListener {
+            val intent = Intent(this, SettingsPage::class.java)
+            startActivity(intent)
+        }
 
-//        smsSender_button.setOnClickListener{
-//            if (checkSelfPermission(android.Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-//                val intent = Intent(this, SmsSender::class.java)
-//                startActivity(intent)
-//            } else {
-//                requestPermissions(arrayOf(android.Manifest.permission.SEND_SMS), 100)
-//            }
-//        }
+        if (!PermissionsManager(this).checkPermissions()){
+            PermissionsManager(this).requestPermissions(this)
+        }
 
         handleCallbackIntent(getIntent());
 
-        //db testing cases
+        //db test cases
         val dbHelper = DBHelper(this)
 
-        // Example user data
-        val newUser = User(
-            name = "John",
-            surname = "Doe",
-            height = 175.0,
-            weight = 80.0,
-            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
-        )
-        // Inserting user into the database
-        //dbHelper.addUser(newUser)
+        if(dbHelper.getUser(1)==null){
+            val intent = Intent(this, DataInputPage::class.java)
+            startActivity(intent)
+        }
+        else{
+            println("User exists")
+        }
 
-        // Example user data
-        val updateUser = User(
-            id = 1,
-            name = "John",
-            surname = "Doe",
-            height = 175.0,
-            weight = 80.0,
-            birthdate = "1900-01-01" // Assuming birthdate is in "YYYY-MM-DD" format
-        )
-        //dbHelper.updateUser(updateUser)
+        if(dbHelper.getThreshold(1)==null){
+            val intent = Intent(this, ThresholdInputPage::class.java)
+            startActivity(intent)
+        }
+        else{
+            println("Threshold exists")
+        }
 
-        //Example heart rate data
-        val newRate = HeartRate(
-            rate = 75,
-            time = "2024-03-20, 22:02"
-        )
-        // Inserting heart rate into the database
-        //dbHelper.addHeartRate(newRate)
+        if(dbHelper.getApi(1)==null){
+            //Example API data
+            val newApi = API(
+                clientId = "Petras",
+                clientSecret = "petraspetras",
+                accessToken = "petrasdu",
+                refreshToken = "petrastrys",
+                expiresIn = 365
+            )
+            //Inserting api data into database
+            //dbHelper.addApi(newApi)
+        }
+        else{
+            println("API exists")
+        }
 
-        // Example contact data
-        val newContact = Contact(
-            name = "John",
-            surname = "Doe",
-            phoneNumber = "+370564375"
-        )
-        // Inserting contact into the database
-        //dbHelper.addContact(newContact)
-
-        //Example threshold data
-        val newThreshold = Threshold(
-            minRate = 65,
-            maxRate = 120
-        )
-
-        // Inserting heart rate into the database
-        //dbHelper.addThreshold(newThreshold)
+        if(dbHelper.getContact(1)==null){
+            //Example contact data
+            val newContact = Contact(
+                name = "John",
+                surname = "Doe",
+                phoneNumber = "+3706"
+            )
+            //Inserting contact data into the database
+            //dbHelper.addContact(newContact)
+        }
+        else{
+            println("Contact exists")
+        }
 
         //Example API data
-        val newApi = API(
-            clientId = "Petras",
-            clientSecret = "petraspetras",
-            accessToken = "petrasdu",
-            refreshToken = "petrastrys",
-            expiresIn = 365
-        )
-        //Inserting api into database
-        dbHelper.addApi(newApi)
-
-        //Update API data
         val updateAPI = API(
             id = 1,
             clientId = "Petras",
             clientSecret = "petraspetras",
             accessToken = "petrasdu",
             refreshToken = "petraspenki",
-            expiresIn = 365
+            expiresIn = 300
         )
         //Updating api data
         //dbHelper.updateApi(updateAPI)
 
-        val apiID = 1 // Replace with the ID of the user you want to retrieve
+        //Example heart rate data
+        val newRate = HeartRate(
+            rate = 65,
+            time = "2024-03-20 22:02"
+        )
+        // Inserting heart rate into the database and getting inserted heart rate id
+        //val insertedRateId = dbHelper.addHeartRate(newRate)
+
+        //Checking if inserted heart rate is between thresholds
+        //CheckData(this).checkRate(insertedRateId.toInt(), 1)
+
+        /*val apiID = 1 // Replace with the ID of the user you want to retrieve
         val api = dbHelper.getApi(apiID)
 
         if (api != null) {
@@ -190,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             println("Expires in: ${api.expiresIn}")
         } else {
             println("API not found.")
-        }
+        }*/
 
     }
 
