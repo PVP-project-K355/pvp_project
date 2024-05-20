@@ -68,7 +68,8 @@ class MainActivity : AppCompatActivity() {
             fetchHeartRateData(ACCESSTOKEN)
         }
         goToData.setOnClickListener{
-            val intent = Intent(this, HealthInfoActivity::class.java)
+            val intent = Intent(this, HealthInfoActivity::class.java).putExtra("accestoken", ACCESSTOKEN)
+
             startActivity(intent)
         }
         smsSender_button.setOnClickListener{
