@@ -1,43 +1,34 @@
-package app.app;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.FormBody;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-import java.io.IOException;
+package app.app
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.FormBody
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import java.io.IOException
 import org.json.JSONObject
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import android.webkit.WebView
+//import android.webkit.WebView
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONException
-import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
-import com.google.gson.JsonObject
-import java.util.concurrent.Executors
-import java.util.concurrent.TimeUnit
-
-// Data Structures
-private val heartRateList = mutableListOf<Int>() // Mutable list for storing heart rate data
-private lateinit var heartRateTextView: TextView // Declare your TextView
-
-private lateinit var recyclerView: RecyclerView
-
+//import androidx.recyclerview.widget.RecyclerView
+//import com.google.gson.Gson
+//import com.google.gson.JsonObject
+//import java.util.concurrent.Executors
+//import java.util.concurrent.TimeUnit
 
 data class TokensData(val accessToken: String, val refreshToken: String, val expiresIn: Int)
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var webView: WebView
     private lateinit var authorizeButton: Button
-    private lateinit var heartrate_button: Button
     private lateinit var authorizationStatusText: TextView
     private lateinit var goToData: Button
     private lateinit var smsSender_button: Button
@@ -81,7 +72,7 @@ class MainActivity : AppCompatActivity() {
             PermissionsManager(this).requestPermissions(this)
         }
 
-        handleCallbackIntent(getIntent());
+        handleCallbackIntent(getIntent())
 
         //db test cases
         val dbHelper = DBHelper(this)
@@ -181,13 +172,10 @@ class MainActivity : AppCompatActivity() {
             //val code = dataUri.getQueryParameter("code") // May still be accessible via query parameters
             val code = intent.data?.getQueryParameter("code")
             Log.d("Code:", "String: ${code}")
-            val state = dataUri.getQueryParameter("state")
 
             if (code != null) {
-
                 authorizationStatusText.text = "Exchanging code for tokens..."
                 exchangeCodeForToken(code)
-
             } else {
                 // Handle missing code or state
                 authorizationStatusText.text = "Authorization Failed (Missing Code or State)"
@@ -234,11 +222,11 @@ class MainActivity : AppCompatActivity() {
 
                     if (tokensData != null) {
                         runOnUiThread {
-                            val tokenInfo = "Access Token: ${tokensData.accessToken}\n" +
-                                    "Refresh Token: ${tokensData.refreshToken}\n" +
-                                    "Expires In: ${tokensData.expiresIn}"
+//                            val tokenInfo = "Access Token: ${tokensData.accessToken}\n" +
+//                                    "Refresh Token: ${tokensData.refreshToken}\n" +
+//                                    "Expires In: ${tokensData.expiresIn}"
                             authorizationStatusText.text = "Authorization successful!"
-                            ACCESSTOKEN = tokensData.accessToken;
+                            ACCESSTOKEN = tokensData.accessToken
                             Log.d("Access token ", "Access token: ${tokensData.accessToken}")
                             Log.d("Refresh token", "Refresh token: ${tokensData.refreshToken}")
                         }
@@ -275,94 +263,8 @@ class MainActivity : AppCompatActivity() {
             return null
         }
     }
-
-    private fun storeTokens(tokensData: TokensData) {
-        // TODO: Implement secure storage of tokensData (access token, refresh token, expires in) using encryption to database
-    }
-
-    private fun parseHeartRateData(responseBodyString: String): Int {
-        val gson = Gson()
-
-        try {
-            val heartRateValues = gson.fromJson(responseBodyString, JsonObject::class.java)
-                ?.getAsJsonObject("activities-heart")
-                ?.getAsJsonArray("value") // Get the 'value' array
-                ?.get(0)?.asJsonObject // Get the first element in the 'value' array
-                ?.getAsJsonArray("heartRateZones")
-
-            val currentHeartRate = heartRateValues?.last()?.asJsonObject?.get("min")?.asInt ?: 0
-
-            return currentHeartRate
-        } catch (e: Exception) {
-            Log.e("FitbitHeartRateParsing", "Error parsing he art rate data", e)
-            return 0 // Return a default value on error
-        }
-    }
-    private fun updateHeartRateDisplay() {
-        val heartRateDisplayText = heartRateList.joinToString(separator = "\n") // Format as you like
-        runOnUiThread {
-            heartRateTextView.text = heartRateDisplayText
-        }
-    }
-
-    private var lastHeartRateResponse: String = ""
-
-    // Example function to make an API call using the access token
-    private fun fetchHeartRateData(accessToken: String) {
-        val client = OkHttpClient()
-
-        // Specify the endpoint to retrieve heart rate data
-        val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec.json"
-
-        val request = Request.Builder()
-            .url(endpoint)
-            .header("Authorization", "Bearer $accessToken")
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                runOnUiThread {
-                    Log.d("FitbitHeartRateNetwork", "Response: network error")
-                    // Handle network errors
-                    Toast.makeText(this@MainActivity, "Network Error", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                try {
-                    if (response.isSuccessful && response.body != null) {
-                        val responseBodyString = response.body!!.string()
-                        lastHeartRateResponse = responseBodyString // Save the response
-                        heartRateTextView.text = responseBodyString
-                        val heartRate = parseHeartRateData(responseBodyString)
-                        //heartRateList.add(lastHeartRateResponse) //testinis
-                        //heartRateList.add(heartRate) // Add the heart rate to the list
-                        //updateHeartRateDisplay() // Update the TextView
-                        Log.d("FitbitHeartRateDATA", "Response: $responseBodyString")
-                    } else {
-                        // Handle error response from Fitbit using response.code()
-                        runOnUiThread {
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Error retrieving heart rate data",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-                    }
-                } catch (e: Exception) {
-                    Log.e("FetchHeartRateData", "Error handling response: ${e.message}")
-                    runOnUiThread {
-                        Toast.makeText(
-                            this@MainActivity,
-                            "Error handling response",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } finally {
-                    response.body?.close() // Ensure response body is closed after reading
-                }
-            }
-        })
-    }
-
+    // TODO: Implement secure storage of tokensData (access token, refresh token, expires in) using encryption to database
+//    private fun storeTokens(tokensData: TokensData) {
+//
+//    }
 }
