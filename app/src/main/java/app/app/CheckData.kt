@@ -18,52 +18,52 @@ class CheckData(private val context: Context) {
     private var maxPossibleRate: Int = 0
 
     //Checking heart rate data
-    fun checkRate(rateId: Int, thresholdId: Int){
-
-        if(dbHelper.getUser(1) != null){
-            age = calculateAge(dbHelper.getUser(1)!!.birthdate)
-        }else {
-            age = 0
-        }
-
-        if(age > 0){
-            maxPossibleRate = 220 - age
-        }
-        else{
-            maxPossibleRate = 0
-        }
-
-        println("Age: $age, max rate: $maxPossibleRate")
-
-        if(dbHelper.getSingleRate(id=rateId) != null && dbHelper.getThreshold(id=thresholdId) != null && maxPossibleRate > 100){
-            val rate = dbHelper.getSingleRate(id=rateId)!!.rate
-            val time = dbHelper.getSingleRate(id=rateId)!!.time
-            val minRate = dbHelper.getThreshold(id=thresholdId)!!.minRate
-            val maxRate = dbHelper.getThreshold(id=thresholdId)!!.maxRate
-
-            if (rate < minRate*0.85 ){
-                sendSms("Automatic message. $name heart rate is too low. Rate: $rate BPM, time: $time")
-                NotificationsManager(context).sendNotification(1,"Warning", "$name, your heart rate is too low. Rate: $rate BPM")
-            }
-            else if(rate < minRate && rate >= minRate*0.85){
-                NotificationsManager(context).sendNotification(2,"Warning", "$name, your heart rate is too low. Rate: $rate BPM")
-            }
-            else if(rate > maxRate && rate <= maxPossibleRate*0.7){
-                NotificationsManager(context).sendNotification(3,"Warning", "$name, your heart rate is too high. Rate: $rate BPM")
-            }
-            else if(rate > maxPossibleRate*0.7){
-                sendSms("Automatic message. $name heart rate is too high. Rate: $rate BPM, time: $time")
-                NotificationsManager(context).sendNotification(4,"Warning", "$name, your heart rate is too high. Rate: $rate BPM")
-            }
-            else{
-                println("$name heart rate is good. Rate: $rate, time: $time")
-            }
-        }
-        else{
-            println("Some data is missing")
-        }
-
-    }
+//    fun checkRate(rateId: Int, thresholdId: Int){
+//
+//        if(dbHelper.getUser(1) != null){
+//            age = calculateAge(dbHelper.getUser(1)!!.birthdate)
+//        }else {
+//            age = 0
+//        }
+//
+//        if(age > 0){
+//            maxPossibleRate = 220 - age
+//        }
+//        else{
+//            maxPossibleRate = 0
+//        }
+//
+//        println("Age: $age, max rate: $maxPossibleRate")
+//
+//        if(dbHelper.getSingleRate(id=rateId) != null && dbHelper.getThreshold(id=thresholdId) != null && maxPossibleRate > 100){
+//            val rate = dbHelper.getSingleRate(id=rateId)!!.rate
+//            val time = dbHelper.getSingleRate(id=rateId)!!.time
+//            val minRate = dbHelper.getThreshold(id=thresholdId)!!.minRate
+//            val maxRate = dbHelper.getThreshold(id=thresholdId)!!.maxRate
+//
+//            if (rate < minRate*0.85 ){
+//                sendSms("Automatic message. $name heart rate is too low. Rate: $rate BPM, time: $time")
+//                NotificationsManager(context).sendNotification(1,"Warning", "$name, your heart rate is too low. Rate: $rate BPM")
+//            }
+//            else if(rate < minRate && rate >= minRate*0.85){
+//                NotificationsManager(context).sendNotification(2,"Warning", "$name, your heart rate is too low. Rate: $rate BPM")
+//            }
+//            else if(rate > maxRate && rate <= maxPossibleRate*0.7){
+//                NotificationsManager(context).sendNotification(3,"Warning", "$name, your heart rate is too high. Rate: $rate BPM")
+//            }
+//            else if(rate > maxPossibleRate*0.7){
+//                sendSms("Automatic message. $name heart rate is too high. Rate: $rate BPM, time: $time")
+//                NotificationsManager(context).sendNotification(4,"Warning", "$name, your heart rate is too high. Rate: $rate BPM")
+//            }
+//            else{
+//                println("$name heart rate is good. Rate: $rate, time: $time")
+//            }
+//        }
+//        else{
+//            println("Some data is missing")
+//        }
+//
+//    }
 
     //Calculating person age
     fun calculateAge(birthDate: String): Int {

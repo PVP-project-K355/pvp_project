@@ -23,7 +23,7 @@
         android:theme="@style/Theme.SeniorMonitoringApp">
 
         <activity
-            android:name=".HealthInfoActivity"
+            android:name=".heartrate.HealthInfoActivity"
             android:exported="false" />
         <activity
             android:name=".SmsSender"

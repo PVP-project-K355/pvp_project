@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import com.github.mikephil.charting.data.Entry
 
 data class User(
     val id: Int = 0,
@@ -62,10 +63,11 @@ class DBHelper(context: Context) :
         private const val user_birthdate = "Birthdate"
 
         //Heart rate table
-        private const val table_Heart_Rate = "Heart_rate_data"
-        private const val heart_id = "Id"
-        private const val heart_rate = "Heart_rate"
-        private const val heart_time = "Heart_rate_measurement_time"
+        private const val TABLE_HEART_RATE = "HeartRate"
+        private const val COLUMN_ID = "id"
+        private const val COLUMN_DATE = "date"
+        private const val COLUMN_TIME = "time"
+        private const val COLUMN_HEART_RATE = "heartRate"
 
         //Contact person table
         private const val table_Contact = "Contact_data"
@@ -103,12 +105,12 @@ class DBHelper(context: Context) :
                 + ")")
         db.execSQL(createUserTable)
 
-        val createHeartTable = ("CREATE TABLE $table_Heart_Rate("
-                + "$heart_id INTEGER PRIMARY KEY,"
-                + "$heart_rate INTEGER,"
-                + "$heart_time TEXT"
-                + ")")
-        db.execSQL(createHeartTable)
+        val createTableHeartRate = ("CREATE TABLE $TABLE_HEART_RATE ("
+                + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "$COLUMN_DATE TEXT,"
+                + "$COLUMN_TIME TEXT,"
+                + "$COLUMN_HEART_RATE INTEGER)")
+        db.execSQL(createTableHeartRate)
 
         val createContactTable = ("CREATE TABLE $table_Contact("
                 + "$contact_id INTEGER PRIMARY KEY,"
@@ -141,7 +143,7 @@ class DBHelper(context: Context) :
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $table_user")
-        db.execSQL("DROP TABLE IF EXISTS $table_Heart_Rate")
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_HEART_RATE")
         db.execSQL("DROP TABLE IF EXISTS $table_Contact")
         db.execSQL("DROP TABLE IF EXISTS $table_threshold")
         db.execSQL("DROP TABLE IF EXISTS $table_api")
@@ -205,74 +207,39 @@ class DBHelper(context: Context) :
 
     //Heart rate table
     //Add heart rate data
-    fun addHeartRate(heartRate: HeartRate): Long {
+    fun insertHeartRate(date: String, time: String, heartRate: Int) {
         val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(heart_rate, heartRate.rate)
-        values.put(heart_time, heartRate.time)
-        val id = db.insert(table_Heart_Rate, null, values)
-        db.close()
-        return id
-    }
-
-    //Get single heart rate data
-    @SuppressLint("Range")
-    fun getSingleRate(id: Int): HeartRate? {
-        var rate: HeartRate? = null
-        val db = readableDatabase
-        val selection = "id = ?"
-        val selectionArgs = arrayOf(id.toString())
-        val cursor: Cursor = db.query(table_Heart_Rate, null, selection, selectionArgs, null, null, null)
-
-        if (cursor.moveToFirst()) {
-            val heartRate = cursor.getInt(cursor.getColumnIndex(heart_rate))
-            val time = cursor.getString(cursor.getColumnIndex(heart_time))
-
-            rate = HeartRate(id, heartRate, time)
+        val contentValues = ContentValues().apply {
+            put(COLUMN_DATE, date)
+            put(COLUMN_TIME, time)
+            put(COLUMN_HEART_RATE, heartRate)
         }
-
-        cursor.close()
+        db.insert(TABLE_HEART_RATE, null, contentValues)
         db.close()
-        return if (rate != null) rate else null
     }
 
-    //Get all heart rates data
-    @SuppressLint("Range")
-    fun getAllRates(): ArrayList<HeartRate> {
-        val rateList = ArrayList<HeartRate>()
-        val selectQuery = "SELECT * FROM $table_Heart_Rate"
+    fun getHeartRateEntries(date: String): List<Entry> {
+        val entries = mutableListOf<Entry>()
         val db = this.readableDatabase
-        val cursor = db.rawQuery(selectQuery, null)
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_HEART_RATE WHERE $COLUMN_DATE = ?", arrayOf(date))
         if (cursor.moveToFirst()) {
             do {
-                val rate = HeartRate(
-                    cursor.getInt(cursor.getColumnIndex(heart_id)),
-                    cursor.getInt(cursor.getColumnIndex(heart_rate)),
-                    cursor.getString(cursor.getColumnIndex(heart_time))
-                )
-                rateList.add(rate)
+                val time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)).split(":")
+                val hour = time[0].toFloat()
+                val minute = time[1].toFloat()
+                val second = time[2].toFloat()
+                val heartRate = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_HEART_RATE)).toFloat()
+
+                val timeInHours = hour + (minute / 60) + (second / 3600)
+                entries.add(Entry(timeInHours, heartRate))
             } while (cursor.moveToNext())
         }
         cursor.close()
-        return rateList
+        db.close()
+        return entries
     }
 
-    //Delete single heart rate data
-    fun deleteSingleHeartRate(rate: HeartRate) {
-        val db = this.writableDatabase
-        db.delete(
-            table_Heart_Rate, "$heart_id = ?",
-            arrayOf(rate.id.toString())
-        )
-        db.close()
-    }
 
-    // Delete all heart rates
-    fun deleteAllHeartRates() {
-        val db = this.writableDatabase
-        db.delete(table_Heart_Rate, null, null)
-        db.close()
-    }
 
     //Contact table
     //Add new contact data

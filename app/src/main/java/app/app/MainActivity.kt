@@ -17,6 +17,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import app.app.heartrate.HealthInfoActivity
 import org.json.JSONException
 //import androidx.recyclerview.widget.RecyclerView
 //import com.google.gson.Gson

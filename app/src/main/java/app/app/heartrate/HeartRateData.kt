@@ -1,4 +1,4 @@
-package app.app
+package app.app.heartrate
 
 class HeartRateData {
     // Add properties to match the JSON response structure

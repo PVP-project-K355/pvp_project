@@ -1,16 +1,15 @@
-package app.app
+package app.app.heartrate
 
-// Import statements
-import TimeValueFormatter
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.github.mikephil.charting.charts.LineChart // Add this import statement
+import app.app.R
+import app.app.utils.TimeValueFormatter
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -22,8 +21,8 @@ import okhttp3.Response
 import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.Locale
 import java.util.Calendar
+import java.util.Locale
 
 class HealthInfoActivity : AppCompatActivity() {
 
@@ -33,18 +32,15 @@ class HealthInfoActivity : AppCompatActivity() {
     private lateinit var graphView: LineChart
     private lateinit var summaryTextView: TextView
     private lateinit var backButton: Button
-    private lateinit var calendar: Calendar // Add Calendar instance
+    private lateinit var calendar: Calendar
     private lateinit var dayAverageTextView: TextView
     private lateinit var weekAverageTextView: TextView
+    private lateinit var accessToken: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_health_info)
 
-        // Initialize views
         currentDateTextView = findViewById(R.id.currentDateTextView)
         prevDayButton = findViewById(R.id.prevDayButton)
         nextDayButton = findViewById(R.id.nextDayButton)
@@ -54,41 +50,32 @@ class HealthInfoActivity : AppCompatActivity() {
         dayAverageTextView = findViewById(R.id.dayAverageTitleTextView)
         weekAverageTextView = findViewById(R.id.weekAverageTitleTextView)
 
-        // Initialize Calendar instance with current date
         calendar = Calendar.getInstance()
-
-        // Set current date
         updateDate()
-        // Set up LineChart
         setupLineChart()
 
-        // Set click listener for the "Last Day" button
+        accessToken = intent.getStringExtra("accestoken").toString()
+
         prevDayButton.setOnClickListener {
-            // Decrement day of the calendar
             calendar.add(Calendar.DAY_OF_MONTH, -1)
-            // Update displayed date
             updateDate()
             updateGraphData()
         }
+
         nextDayButton.setOnClickListener {
-            // Decrement day of the calendar
-            calendar.add(Calendar.DAY_OF_MONTH, +1)
-            // Update displayed date
+            calendar.add(Calendar.DAY_OF_MONTH, 1)
             updateDate()
             updateGraphData()
         }
 
-        val accessTokenString = intent.getStringExtra("accestoken")
-        fetchHeartRateData(accessTokenString.toString())
+        fetchHeartRateData(accessToken, getFormattedDate(calendar))
 
-        // Navigate back to the main page
         backButton.setOnClickListener {
             finish()
         }
     }
 
     private fun updateDate() {
-        // Format the date and update the TextView
         val formattedDate = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(calendar.time)
         currentDateTextView.text = formattedDate
     }
@@ -97,18 +84,20 @@ class HealthInfoActivity : AppCompatActivity() {
         graphView.apply {
             xAxis.apply {
                 valueFormatter = TimeValueFormatter()
-                position = XAxis.XAxisPosition.TOP
-                granularity = 1f // interval for the labels
+                position = XAxis.XAxisPosition.BOTTOM
+                granularity = 1f
             }
-            axisLeft.axisMinimum = 0f // Assuming heart rate cannot be negative
-            axisLeft.axisMaximum = 200f // Assuming maximum heart rate value
+            axisLeft.axisMinimum = 0f
+            axisLeft.axisMaximum = 200f
             axisRight.isEnabled = false
             legend.isEnabled = false
-            description.isEnabled = false // Disable description text
+            description.isEnabled = false
         }
     }
 
     private fun updateGraphData(entries: List<Entry> = listOf()) {
+        fetchHeartRateData(accessToken, getFormattedDate(calendar))
+
         val displayEntries = if (entries.isEmpty()) {
             listOf(
                 Entry(0f, 60f),
@@ -120,31 +109,26 @@ class HealthInfoActivity : AppCompatActivity() {
             entries
         }
 
-        // Create a dataset with entries
         val dataSet = LineDataSet(displayEntries, "Heart Rate Data")
+        dataSet.apply {
+            color = getColor(R.color.pastel_green)
+            setCircleColor(getColor(R.color.pastel_green))
+            setDrawValues(false)
+            setDrawCircles(true)
+            setDrawCircleHole(false)
+            circleRadius = 3f
+            lineWidth = 2f
+            mode = LineDataSet.Mode.CUBIC_BEZIER // Smoother line
+        }
 
-        // Customize dataset appearance
-        dataSet.color = getColor(R.color.pastel_green)
-        dataSet.setCircleColor(getColor(R.color.pastel_green))
-        dataSet.setDrawValues(false)
-
-        // Create a LineData object with the dataset
         val lineData = LineData(dataSet)
-
-        // Set LineData to the LineChart
         graphView.data = lineData
-
-        // Refresh the chart
         graphView.invalidate()
     }
 
-
-    private fun fetchHeartRateData(accessToken: String) {
+    private fun fetchHeartRateData(accessToken: String, date: String) {
         val client = OkHttpClient()
-
-
-        // Specify the endpoint to retrieve heart rate data
-        val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/today/1d/1sec.json"
+        val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/$date/1d/1sec.json"
 
         val request = Request.Builder()
             .url(endpoint)
@@ -173,7 +157,7 @@ class HealthInfoActivity : AppCompatActivity() {
                     } catch (e: Exception) {
                         Log.e("FetchHeartRateData", "Error handling response: ${e.message}")
                     } finally {
-                        response.body?.close() // Ensure response body is closed after reading
+                        response.body?.close()
                     }
                 } else {
                     runOnUiThread {
@@ -203,7 +187,6 @@ class HealthInfoActivity : AppCompatActivity() {
                 val second = time[2].toFloat()
                 val heartRate = dataPoint.getInt("value").toFloat()
 
-                // Combine hour, minute, and second into a single float value representing time in hours
                 val timeInHours = hour + (minute / 60) + (second / 3600)
                 entries.add(Entry(timeInHours, heartRate))
             }
@@ -214,6 +197,8 @@ class HealthInfoActivity : AppCompatActivity() {
         return entries
     }
 
+    private fun getFormattedDate(calendar: Calendar): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return dateFormat.format(calendar.time)
+    }
 }
-
-
