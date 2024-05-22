@@ -2,7 +2,9 @@ package app.app.heartrate
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -36,6 +38,8 @@ class HealthInfoActivity : AppCompatActivity() {
     private lateinit var dayAverageTextView: TextView
     private lateinit var weekAverageTextView: TextView
     private lateinit var accessToken: String
+    private lateinit var progressBar: ProgressBar
+    private var status = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +53,7 @@ class HealthInfoActivity : AppCompatActivity() {
         backButton = findViewById(R.id.backButton)
         dayAverageTextView = findViewById(R.id.dayAverageTitleTextView)
         weekAverageTextView = findViewById(R.id.weekAverageTitleTextView)
+        progressBar = findViewById(R.id.progressBar)
 
         calendar = Calendar.getInstance()
         updateDate()
@@ -58,17 +63,22 @@ class HealthInfoActivity : AppCompatActivity() {
 
         prevDayButton.setOnClickListener {
             calendar.add(Calendar.DAY_OF_MONTH, -1)
+            fetchHeartRateData(accessToken, getFormattedDate(calendar))
             updateDate()
             updateGraphData()
         }
 
         nextDayButton.setOnClickListener {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
+            fetchHeartRateData(accessToken, getFormattedDate(calendar))
             updateDate()
             updateGraphData()
         }
 
-        fetchHeartRateData(accessToken, getFormattedDate(calendar))
+        if (status == 0) {
+            fetchHeartRateData(accessToken, getFormattedDate(calendar))
+            status = 1
+        }
 
         backButton.setOnClickListener {
             finish()
@@ -96,8 +106,6 @@ class HealthInfoActivity : AppCompatActivity() {
     }
 
     private fun updateGraphData(entries: List<Entry> = listOf()) {
-        fetchHeartRateData(accessToken, getFormattedDate(calendar))
-
         val displayEntries = if (entries.isEmpty()) {
             listOf(
                 Entry(0f, 60f),
@@ -118,7 +126,7 @@ class HealthInfoActivity : AppCompatActivity() {
             setDrawCircleHole(false)
             circleRadius = 3f
             lineWidth = 2f
-            mode = LineDataSet.Mode.CUBIC_BEZIER // Smoother line
+            mode = LineDataSet.Mode.CUBIC_BEZIER
         }
 
         val lineData = LineData(dataSet)
@@ -127,6 +135,8 @@ class HealthInfoActivity : AppCompatActivity() {
     }
 
     private fun fetchHeartRateData(accessToken: String, date: String) {
+        progressBar.visibility = View.VISIBLE
+
         val client = OkHttpClient()
         val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/$date/1d/1sec.json"
 
@@ -138,12 +148,17 @@ class HealthInfoActivity : AppCompatActivity() {
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 runOnUiThread {
+                    progressBar.visibility = View.GONE
                     Log.d("FitbitHeartRateNetwork", "Response: network error")
                     Toast.makeText(this@HealthInfoActivity, "Network Error", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onResponse(call: Call, response: Response) {
+                runOnUiThread {
+                    progressBar.visibility = View.GONE
+                }
+
                 if (response.isSuccessful && response.body != null) {
                     try {
                         val responseBodyString = response.body!!.string()
@@ -174,8 +189,15 @@ class HealthInfoActivity : AppCompatActivity() {
 
     private fun parseHeartRateData(responseBodyString: String): List<Entry> {
         val entries = mutableListOf<Entry>()
+        var restingHeartRate: Int? = null
+        var minHeartRate: Int? = null
+        var maxHeartRate: Int? = null
+
         try {
             val jsonObject = JSONObject(responseBodyString)
+            val activitiesHeart = jsonObject.getJSONArray("activities-heart").getJSONObject(0)
+            restingHeartRate = activitiesHeart.getJSONObject("value").getInt("restingHeartRate")
+
             val intradayData = jsonObject.getJSONObject("activities-heart-intraday")
             val dataset = intradayData.getJSONArray("dataset")
 
@@ -189,7 +211,22 @@ class HealthInfoActivity : AppCompatActivity() {
 
                 val timeInHours = hour + (minute / 60) + (second / 3600)
                 entries.add(Entry(timeInHours, heartRate))
+
+                if (minHeartRate == null || heartRate < minHeartRate) {
+                    minHeartRate = heartRate.toInt()
+                }
+                if (maxHeartRate == null || heartRate > maxHeartRate) {
+                    maxHeartRate = heartRate.toInt()
+                }
             }
+
+            val summaryText = "Resting Heart Rate: $restingHeartRate bpm\n" +
+                    "Min Heart Rate: $minHeartRate bpm\n" +
+                    "Max Heart Rate: $maxHeartRate bpm"
+            runOnUiThread {
+                summaryTextView.text = summaryText
+            }
+
         } catch (e: Exception) {
             Log.e("ParseHeartRateData", "Error parsing heart rate data: ${e.message}")
         }
