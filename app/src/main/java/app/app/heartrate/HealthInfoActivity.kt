@@ -88,6 +88,8 @@ class HealthInfoActivity : AppCompatActivity() {
     private fun updateDate() {
         val formattedDate = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(calendar.time)
         currentDateTextView.text = formattedDate
+
+        nextDayButton.visibility = if (isNextDayInFuture()) View.GONE else View.VISIBLE
     }
 
     private fun setupLineChart() {
@@ -106,6 +108,8 @@ class HealthInfoActivity : AppCompatActivity() {
     }
 
     private fun updateGraphData(entries: List<Entry> = listOf()) {
+        progressBar.visibility = View.GONE
+
         val displayEntries = if (entries.isEmpty()) {
             listOf(
                 Entry(0f, 60f),
@@ -135,7 +139,9 @@ class HealthInfoActivity : AppCompatActivity() {
     }
 
     private fun fetchHeartRateData(accessToken: String, date: String) {
-        progressBar.visibility = View.VISIBLE
+        runOnUiThread{
+            progressBar.visibility = View.VISIBLE
+        }
 
         val client = OkHttpClient()
         val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/$date/1d/1sec.json"
@@ -155,9 +161,7 @@ class HealthInfoActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-                runOnUiThread {
-                    progressBar.visibility = View.GONE
-                }
+
 
                 if (response.isSuccessful && response.body != null) {
                     try {
@@ -237,5 +241,12 @@ class HealthInfoActivity : AppCompatActivity() {
     private fun getFormattedDate(calendar: Calendar): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         return dateFormat.format(calendar.time)
+    }
+
+    private fun isNextDayInFuture(): Boolean {
+        val today = Calendar.getInstance()
+        val nextDay = calendar.clone() as Calendar
+        nextDay.add(Calendar.DAY_OF_MONTH, 1)
+        return nextDay.after(today)
     }
 }
