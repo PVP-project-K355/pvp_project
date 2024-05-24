@@ -25,6 +25,13 @@
         <activity
             android:name=".heartrate.HealthInfoActivity"
             android:exported="false" />
+        <activity android:name=".steps.DailyStepsActivity"
+            android:exported="false" />
+        <activity android:name=".steps.WeeklyStepsActivity"
+            android:exported="false" />
+        <activity android:name=".steps.MonthlyStepsActivity"
+            android:exported="false" />
+
         <activity
             android:name=".SmsSender"
             android:exported="false" />

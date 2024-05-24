@@ -18,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import app.app.heartrate.HealthInfoActivity
+import app.app.steps.DailyStepsActivity
 import org.json.JSONException
 //import androidx.recyclerview.widget.RecyclerView
 //import com.google.gson.Gson
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var goToData: Button
     private lateinit var smsSender_button: Button
     private lateinit var settingsButton: Button
+    private lateinit var stepsButton: Button
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -50,12 +52,19 @@ class MainActivity : AppCompatActivity() {
         goToData = findViewById(R.id.goToDataInfoButton)
         smsSender_button = findViewById(R.id.sms_sender_page_button)
         settingsButton = findViewById(R.id.settingsButton)
+        stepsButton = findViewById(R.id.stepsButton)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
         }
+
+        stepsButton.setOnClickListener {
+            val intent = Intent(this, DailyStepsActivity::class.java).putExtra("accesstoken", ACCESSTOKEN)
+            startActivity(intent)
+        }
+
         goToData.setOnClickListener{
-            val intent = Intent(this, HealthInfoActivity::class.java).putExtra("accestoken", ACCESSTOKEN)
+            val intent = Intent(this, HealthInfoActivity::class.java).putExtra("accesstoken", ACCESSTOKEN)
 
             startActivity(intent)
         }

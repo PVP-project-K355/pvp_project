@@ -54,25 +54,25 @@ class HealthInfoActivity : AppCompatActivity() {
         dayAverageTextView = findViewById(R.id.dayAverageTitleTextView)
         weekAverageTextView = findViewById(R.id.weekAverageTitleTextView)
         progressBar = findViewById(R.id.progressBar)
-
+        progressBar.visibility = View.VISIBLE
         calendar = Calendar.getInstance()
         updateDate()
         setupLineChart()
 
-        accessToken = intent.getStringExtra("accestoken").toString()
+        accessToken = intent.getStringExtra("accesstoken").toString()
 
         prevDayButton.setOnClickListener {
             calendar.add(Calendar.DAY_OF_MONTH, -1)
+            progressBar.visibility = View.VISIBLE
             fetchHeartRateData(accessToken, getFormattedDate(calendar))
             updateDate()
-            updateGraphData()
         }
 
         nextDayButton.setOnClickListener {
             calendar.add(Calendar.DAY_OF_MONTH, 1)
+            progressBar.visibility = View.VISIBLE
             fetchHeartRateData(accessToken, getFormattedDate(calendar))
             updateDate()
-            updateGraphData()
         }
 
         if (status == 0) {
@@ -108,8 +108,6 @@ class HealthInfoActivity : AppCompatActivity() {
     }
 
     private fun updateGraphData(entries: List<Entry> = listOf()) {
-        progressBar.visibility = View.GONE
-
         val displayEntries = if (entries.isEmpty()) {
             listOf(
                 Entry(0f, 60f),
@@ -136,10 +134,11 @@ class HealthInfoActivity : AppCompatActivity() {
         val lineData = LineData(dataSet)
         graphView.data = lineData
         graphView.invalidate()
+        progressBar.visibility = View.GONE
     }
 
     private fun fetchHeartRateData(accessToken: String, date: String) {
-        runOnUiThread{
+        runOnUiThread {
             progressBar.visibility = View.VISIBLE
         }
 
@@ -161,8 +160,6 @@ class HealthInfoActivity : AppCompatActivity() {
             }
 
             override fun onResponse(call: Call, response: Response) {
-
-
                 if (response.isSuccessful && response.body != null) {
                     try {
                         val responseBodyString = response.body!!.string()
@@ -180,6 +177,7 @@ class HealthInfoActivity : AppCompatActivity() {
                     }
                 } else {
                     runOnUiThread {
+                        progressBar.visibility = View.GONE
                         Toast.makeText(
                             this@HealthInfoActivity,
                             "Error retrieving heart rate data",
@@ -200,7 +198,12 @@ class HealthInfoActivity : AppCompatActivity() {
         try {
             val jsonObject = JSONObject(responseBodyString)
             val activitiesHeart = jsonObject.getJSONArray("activities-heart").getJSONObject(0)
-            restingHeartRate = activitiesHeart.getJSONObject("value").getInt("restingHeartRate")
+            try {
+                restingHeartRate = activitiesHeart.getJSONObject("value").getInt("restingHeartRate")
+            } catch (e: Exception) {
+                Log.e("ParseHeartRateData", "Error parsing resting heart rate: ${e.message}")
+                restingHeartRate = 0
+            }
 
             val intradayData = jsonObject.getJSONObject("activities-heart-intraday")
             val dataset = intradayData.getJSONArray("dataset")

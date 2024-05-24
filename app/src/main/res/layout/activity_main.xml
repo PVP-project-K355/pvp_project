@@ -42,5 +42,11 @@
         android:layout_height="wrap_content"
         android:text="Settings" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/stepsButton"
+        android:layout_width="183dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Steps" />
 
+</LinearLayout>
