@@ -49,4 +49,10 @@
         android:layout_marginTop="16dp"
         android:text="Steps" />
 
+    <Button
+        android:id="@+id/updateDBButton"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:text="update DB" />
+
 </LinearLayout>

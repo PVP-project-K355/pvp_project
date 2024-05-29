@@ -13,10 +13,10 @@
             android:id="@+id/prevDayButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last Day"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:text="Last Day" />
         />
 
         <TextView
@@ -24,30 +24,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="Today's Date"
-            android:textSize="18sp"
             android:layout_marginTop="30dp"
-        />
+            android:text="Today's Date"
+            android:textSize="18sp" />
 
         <!-- Next Day Button (if needed) -->
         <Button
             android:id="@+id/nextDayButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Next Day"
             android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginTop="20dp"/>
+            android:text="Next Day" />
         />
 
     </RelativeLayout>
-<!--Progress bar-->
+    <!--Progress bar-->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <!-- Graph Section -->
     <com.github.mikephil.charting.charts.LineChart
@@ -55,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_below="@id/headerLayout"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp" />
 
     <!-- Summary Section -->
 
@@ -76,13 +75,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/summaryTextView"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="30dp"
         android:text="Day Average"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="50dp"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/weekAverageTitleTextView"
@@ -90,29 +88,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/summaryTextView"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="50dp"
         android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
         android:text="Week Average"
         android:textSize="16sp"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/dayAverageTitleTextView"
-        android:text="Number"
         android:layout_alignParentStart="true"
         android:layout_marginStart="70dp"
         android:layout_marginTop="30dp"
-        />
+        android:text="Number" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/weekAverageTitleTextView"
-        android:text="Number"
         android:layout_alignParentEnd="true"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="70dp"
-        android:layout_marginTop="30dp"/>
+        android:text="Number" />
 
 
     <Button
@@ -121,7 +119,16 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="Back to Main Page"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:text="Back to Main Page" />
+
+    <Button
+        android:id="@+id/buttonTest"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="60dp"
+        android:text="test fetch and insert" />
 
 </RelativeLayout>

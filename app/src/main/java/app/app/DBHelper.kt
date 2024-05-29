@@ -6,7 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.github.mikephil.charting.data.Entry
+//import com.github.mikephil.charting.data.Entry
 
 data class User(
     val id: Int = 0,
@@ -19,8 +19,8 @@ data class User(
 
 data class HeartRate(
     val id: Int = 0,
-    val rate: Int,
-    val time: String
+    val heartRate: Int,
+    val date: Long
 )
 
 data class Contact(
@@ -50,7 +50,7 @@ class DBHelper(context: Context) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 4
         private const val DATABASE_NAME = "Database.db"
 
         // User table
@@ -66,7 +66,6 @@ class DBHelper(context: Context) :
         private const val TABLE_HEART_RATE = "HeartRate"
         private const val COLUMN_ID = "id"
         private const val COLUMN_DATE = "date"
-        private const val COLUMN_TIME = "time"
         private const val COLUMN_HEART_RATE = "heartRate"
 
         //Contact person table
@@ -107,8 +106,7 @@ class DBHelper(context: Context) :
 
         val createTableHeartRate = ("CREATE TABLE $TABLE_HEART_RATE ("
                 + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "$COLUMN_DATE TEXT,"
-                + "$COLUMN_TIME TEXT,"
+                + "$COLUMN_DATE INTEGER,"
                 + "$COLUMN_HEART_RATE INTEGER)")
         db.execSQL(createTableHeartRate)
 
@@ -126,7 +124,6 @@ class DBHelper(context: Context) :
                 + "$threshold_minRate INTEGER,"
                 + "$threshold_maxRate INTEGER,"
                 + "$threshold_stepGoal INTEGER"
-
                 + ")")
         db.execSQL(createThresholdTable)
 
@@ -207,31 +204,26 @@ class DBHelper(context: Context) :
 
     //Heart rate table
     //Add heart rate data
-    fun insertHeartRate(date: String, time: String, heartRate: Int) {
+    fun insertHeartRate(date: Long, heartRate: Int): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
             put(COLUMN_DATE, date)
-            put(COLUMN_TIME, time)
             put(COLUMN_HEART_RATE, heartRate)
         }
-        db.insert(TABLE_HEART_RATE, null, contentValues)
+        val id = db.insert(TABLE_HEART_RATE, null, contentValues)
         db.close()
+        return id
     }
 
-    fun getHeartRateEntries(date: String): List<Entry> {
-        val entries = mutableListOf<Entry>()
+    fun getHeartRateEntries(min_date: Long, max_date: Long): List<HeartRate> {
+        val entries = mutableListOf<HeartRate>()
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT * FROM $TABLE_HEART_RATE WHERE $COLUMN_DATE = ?", arrayOf(date))
+        val cursor = db.rawQuery("SELECT * FROM $TABLE_HEART_RATE WHERE $COLUMN_DATE > ? AND $COLUMN_DATE <= ?", arrayOf("$min_date","$max_date"))
         if (cursor.moveToFirst()) {
             do {
-                val time = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)).split(":")
-                val hour = time[0].toFloat()
-                val minute = time[1].toFloat()
-                val second = time[2].toFloat()
-                val heartRate = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_HEART_RATE)).toFloat()
-
-                val timeInHours = hour + (minute / 60) + (second / 3600)
-                entries.add(Entry(timeInHours, heartRate))
+                val heartRate = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_HEART_RATE))
+                val date = cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_DATE))
+                entries.add(HeartRate(heartRate = heartRate, date = date))
             } while (cursor.moveToNext())
         }
         cursor.close()

@@ -8,6 +8,7 @@ import okhttp3.Response
 import java.io.IOException
 import org.json.JSONObject
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
@@ -36,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var smsSender_button: Button
     private lateinit var settingsButton: Button
     private lateinit var stepsButton: Button
+    private lateinit var dbUpdateButton: Button
+    private lateinit var dbHelper: DBHelper
 
     private val CLIENT_ID = "23RTB5"
     private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
@@ -53,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         smsSender_button = findViewById(R.id.sms_sender_page_button)
         settingsButton = findViewById(R.id.settingsButton)
         stepsButton = findViewById(R.id.stepsButton)
+        dbUpdateButton = findViewById(R.id.updateDBButton)
 
         authorizeButton.setOnClickListener {
             startAuthorization()
@@ -78,6 +82,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        dbUpdateButton.setOnClickListener {
+            testDb()
+        }
+
         if (!PermissionsManager(this).checkPermissions()){
             PermissionsManager(this).requestPermissions(this)
         }
@@ -85,7 +93,23 @@ class MainActivity : AppCompatActivity() {
         handleCallbackIntent(getIntent())
 
         //db test cases
-        val dbHelper = DBHelper(this)
+        dbHelper = DBHelper(this)
+
+
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleCallbackIntent(intent!!)
+    }
+
+    private fun testDb(){
+
+        //code to update and refresh db after changes
+        //val db = dbHelper.writableDatabase
+        //val ver = db.getVersion()
+        //val verUpgrade = ver + 1
+        //dbHelper.onUpgrade(db, ver, verUpgrade)
 
         if(dbHelper.getUser(1)==null){
             val intent = Intent(this, DataInputPage::class.java)
@@ -145,16 +169,6 @@ class MainActivity : AppCompatActivity() {
         //Updating api data
         //dbHelper.updateApi(updateAPI)
 
-        //Example heart rate data
-        val newRate = HeartRate(
-            rate = 65,
-            time = "2024-03-20 22:02"
-        )
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        handleCallbackIntent(intent!!)
     }
 
     private fun startAuthorization() {
