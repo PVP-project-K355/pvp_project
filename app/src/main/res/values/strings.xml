@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SeniorMonitoringApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pulse">PULSE</string>
+    <string name="steps">STEPS</string>
+    <string name="sleep">SLEEP</string>
+    <string name="contacts">CONTACTS</string>
+    <string name="settings">SETTINGS</string>
+    <string name="go_to_main_page">GO TO MAIN PAGE</string>
 </resources>

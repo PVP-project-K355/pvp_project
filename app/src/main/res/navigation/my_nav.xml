@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/mainpage">
+
+    <fragment
+        android:id="@+id/mainpage"
+        android:name="app.app.Mainpage"
+        android:label="fragment_mainpage"
+        tools:layout="@layout/fragment_mainpage" >
+        <action
+            android:id="@+id/action_mainpage_to_settings"
+            app:destination="@id/settings" />
+        <action
+            android:id="@+id/action_mainpage_to_sleep"
+            app:destination="@id/sleep" />
+        <action
+            android:id="@+id/action_mainpage_to_pulse"
+            app:destination="@id/pulse" />
+        <action
+            android:id="@+id/action_mainpage_to_contacts"
+            app:destination="@id/contacts" />
+        <action
+            android:id="@+id/action_mainpage_to_steps"
+            app:destination="@id/steps" />
+    </fragment>
+    <fragment
+        android:id="@+id/settings"
+        android:name="app.app.Settings"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/sleep"
+        android:name="app.app.Sleep"
+        android:label="fragment_sleep"
+        tools:layout="@layout/fragment_sleep" />
+    <fragment
+        android:id="@+id/pulse"
+        android:name="app.app.Pulse"
+        android:label="fragment_pulse"
+        tools:layout="@layout/fragment_pulse" />
+    <fragment
+        android:id="@+id/steps"
+        android:name="app.app.Steps"
+        android:label="fragment_steps"
+        tools:layout="@layout/fragment_steps" />
+    <fragment
+        android:id="@+id/contacts"
+        android:name="app.app.Contacts"
+        android:label="fragment_contacts"
+        tools:layout="@layout/fragment_contacts" />
+</navigation>

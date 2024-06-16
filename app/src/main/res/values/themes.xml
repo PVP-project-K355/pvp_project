@@ -1,9 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SeniorMonitoringApp" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.SeniorMonitoringApp" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/page_background</item>
+        <item name="android:statusBarColor">#000000</item>
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.SeniorMonitoringApp" parent="Base.Theme.SeniorMonitoringApp" />
+
+    <!--https://developer.android.com/develop/ui/views/launch/splash-screen-->
+    <style name="App.Theme.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/page_background</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Base.Theme.SeniorMonitoringApp</item>
+    </style>
 </resources>

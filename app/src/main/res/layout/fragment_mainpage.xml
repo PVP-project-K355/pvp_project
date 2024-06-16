@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Mainpage">
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:columnCount="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rowCount="4">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nav_button_pulse"
+            style="@style/CardView.MainPageNavButton">
+            <LinearLayout
+                style="@style/MainPageNavButtonLayout"
+                android:background="@drawable/button_red"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:text="@string/pulse"
+                    style="@style/MainPageNavButtonText"/>
+
+                <ImageView
+                    android:src="@drawable/ic_heart_pulse"
+                    style="@style/MainPageButtonIcon"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nav_button_steps"
+            style="@style/CardView.MainPageNavButton">
+            <LinearLayout
+                style="@style/MainPageNavButtonLayout"
+                android:background="@drawable/button_green"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:text="@string/steps"
+                    style="@style/MainPageNavButtonText"/>
+
+                <ImageView
+                    android:src="@drawable/ic_walking_person"
+                    style="@style/MainPageButtonIcon"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nav_button_sleep"
+            style="@style/CardView.MainPageNavButton">
+            <LinearLayout
+                style="@style/MainPageNavButtonLayout"
+                android:background="@drawable/button_blue"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:text="@string/sleep"
+                    style="@style/MainPageNavButtonText"/>
+
+                <ImageView
+                    android:src="@drawable/ic_moon"
+                    style="@style/MainPageButtonIcon"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nav_button_contacts"
+            style="@style/CardView.MainPageNavButton">
+            <LinearLayout
+                style="@style/MainPageNavButtonLayout"
+                android:background="@drawable/button_orange"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:text="@string/contacts"
+                    style="@style/MainPageNavButtonText"/>
+
+                <ImageView
+                    android:src="@drawable/ic_contacts"
+                    style="@style/MainPageButtonIcon"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nav_button_settings"
+            style="@style/CardView.MainPageNavButton">
+            <LinearLayout
+                style="@style/MainPageNavButtonLayout"
+                android:background="@drawable/button_grey"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:text="@string/settings"
+                    style="@style/MainPageNavButtonText"/>
+
+                <ImageView
+                    android:src="@drawable/ic_settings"
+                    style="@style/MainPageButtonIcon"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.gridlayout.widget.GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
