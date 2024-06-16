@@ -5,8 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import androidx.navigation.fragment.NavHostFragment
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -15,10 +13,11 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Settings.newInstance] factory method to
+ * Use the [Edit_User_Data_Page.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Settings : Fragment() {
+class Edit_User_Data_Page : Fragment() {
+    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -34,26 +33,8 @@ class Settings : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_settings, container, false)
-
-        view.findViewById<Button>(R.id.maingpage_button).setOnClickListener { NavHostFragment.findNavController(this@Settings).popBackStack(R.id.mainpage, false) }
-
-      //  view.findViewById<Button>(R.id.goToThreshold).setOnClickListener {
-       //     NavHostFragment.findNavController(this@Settings).navigate(R.id.action_settings_to_change_subscription)
-       // }
-
-       // view.findViewById<Button>(R.id.goToData).setOnClickListener {
-      //      NavHostFragment.findNavController(this@Settings).navigate(R.id.action_settings_to_change_account)
-       // }
-
-        view.findViewById<Button>(R.id.changeAcc).setOnClickListener {
-            NavHostFragment.findNavController(this@Settings).navigate(R.id.Edit_User_Data_Page)
-        }
-
-        view.findViewById<Button>(R.id.changeSub).setOnClickListener {
-            NavHostFragment.findNavController(this@Settings).navigate(R.id.settingsThresholdPage)
-        }
-        return view
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_edit__user__data__page, container, false)
     }
 
     companion object {
@@ -63,12 +44,12 @@ class Settings : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment settings.
+         * @return A new instance of fragment Edit_User_Data_Page.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Settings().apply {
+            Edit_User_Data_Page().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

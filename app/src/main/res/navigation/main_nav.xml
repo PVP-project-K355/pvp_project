@@ -30,7 +30,11 @@
         android:id="@+id/settings"
         android:name="app.app.Settings"
         android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settings_to_settingsThresholdPage"
+            app:destination="@id/settingsThresholdPage" />
+    </fragment>
     <fragment
         android:id="@+id/sleep"
         android:name="app.app.Sleep"
@@ -51,4 +55,14 @@
         android:name="app.app.Contacts"
         android:label="fragment_contacts"
         tools:layout="@layout/fragment_contacts" />
+    <fragment
+        android:id="@+id/settingsThresholdPage"
+        android:name="app.app.SettingsThresholdPage"
+        android:label="fragment_settings_threshold_page"
+        tools:layout="@layout/fragment_settings_threshold_page"/>
+    <fragment
+        android:id="@+id/Edit_User_Data_Page"
+        android:name="app.app.Edit_User_Data_Page"
+        android:label="fragment_edit_user_data_page"
+        tools:layout="@layout/fragment_edit__user__data__page"/>
 </navigation>
