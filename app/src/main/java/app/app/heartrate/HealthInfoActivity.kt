@@ -17,6 +17,9 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.OkHttpClient
@@ -26,6 +29,8 @@ import org.json.JSONObject
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.Instant
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 
@@ -93,47 +98,74 @@ class HealthInfoActivity : AppCompatActivity() {
         }
 
         testButton.setOnClickListener {
-            testFunc()
+            launchHRDCoroutine()
         }
     }
 
-    private fun testFunc(){
-        val date = "2024-05-29"
-        fetchUpdateHRD(accessToken, date)
+    private fun launchHRDCoroutine() {
+        // delay in ms between repeats of the iterations in the main endless while loop
+        val fetchLockoutTime = 30000L
+        // some thread wizardry to define what thread we're gonna run on
+        val scope = MainScope()
+        scope.launch {
+            fetchHRDPeriodic(fetchLockoutTime)
+        }
+
+    }
+
+    private suspend fun fetchHRDPeriodic(delay:Long){
+        var index = 0
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        while (true) {
+            val date = LocalDateTime.now().format(formatter)
+            Log.d("Perioic coroutine", "Fetch coroutine loop ${index}")
+            index += 1
+            //Uncomment line below to run fetch to db operation on coroutine
+            //fetchUpdateHRD(accessToken, date)
+            delay(delay)
+        }
     }
 
     private fun insertIntoDB(entries: List<HeartRateData.DatasetItem> = listOf(), date: String){
         // list of all the newly fetched values
-        val list_new = mutableListOf<HeartRate>()
+        val listOfFetchValues = mutableListOf<HeartRate>()
 
-        val date_earliest = Instant.parse("${date}T00:00:00Z")
-        val earliest_unixtimestamp = date_earliest.epochSecond
+        //Gets earliest possible unix timestamp for current day
+        val earliestDate = Instant.parse("${date}T00:00:00Z")
+        val earliestUnixTimestamp = earliestDate.epochSecond
+        // Entry value parsing for insertion into the database
         for(entry in entries){
             val time = entry.time
-            val date_var = Instant.parse("${date}T${time}Z")
-            val unixtimestamp = date_var.epochSecond
-            //Log.d("DBvalue", "timestamp: $unixtimestamp Heartrate: ${entry.value}")
-            list_new.add(HeartRate(heartRate = entry.value, date = unixtimestamp))
-            //dbHelper.insertHeartRate(unixtimestamp, entry.value)
+            val dateVariable = Instant.parse("${date}T${time}Z")
+            val unixTimestamp = dateVariable.epochSecond
+            listOfFetchValues.add(HeartRate(heartRate = entry.value, date = unixTimestamp))
         }
         //finds the newest entry to get the latest timestamp
-        val newest_entry = list_new.last()
+        val newestEntry = listOfFetchValues.last()
         //gets all the values from the earliest stored one for this day to the newest stored one up to newest entry timestamp
-        val list_current = dbHelper.getHeartRateEntries(earliest_unixtimestamp, newest_entry.date)
+        val currentDBEntryList = dbHelper.getHeartRateEntries(earliestUnixTimestamp, newestEntry.date)
 
 
-        // finds the amount of new values added in the new list to be inserted into the db -- works kinda but is scuffed af
+        // finds the amount of new values added in the new list to be inserted into the db
+        // -- works kinda but is scuffed af, for reference of how not to do it don't use
         /*val size_diff = list_new.size - list_current.size
         for(index in list_new.size-size_diff until list_new.size){
             val entry = list_new.get(index)
             dbHelper.insertHeartRate(entry.date, entry.heart_rate)
         }*/
-        val datesInDB = list_current.map { it.date }
-        list_new.removeAll {
+
+        //makes a list of all the timestamps in the database
+        val datesInDB = currentDBEntryList.map { it.date }
+
+        //removes all the duplicate values from the fetched list using timestamp list for comparison
+        listOfFetchValues.removeAll {
             it.date in datesInDB
         }
 
-        for(entry in list_new){
+        //insert the new values
+        //TODO possible optimisation to make a bulk value inserter in db helper class
+        for(entry in listOfFetchValues){
             Log.d("DBvalue", "timestamp: ${entry.date} Heartrate: ${entry.heartRate}")
             dbHelper.insertHeartRate(entry.date, entry.heartRate)
         }
@@ -199,8 +231,6 @@ class HealthInfoActivity : AppCompatActivity() {
                 val entry = HeartRateData.DatasetItem(time, heartRate)
                 entries.add(entry)
             }
-
-
         } catch (e: Exception) {
             Log.e("ParseHeartRateData", "Error parsing heart rate data: ${e.message}")
         }

@@ -60,4 +60,18 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    val work_version = "2.9.0"
+    // (Java only)
+    implementation("androidx.work:work-runtime:$work_version")
+    // Kotlin + coroutines
+    implementation("androidx.work:work-runtime-ktx:$work_version")
+    // optional - RxJava2 support
+    implementation("androidx.work:work-rxjava2:$work_version")
+    // optional - GCMNetworkManager support
+    implementation("androidx.work:work-gcm:$work_version")
+    // optional - Test helpers
+    androidTestImplementation("androidx.work:work-testing:$work_version")
+    // optional - Multiprocess support
+    implementation("androidx.work:work-multiprocess:$work_version")
 }
