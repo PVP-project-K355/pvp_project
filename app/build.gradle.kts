@@ -83,4 +83,13 @@ dependencies {
     androidTestImplementation("androidx.work:work-testing:$work_version")
     // optional - Multiprocess support
     implementation("androidx.work:work-multiprocess:$work_version")
+
+    // Google auth stuff
+    implementation("androidx.credentials:credentials:1.2.2")
+    // optional - needed for credentials support from play services, for devices running
+    // Android 13 and below.
+    implementation("androidx.credentials:credentials-play-services-auth:1.2.2")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    // coroutines alternative
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 }
