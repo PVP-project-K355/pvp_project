@@ -21,50 +21,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SeniorMonitoringApp">
-
         <activity
-            android:name=".heartrate.HealthInfoActivity"
-            android:exported="false" />
-        <activity android:name=".steps.DailyStepsActivity"
-            android:exported="false" />
-        <activity android:name=".steps.WeeklyStepsActivity"
-            android:exported="false" />
-        <activity android:name=".steps.MonthlyStepsActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".SmsSender"
+            android:name=".Setup"
             android:exported="false" />
         <activity
-            android:name=".ThresholdInputPage"
-            android:exported="false" />
-        <activity
-            android:name=".DataInputPage"
-            android:exported="false" />
-        <activity
-            android:name=".SettingsPage"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="callbackdata"
-                    android:scheme="seniorhealthmonitoringapplication2024pvp" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".LoadingPage"
-            android:exported="true">
+            android:name=".MainActivity1"
+            android:exported="true"
+            android:theme="@style/App.Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- <data -->
+                <!-- android:host="callbackdata" -->
+                <!-- android:scheme="seniorhealthmonitoringapplication2024pvp" /> -->
             </intent-filter>
         </activity>
     </application>

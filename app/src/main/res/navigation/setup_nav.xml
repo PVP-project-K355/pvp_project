@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/setup_nav"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/login"
+        android:name="app.app.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_loginWatch"
+            app:destination="@id/loginWatch" />
+    </fragment>
+    <fragment
+        android:id="@+id/dataInputPersonal"
+        android:name="app.app.DataInputPersonal"
+        android:label="fragment_data_input_personal"
+        tools:layout="@layout/fragment_data_input_personal" >
+        <action
+            android:id="@+id/action_dataInputPersonal_to_dataInputThresholds"
+            app:destination="@id/dataInputThresholds" />
+    </fragment>
+    <fragment
+        android:id="@+id/dataInputThresholds"
+        android:name="app.app.DataInputThresholds"
+        android:label="fragment_data_input_thresholds"
+        tools:layout="@layout/fragment_data_input_thresholds" >
+        <action
+            android:id="@+id/action_dataInputThresholds_to_mainActivity1"
+            app:destination="@id/mainActivity1" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginWatch"
+        android:name="app.app.LoginWatch"
+        android:label="fragment_login_watch"
+        tools:layout="@layout/fragment_login_watch" >
+        <action
+            android:id="@+id/action_loginWatch_to_dataInputPersonal"
+            app:destination="@id/dataInputPersonal" />
+    </fragment>
+    <activity
+        android:id="@+id/mainActivity1"
+        android:name="app.app.MainActivity1"
+        android:label="MainActivity1" />
+</navigation>

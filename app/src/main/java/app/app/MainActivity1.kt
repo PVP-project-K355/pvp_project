@@ -6,14 +6,39 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 
+private val SHARED_PREFS_NAME = "MyAppPrefs"
+private var launched = false
+
 class MainActivity1 : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen() //Launch screen
-        setContentView(R.layout.activity_main1)
+
+        //Launch screen
+        installSplashScreen()
+
+        val sharedPreference = getSharedPreferences(SHARED_PREFS_NAME, MODE_PRIVATE)
+        val editor = sharedPreference.edit()
+
+        //Forcing first time launch for testing
+        if(!launched) {
+            editor.remove("first_time_launch").commit()
+            launched = true
+        }
+
+        if(sharedPreference.getBoolean("first_time_launch", true))
+        {
+            setContentView(R.layout.activity_setup)
+
+            //this should execute after pressing finish
+            editor.putBoolean("first_time_launch", false).commit()
+        }
+        else
+        {
+            setContentView(R.layout.activity_main1)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
