@@ -8,6 +8,7 @@
     <string name="contacts">CONTACTS</string>
     <string name="settings">SETTINGS</string>
     <string name="subscriptions">SUBSCRIPTIONS</string>
+    <string name="reports">REPORTS</string>
     <string name="go_to_main_page">GO TO MAIN PAGE</string>
     <string name="login_with_google">Login with google</string>
 </resources>

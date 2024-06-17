@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_mainpage_to_steps"
             app:destination="@id/steps" />
+        <action
+            android:id="@+id/action_mainpage_to_report"
+            app:destination="@id/report" />
     </fragment>
     <fragment
         android:id="@+id/settings"
@@ -101,4 +104,9 @@
         android:name="app.app.StepsMonthlyFragment"
         android:label="fragment_monthly_steps"
         tools:layout="@layout/fragment_monthly_steps"/>
+    <fragment
+        android:id="@+id/report"
+        android:name="app.app.report"
+        android:label="fragment_report"
+        tools:layout="@layout/fragment_report" />
 </navigation>

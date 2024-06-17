@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".report">
+
+    <!-- HEADER -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/MainPageNavButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:text="@string/reports" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_report" />
+    </RelativeLayout>
+
+    <!-- Buttons for Generate and Send Report -->
+    <Button
+        android:id="@+id/generate_report_button"
+        style="@style/MainPageButton"
+        android:background="@drawable/button_yellow_soft"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Generate Report"
+        app:layout_constraintBottom_toTopOf="@+id/send_report_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/send_report_button"
+        style="@style/MainPageButton"
+        android:background="@drawable/button_yellow_soft"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="Send Report"
+        app:layout_constraintBottom_toTopOf="@+id/report_status_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- TextView for showing messages -->
+    <TextView
+        android:id="@+id/report_status_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="200dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- BOTTOM MAIN PAGE BUTTON -->
+    <Button
+        android:id="@+id/maingpage_button"
+        style="@style/MainPageButton"
+        android:background="@drawable/button_blue_soft"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
