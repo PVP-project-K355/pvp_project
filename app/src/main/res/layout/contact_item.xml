@@ -18,10 +18,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/contact_image"
-        android:layout_marginStart="5dp"
+        android:layout_marginStart="10dp"
         android:text="John Smith"
         android:textStyle="bold"
-        android:textSize="14sp"
+        android:textSize="16sp"
         android:layout_alignParentTop="true"
         android:textColor="@color/black"/>
 
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/contact_image"
-        android:layout_marginStart="2dp"
+        android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_below="@id/contact_name"
         android:text="+370 609 08009"
