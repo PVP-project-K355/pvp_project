@@ -29,6 +29,51 @@
             android:src="@drawable/ic_settings" />
     </RelativeLayout>
     <Button
+    android:id="@+id/changeSub"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginEnd="140dp"
+    android:layout_marginBottom="25dp"
+    android:text="Change subscription"
+    android:textAlignment="center"
+    android:textColor="#000000"
+    android:textSize="24sp"
+    app:backgroundTint="#A6A6A6"
+    app:layout_constraintBottom_toTopOf="@+id/changeAcc"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+    <Button
+    android:id="@+id/changeAcc"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginEnd="140dp"
+    android:layout_marginBottom="25dp"
+    android:text="Change account"
+    android:textAlignment="center"
+    android:textColor="#000000"
+    android:textSize="24sp"
+    app:backgroundTint="#A6A6A6"
+    app:layout_constraintBottom_toTopOf="@+id/goToData"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+    <Button
+    android:id="@+id/goToData"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="25dp"
+    android:layout_marginEnd="25dp"
+    android:layout_marginBottom="25dp"
+    android:text="Edit user data"
+    android:textAlignment="center"
+    android:textColor="#000000"
+    android:textSize="24sp"
+    app:backgroundTint="#A6A6A6"
+    app:layout_constraintBottom_toTopOf="@+id/goToThreshold"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent" />
+    <Button
         android:id="@+id/goToThreshold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -43,51 +88,9 @@
         app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/goToData"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="25dp"
-        android:text="Edit user data"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:backgroundTint="#A6A6A6"
-        app:layout_constraintBottom_toTopOf="@+id/goToThreshold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/changeAcc"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="140dp"
-        android:layout_marginBottom="25dp"
-        android:text="Change account"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:backgroundTint="#A6A6A6"
-        app:layout_constraintBottom_toTopOf="@+id/goToData"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    <Button
-        android:id="@+id/changeSub"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="140dp"
-        android:layout_marginBottom="25dp"
-        android:text="Change subscription"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:backgroundTint="#A6A6A6"
-        app:layout_constraintBottom_toTopOf="@+id/changeAcc"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+
+
+
     <!--BOTTOM MAIN PAGE BUTTON-->
     <Button
         android:id="@+id/maingpage_button"
