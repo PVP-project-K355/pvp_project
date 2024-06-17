@@ -31,7 +31,6 @@
         <activity
             android:name=".MainActivity1"
             android:exported="true"
-            android:launchMode="singleInstance"
             android:theme="@style/App.Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
