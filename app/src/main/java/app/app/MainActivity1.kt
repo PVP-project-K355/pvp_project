@@ -54,15 +54,12 @@ class MainActivity1 : AppCompatActivity() {
             launched = true
         }
 
-        Log.e("TAG", sharedPreference.getBoolean("first_time_launch", true).toString())
         if (sharedPreference.getBoolean("first_time_launch", true)) {
 
-            Log.e("TAG", "SETUP")
             setContentView(R.layout.activity_setup)
         }
         else
         {
-            Log.e("TAG", "MAIN")
             setContentView(R.layout.activity_main1)
         }
         //handleCallbackIntent(getIntent())
