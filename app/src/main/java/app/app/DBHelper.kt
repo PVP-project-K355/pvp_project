@@ -21,6 +21,18 @@ data class User(
     val birthdate: String
 )
 
+data class LoginData(
+    val id: Int = 0,
+    val token: String,
+    val name: String,
+    val surname: String,
+    val email: String,
+    // picture URI
+    val uri: String,
+    // is logged in? integer bool
+    val status: Int
+)
+
 data class HeartRate(
     val id: Int = 0,
     val heartRate: Int,
@@ -66,6 +78,16 @@ class DBHelper(context: Context) :
         private const val user_weight = "Weight"
         private const val user_birthdate = "Birthdate"
 
+        // Login data table
+        private const val table_login = "Login_data"
+        private const val login_id = "id"
+        private const val login_token = "token"
+        private const val login_name = "name"
+        private const val login_surname = "surname"
+        private const val login_email = "email"
+        private const val login_uri = "uri"
+        private const val login_status = "status"
+
         //Heart rate table
         private const val TABLE_HEART_RATE = "HeartRate"
         private const val COLUMN_ID = "id"
@@ -104,6 +126,17 @@ class DBHelper(context: Context) :
                 + ")")
         db.execSQL(createUserTable)
 
+        val createLoginTable = ("CREATE TABLE $table_login("
+                + "$login_id INTEGER PRIMARY KEY,"
+                + "$login_token TEXT,"
+                + "$login_name TEXT,"
+                + "$login_surname TEXT,"
+                + "$login_email TEXT,"
+                + "$login_uri TEXT,"
+                + "$login_status INTEGER"
+                + ")")
+        db.execSQL(createLoginTable)
+
         val createTableHeartRate = ("CREATE TABLE $TABLE_HEART_RATE ("
                 + "$COLUMN_ID INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "$COLUMN_DATE INTEGER,"
@@ -116,7 +149,6 @@ class DBHelper(context: Context) :
                 + "$contact_surname TEXT,"
                 + "$contact_phone TEXT"
                 + ")")
-
         db.execSQL(createContactTable)
 
         val createThresholdTable = ("CREATE TABLE $table_threshold("
@@ -136,6 +168,7 @@ class DBHelper(context: Context) :
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         db.execSQL("DROP TABLE IF EXISTS $table_user")
+        db.execSQL("DROP TABLE IF EXISTS $table_login")
         db.execSQL("DROP TABLE IF EXISTS $TABLE_HEART_RATE")
         db.execSQL("DROP TABLE IF EXISTS $table_Contact")
         db.execSQL("DROP TABLE IF EXISTS $table_threshold")
@@ -197,6 +230,64 @@ class DBHelper(context: Context) :
             arrayOf(user.id.toString())
         )
     }
+
+    //Login table
+    //Add login data
+    fun addLogin(login: LoginData): Long {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(login_token, login.token)
+        values.put(login_name, login.name)
+        values.put(login_surname, login.surname)
+        values.put(login_email, login.email)
+        values.put(login_uri, login.uri)
+        values.put(login_status, login.status)
+        db.execSQL("delete from $table_login");
+        val id = db.insert(table_login, null, values)
+        db.close()
+        return id
+    }
+
+    //Get login data
+    @SuppressLint("Range")
+    fun getLogin(id: Int): LoginData? {
+        var login: LoginData? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_login, null, selection, selectionArgs, null, null, null)
+
+        if (cursor.moveToFirst()) {
+            val token = cursor.getString(cursor.getColumnIndex(login_token))
+            val name = cursor.getString(cursor.getColumnIndex(login_name))
+            val surname = cursor.getString(cursor.getColumnIndex(login_surname))
+            val email = cursor.getString(cursor.getColumnIndex(login_email))
+            val uri = cursor.getString(cursor.getColumnIndex(login_uri))
+            val status = cursor.getInt(cursor.getColumnIndex(login_status))
+
+            login = LoginData(id, token, name, surname, email, uri, status)
+        }
+
+        cursor.close()
+        db.close()
+        return if (login != null) login else null
+    }
+//
+//    //Update user data
+//    fun updateUser(user: User): Int {
+//        val db = this.writableDatabase
+//        val values = ContentValues()
+//        values.put(user_name, user.name)
+//        values.put(user_surname, user.surname)
+//        values.put(user_height, user.height)
+//        values.put(user_weight, user.weight)
+//        values.put(user_birthdate, user.birthdate)
+//
+//        return db.update(
+//            table_user, values, "$user_id = ?",
+//            arrayOf(user.id.toString())
+//        )
+//    }
 
     //Heart rate table
     //Add heart rate data

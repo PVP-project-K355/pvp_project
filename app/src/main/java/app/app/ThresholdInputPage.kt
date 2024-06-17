@@ -27,7 +27,6 @@ class ThresholdInputPage : AppCompatActivity() {
         maxRate = findViewById(R.id.maxRateIn)
         save = findViewById(R.id.save)
         cancel = findViewById(R.id.cancel)
-        settings = findViewById(R.id.goToSettings)
 
         save.setOnClickListener{
             saveThreshold()

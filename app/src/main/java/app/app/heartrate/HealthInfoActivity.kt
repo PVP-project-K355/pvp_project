@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import app.app.DBHelper
 import app.app.HeartRate
 import app.app.R
+import app.app.Threshold
 import app.app.utils.TimeValueFormatter
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -30,6 +31,8 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
@@ -104,7 +107,7 @@ class HealthInfoActivity : AppCompatActivity() {
 
     private fun launchHRDCoroutine() {
         // delay in ms between repeats of the iterations in the main endless while loop
-        val fetchLockoutTime = 30000L
+        val fetchLockoutTime = 60000L
         // some thread wizardry to define what thread we're gonna run on
         val scope = MainScope()
         scope.launch {
@@ -118,16 +121,16 @@ class HealthInfoActivity : AppCompatActivity() {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
         while (true) {
-            val date = LocalDateTime.now().format(formatter)
+            val dateUTC = OffsetDateTime.now(ZoneOffset.UTC).format(formatter)
             Log.d("Perioic coroutine", "Fetch coroutine loop ${index}")
             index += 1
             //Uncomment line below to run fetch to db operation on coroutine
-            //fetchUpdateHRD(accessToken, date)
+            fetchUpdateHRD(accessToken, dateUTC)
             delay(delay)
         }
     }
 
-    private fun insertIntoDB(entries: List<HeartRateData.DatasetItem> = listOf(), date: String){
+    private fun insertIntoDBAndCheckHRD(entries: List<HeartRateData.DatasetItem> = listOf(), date: String){
         // list of all the newly fetched values
         val listOfFetchValues = mutableListOf<HeartRate>()
 
@@ -146,6 +149,8 @@ class HealthInfoActivity : AppCompatActivity() {
         //gets all the values from the earliest stored one for this day to the newest stored one up to newest entry timestamp
         val currentDBEntryList = dbHelper.getHeartRateEntries(earliestUnixTimestamp, newestEntry.date)
 
+        val currentDBEntrylast = currentDBEntryList.last()
+        val currentFetchEntryLast = listOfFetchValues.last()
 
         // finds the amount of new values added in the new list to be inserted into the db
         // -- works kinda but is scuffed af, for reference of how not to do it don't use
@@ -169,7 +174,35 @@ class HealthInfoActivity : AppCompatActivity() {
             Log.d("DBvalue", "timestamp: ${entry.date} Heartrate: ${entry.heartRate}")
             dbHelper.insertHeartRate(entry.date, entry.heartRate)
         }
+
+        testHRDThresholds(date, listOfFetchValues)
     }
+
+    private fun testHRDThresholds(date: String, entries: MutableList<HeartRate>){
+        if (!entries.isEmpty()){
+            val currentTimeStamp = System.currentTimeMillis() / 1000
+            val currentMinTestTimestampThreshold = currentTimeStamp - 3600
+            var threshold : Threshold?
+            if(dbHelper.getThreshold(1)!= null){
+                threshold = dbHelper.getThreshold(1)
+            }
+            else{
+                threshold = Threshold(id = 1, minRate = 10, maxRate = 120, stepsGoal = 30000)
+            }
+
+            for(entry in entries){
+                //check if value is within the last 1h
+                if (entry.date > currentMinTestTimestampThreshold){
+                    if (threshold != null) {
+                        if (entry.heartRate >= threshold.maxRate || entry.heartRate <= threshold.minRate){
+                            Log.d("Threshold limit", "timestamp: ${entry.date} Heartrate: ${entry.heartRate}")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     private fun fetchUpdateHRD(accessToken: String, date: String) {
         val client = OkHttpClient()
         val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/$date/1d/1sec.json?timezone=UTC"
@@ -193,7 +226,7 @@ class HealthInfoActivity : AppCompatActivity() {
                         val responseBodyString = response.body!!.string()
                         val heartRateEntries = parseHRD(responseBodyString)
 
-                        insertIntoDB(heartRateEntries, date)
+                        insertIntoDBAndCheckHRD(heartRateEntries, date)
 
                         Log.d("FitbitHeartRateDATA", "Response: $responseBodyString")
                     } catch (e: Exception) {

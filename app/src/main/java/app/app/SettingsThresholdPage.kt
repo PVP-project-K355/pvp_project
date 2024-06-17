@@ -70,7 +70,7 @@ class SettingsThresholdPage : Fragment() {
         }
 
         settings.setOnClickListener {
-            navigateToSettingsPage()
+            navigateBackToSettings()
         }
 
         // Load threshold data
@@ -140,10 +140,6 @@ class SettingsThresholdPage : Fragment() {
     }
 
     private fun navigateBackToSettings() {
-        NavHostFragment.findNavController(this).navigate(R.id.settings)
-    }
-
-    private fun navigateToSettingsPage() {
         NavHostFragment.findNavController(this).navigate(R.id.settings)
     }
 }

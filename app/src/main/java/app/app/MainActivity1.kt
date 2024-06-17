@@ -66,7 +66,6 @@ class MainActivity1 : AppCompatActivity() {
             Log.e("TEST", "MAIN LAUNCH")
             setContentView(R.layout.activity_main1)
         }
-
         handleCallbackIntent(getIntent())
     }
 

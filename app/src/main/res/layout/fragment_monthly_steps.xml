@@ -28,7 +28,6 @@
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_walking_person" />
     </RelativeLayout>
-
     <TextView
         android:id="@+id/currentDateTextView"
         android:layout_width="0dp"
@@ -36,35 +35,45 @@
         android:layout_marginStart="70dp"
         android:layout_marginEnd="70dp"
         android:layout_marginBottom="10dp"
-        android:text="Date"
+        android:text="Month"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:textColor="#000000"
-        app:layout_constraintBottom_toTopOf="@+id/step_counter_text_view"
+        app:layout_constraintBottom_toTopOf="@+id/stepsPieChart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-    <TextView
-    android:id="@+id/step_counter_text_view"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="70dp"
-    android:layout_marginEnd="70dp"
-    android:layout_marginBottom="10dp"
-    android:text="0 Steps"
-    android:textAlignment="center"
-    android:textSize="30sp"
-    android:textColor="#000000"
-    app:layout_constraintBottom_toTopOf="@+id/stepsPieChart"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent" />
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/stepsPieChart"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toTopOf="@+id/buttonsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp" />
+    <LinearLayout
+        android:id="@+id/buttonsLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="76dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/dailyButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Daily" />
+
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Main Page" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"
