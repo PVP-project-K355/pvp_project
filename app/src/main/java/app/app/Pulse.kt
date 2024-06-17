@@ -88,8 +88,8 @@ class Pulse : Fragment() {
         nextDayButton = view.findViewById(R.id.nextDayButton)
         graphView = view.findViewById(R.id.graphView)
         summaryTextView = view.findViewById(R.id.summaryTextView)
-        dayAverageTextView = view.findViewById(R.id.dayAverageTitleTextView)
-        weekAverageTextView = view.findViewById(R.id.weekAverageTitleTextView)
+        //dayAverageTextView = view.findViewById(R.id.dayAverageTitleTextView)
+        //weekAverageTextView = view.findViewById(R.id.weekAverageTitleTextView)
         progressBar = view.findViewById(R.id.progressBar)
         progressBar.visibility = View.VISIBLE
         calendar = Calendar.getInstance()
@@ -330,7 +330,9 @@ class Pulse : Fragment() {
         val lineData = LineData(dataSet)
         graphView.data = lineData
         graphView.invalidate()
-        progressBar.visibility = View.GONE
+        requireActivity().runOnUiThread {
+                 progressBar.visibility = View.GONE
+             }
     }
 
     private fun fetchHeartRateData(accessToken: String, date: String) {
@@ -418,7 +420,9 @@ class Pulse : Fragment() {
             val summaryText = "Resting Heart Rate: $restingHeartRate bpm\n" +
                     "Min Heart Rate: $minHeartRate bpm\n" +
                     "Max Heart Rate: $maxHeartRate bpm"
-            summaryTextView.text = summaryText
+            requireActivity().runOnUiThread {
+                summaryTextView.text = summaryText
+            }
 
 
         } catch (e: Exception) {
