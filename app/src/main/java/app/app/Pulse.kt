@@ -121,7 +121,6 @@ class Pulse : Fragment() {
             launchHRDCoroutine()
         }
 
-
         return view
     }
     private fun launchHRDCoroutine() {
