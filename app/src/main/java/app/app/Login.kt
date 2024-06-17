@@ -35,7 +35,7 @@ class Login : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonNext = view.findViewById<Button>(R.id.button_next_setup)
-        if(GOOGLE_AUTH_TOKEN==false)
+        if(GOOGLE_AUTH_TOKEN)
             buttonNext.setBackgroundResource(R.drawable.button_blue_soft)
         else
             buttonNext.setBackgroundResource(R.drawable.button_white)
@@ -147,7 +147,7 @@ class Login : Fragment() {
 
     private fun next(view: View)
     {
-        if(GOOGLE_AUTH_TOKEN==false)
+        if(GOOGLE_AUTH_TOKEN)
         {
             view.findNavController().navigate(R.id.action_login_to_loginWatch)
         }

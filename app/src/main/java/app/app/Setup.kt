@@ -15,7 +15,7 @@ class Setup : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        navController = findNavController(R.id.setup_nav)
+        navController = findNavController(R.id.fragmentContainerView2)
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 }
