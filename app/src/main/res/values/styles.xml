@@ -48,4 +48,23 @@
         <item name="android:background">@drawable/gradient_bluesoft</item>
         <item name="android:text">@string/go_to_main_page</item>
     </style>
+
+
+        <style name="SleepDurationTextViewStyle">
+            <item name="android:layout_width">wrap_content</item>
+            <item name="android:layout_height">wrap_content</item>
+            <item name="android:textSize">20sp</item>
+            <item name="android:textColor">@color/sleep_duration_text_color</item>  <item name="android:textStyle">bold</item>
+            <item name="android:textAlignment">center</item>
+            <item name="android:layout_marginTop">16dp</item>  </style>
+
+        <style name="SleepChartStyle">
+            <item name="android:textColor">@color/sleep_chart_value_text_color</item>
+            <item name="android:layout_width">0dp</item>
+            <item name="android:layout_height">200dp</item>
+            <item name="android:layout_margin">8dp</item>
+        </style>
+
+        <color name="sleep_duration_text_color">#333333</color>  <color name="sleep_chart_value_text_color">#666666</color>
+
 </resources>

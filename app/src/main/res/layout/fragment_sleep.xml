@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sleep">
+    tools:context=".Sleep"
+    tools:ignore="MissingClass">
 
     <!--HEADER-->
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/blue_sleep"
@@ -27,8 +29,42 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_moon" />
+
     </RelativeLayout>
+
+
     <!--BOTTOM MAIN PAGE BUTTON-->
+    <!-- PieChart for Sleep Data -->
+
+    <!-- Progress Bar -->
+
+
+    <TextView
+        android:id="@+id/sleepDurationTextView"
+        style="@style/SleepDurationTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:text="Total Sleep: 0h 0m"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+
+    </TextView>
+
+    <FrameLayout
+        android:id="@+id/graphViewContainer"
+        android:layout_width="411dp"
+        android:layout_height="234dp"
+        app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.538"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sleepDurationTextView"
+        app:layout_constraintVertical_bias="0.057">
+
+    </FrameLayout>
+
     <Button
         android:id="@+id/maingpage_button"
         style="@style/MainPageButton"
@@ -36,4 +72,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/currentDateTextView"
+        style="@style/MainPageNavButtonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="8dp"
+        android:paddingStart="16dp"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="140dp"
+        tools:text="2024 June 18" />
 </androidx.constraintlayout.widget.ConstraintLayout>
