@@ -38,7 +38,6 @@ android {
 }
 
 dependencies {
-
     implementation("androidx.core:core-ktx:1.13.1")
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation("com.google.android.material:material:1.12.0")
@@ -48,10 +47,8 @@ dependencies {
     implementation("androidx.gridlayout:gridlayout:1.0.0")
     testImplementation("junit:junit:4.13.2")
 
-
     // https://developer.android.com/develop/ui/views/launch/splash-screen
     implementation("androidx.core:core-splashscreen:1.0.1")
-
     implementation("pl.droidsonroids.gif:android-gif-drawable:1.2.25")
 
     // retrofit for http requests
@@ -60,7 +57,6 @@ dependencies {
 
     // OkHttp for networking
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-
 
     implementation ("androidx.browser:browser:1.8.0") // ... or a more recent compatible version
 

@@ -35,7 +35,7 @@ class Login : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val buttonNext = view.findViewById<Button>(R.id.button_next_setup)
-        if(GOOGLE_AUTH_TOKEN)
+        if(GOOGLE_AUTH_TOKEN==false)
             buttonNext.setBackgroundResource(R.drawable.button_blue_soft)
         else
             buttonNext.setBackgroundResource(R.drawable.button_white)
@@ -54,18 +54,17 @@ class Login : Fragment() {
     private fun loginWithGoogle(view: View)
     {
         val activityContext = requireContext()
-        val credentialManager = CredentialManager.create(activityContext)
+        val credentialManager =  CredentialManager.create(activityContext)
 
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("753676471034-6fc0j3lqc4k1h62h8vg1vaqi2m9cekhj.apps.googleusercontent.com")
+            .setServerClientId("753676471034-51qjfh20ckcm416icu82n0slkq31cv2c.apps.googleusercontent.com")
             .build()
 
         val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder("753676471034-6fc0j3lqc4k1h62h8vg1vaqi2m9cekhj.apps.googleusercontent.com")
             .build()
-
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
+            .addCredentialOption(signInWithGoogleOption)
             .build()
 
         lifecycleScope.launch {
@@ -148,7 +147,7 @@ class Login : Fragment() {
 
     private fun next(view: View)
     {
-        if(GOOGLE_AUTH_TOKEN)
+        if(GOOGLE_AUTH_TOKEN==false)
         {
             view.findNavController().navigate(R.id.action_login_to_loginWatch)
         }
