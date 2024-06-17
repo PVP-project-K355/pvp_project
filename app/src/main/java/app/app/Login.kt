@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -17,6 +18,7 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.auth0.android.jwt.JWT
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
@@ -32,6 +34,11 @@ class Login : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //Bad solution to fitbit post navigation problem
+        if(existsFitbitToken() == true)
+            findNavController().navigate(R.id.action_login_to_loginWatch)
+
         dbHelper = DBHelper(requireContext())
 //        val db = dbHelper.writableDatabase
 //        val ver = db.getVersion()
@@ -57,6 +64,14 @@ class Login : Fragment() {
         view.findViewById<Button>(R.id.button_google).setOnClickListener{loginWithGoogle(view)}
         view.findViewById<Button>(R.id.button_next_setup).setOnClickListener{next(view)}
         return view
+    }
+
+    private fun existsFitbitToken(): Boolean? {
+        val sharedPreference = this.activity?.getSharedPreferences(
+            SHARED_PREFS_NAME,
+            AppCompatActivity.MODE_PRIVATE
+        )
+        return sharedPreference?.getBoolean("FITBIT_AUTH_TOKEN", false)
     }
 
     private fun loginWithGoogle(view: View)
