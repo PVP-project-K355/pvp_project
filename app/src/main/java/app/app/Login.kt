@@ -28,9 +28,18 @@ private var GOOGLE_AUTH_TOKEN = true
 private var mToast: Toast? = null
 
 class Login : Fragment() {
+
+    private lateinit var dbHelper: DBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper = DBHelper(requireContext())
+//        val db = dbHelper.writableDatabase
+//        val ver = db.getVersion()
+//        val verUpgrade = ver + 1
+//        dbHelper.onUpgrade(db, ver, verUpgrade)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -104,13 +113,21 @@ class Login : Fragment() {
                         // Credential info object
                         val googleIdTokenCredential = GoogleIdTokenCredential
                             .createFrom(credential.data)
-                        val subValue = decodeJWTAndGetSub(googleIdTokenCredential.idToken)
-                        Log.e("LOGIN_SUCCESS", "ID: $subValue")
+                        // add to database
+                        val idtoken = googleIdTokenCredential.idToken
+                        val usertoken = decodeJWTAndGetSub(googleIdTokenCredential.idToken).toString()
+                        val name = googleIdTokenCredential.givenName.toString()
+                        val surname = googleIdTokenCredential.familyName.toString()
+                        val email = googleIdTokenCredential.id
+                        val uri = googleIdTokenCredential.profilePictureUri.toString()
+                        val status = 1
+                        Log.e("LOGIN_SUCCESS", "User token: $usertoken")
+                        Log.e("LOGIN_SUCCESS", "ID Token: $idtoken")
+                        dbHelper.addLogin(LoginData(0, usertoken, name, surname, email, uri, status))
                         mToast?.cancel()
                         mToast = Toast.makeText(requireContext(), "Login success!", Toast.LENGTH_LONG)
                         mToast?.show()
                         GOOGLE_AUTH_TOKEN = true
-
                         view.findViewById<Button>(R.id.button_next_setup).setBackgroundResource(R.drawable.button_blue_soft)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
