@@ -15,9 +15,9 @@ class SettingsPage: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?){
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.fragment_settings)
 
-        goToMain = findViewById(R.id.goToMain)
+        goToMain = findViewById(R.id.maingpage_button)
         goToThreshold = findViewById(R.id.goToThreshold)
         goToData = findViewById(R.id.goToData)
         changeAcc = findViewById(R.id.changeAcc)
