@@ -1,6 +1,5 @@
 package app.app
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
@@ -26,19 +25,17 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class StepsFragment : Fragment() {
 
     private lateinit var currentDateTextView: TextView
     private lateinit var stepsPieChart: PieChart
     private lateinit var progressBar: ProgressBar
     private lateinit var calendar: Calendar
-    private lateinit var backButton: Button
     private lateinit var accessToken: String
-    private lateinit var dailyButton: Button
-    private lateinit var weeklyButton: Button
-    private lateinit var monthlyButton: Button
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var dbHelper: DBHelper
+    private lateinit var stepCounterTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,13 +46,8 @@ class StepsFragment : Fragment() {
         currentDateTextView = view.findViewById(R.id.currentDateTextView)
         stepsPieChart = view.findViewById(R.id.stepsPieChart)
         progressBar = view.findViewById(R.id.progressBar)
-        backButton = view.findViewById(R.id.backButton)
-        //dailyButton = view.findViewById(R.id.dailyButton)
-        weeklyButton = view.findViewById(R.id.weeklyButton)
-        monthlyButton = view.findViewById(R.id.monthlyButton)
 
         calendar = Calendar.getInstance()
-        //accessToken = requireArguments().getString("accesstoken").toString()
 
         dbHelper = DBHelper(requireContext())
 
@@ -65,21 +57,17 @@ class StepsFragment : Fragment() {
         }
         updateDate()
         setupPieChart()
-
+        //updateStepCounter(currentSteps);
         fetchStepsData(accessToken, getFormattedDate(calendar))
+        stepCounterTextView = view.findViewById(R.id.step_counter_text_view);
 
-        weeklyButton.setOnClickListener {
-            startActivity(Intent(requireContext(), StepsWeeklyFragment::class.java))
-        }
-
-        monthlyButton.setOnClickListener {
-            startActivity(Intent(requireContext(), StepsMonthlyFragment::class.java))
-        }
-
-
+        // Update step counter based on fetched data
+        //updateStepCounter(currentSteps);
         return view
     }
-
+    private fun updateStepCounter(currentSteps: Int, stepsGoal: Int) {
+        stepCounterTextView.text = String.format("%d/%d Steps", currentSteps, stepsGoal)
+    }
     private fun updateDate() {
         val formattedDate = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(calendar.time)
         currentDateTextView.text = formattedDate
@@ -104,6 +92,8 @@ class StepsFragment : Fragment() {
 
         stepsPieChart.data = pieData
         stepsPieChart.invalidate()
+        updateStepCounter(currentSteps.toInt(), stepsGoal) // Update counter based on current steps
+
     }
 
     private fun setupPieChart() {
@@ -144,6 +134,7 @@ class StepsFragment : Fragment() {
 
                         handler.post {
                             updateGraphData(currentSteps, stepsGoal)
+                            updateStepCounter(currentSteps.toInt(), stepsGoal)
                         }
 
                         Log.d("FitbitStepsDATA", "Response: $responseBodyString")
@@ -174,7 +165,9 @@ class StepsFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("ParseStepsData", "Error parsing steps data: ${e.message}")
         }
+
         return Pair(currentSteps, stepsGoal)
+
     }
 
     private fun getFormattedDate(calendar: Calendar): String {
