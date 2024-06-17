@@ -30,7 +30,10 @@
         tools:layout="@layout/fragment_data_input_thresholds" >
         <action
             android:id="@+id/action_dataInputThresholds_to_mainActivity1"
-            app:destination="@id/mainActivity1" />
+            app:destination="@id/mainActivity1"
+            app:popUpTo="@id/setup_nav"
+            app:popUpToInclusive="true"
+            />
     </fragment>
     <fragment
         android:id="@+id/loginWatch"

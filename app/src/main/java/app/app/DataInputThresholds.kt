@@ -37,7 +37,7 @@ class DataInputThresholds : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_data_input_thresholds, container, false)
-        view.findViewById<Button>(R.id.button_next_setup).setOnClickListener{view.findNavController().navigate(R.id.action_dataInputThresholds_to_mainActivity1)}
+        view.findViewById<Button>(R.id.button_next_setup).setOnClickListener{ view.findNavController().navigate(R.id.action_dataInputThresholds_to_mainActivity1) }
         view.findViewById<Button>(R.id.button_back_setup).setOnClickListener { NavHostFragment.findNavController(this@DataInputThresholds).popBackStack() }
         return view
     }

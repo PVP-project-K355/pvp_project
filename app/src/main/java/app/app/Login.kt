@@ -14,8 +14,11 @@ import androidx.navigation.fragment.NavHostFragment
 import android.content.Intent
 import android.provider.Settings
 import android.widget.Toast
-import androidx.credentials.*
-import androidx.credentials.exceptions.*
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.lifecycleScope
 import com.google.android.libraries.identity.googleid.*
 import kotlinx.coroutines.*
@@ -52,7 +55,7 @@ class Login : Fragment() {
     private fun loginWithGoogle(view: View)
     {
         val activityContext = requireContext()
-        val credentialManager = CredentialManager.create(activityContext)
+        val credentialManager =  CredentialManager.create(activityContext)
 
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
@@ -61,9 +64,8 @@ class Login : Fragment() {
 
         val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder("753676471034-6fc0j3lqc4k1h62h8vg1vaqi2m9cekhj.apps.googleusercontent.com")
             .build()
-
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(googleIdOption)
+            .addCredentialOption(signInWithGoogleOption)
             .build()
 
         lifecycleScope.launch {
