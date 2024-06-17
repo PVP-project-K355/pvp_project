@@ -25,7 +25,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.RegistrationFunction
 import java.io.File
 
-private var GOOGLE_AUTH_TOKEN = true
+private var GOOGLE_AUTH_TOKEN = false
 
 class Login : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,13 +59,13 @@ class Login : Fragment() {
 
         val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
             .setFilterByAuthorizedAccounts(false)
-            .setServerClientId("753676471034-51qjfh20ckcm416icu82n0slkq31cv2c.apps.googleusercontent.com")
+            .setServerClientId("753676471034-6fc0j3lqc4k1h62h8vg1vaqi2m9cekhj.apps.googleusercontent.com")
             .build()
 
         val signInWithGoogleOption: GetSignInWithGoogleOption = GetSignInWithGoogleOption.Builder("753676471034-6fc0j3lqc4k1h62h8vg1vaqi2m9cekhj.apps.googleusercontent.com")
             .build()
         val request: GetCredentialRequest = GetCredentialRequest.Builder()
-            .addCredentialOption(signInWithGoogleOption)
+            .addCredentialOption(googleIdOption)
             .build()
 
         lifecycleScope.launch {
