@@ -92,4 +92,6 @@ dependencies {
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.0")
     // coroutines alternative
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
+
+    implementation("com.auth0.android:jwtdecode:2.0.0")
 }

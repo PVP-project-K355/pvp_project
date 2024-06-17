@@ -19,8 +19,8 @@ import androidx.credentials.exceptions.*
 import androidx.lifecycle.lifecycleScope
 import com.google.android.libraries.identity.googleid.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.selects.RegistrationFunction
 import java.io.File
+import com.auth0.android.jwt.JWT
 
 private var GOOGLE_AUTH_TOKEN = false
 
@@ -99,7 +99,8 @@ class Login : Fragment() {
                         // Credential info object
                         val googleIdTokenCredential = GoogleIdTokenCredential
                             .createFrom(credential.data)
-                        Log.e("LOGIN_SUCCESS", "ID: " + googleIdTokenCredential.idToken)
+                        val subValue = decodeJWTAndGetSub(googleIdTokenCredential.idToken)
+                        Log.e("LOGIN_SUCCESS", "ID: $subValue")
                         Toast.makeText(requireContext(), "Login success!", Toast.LENGTH_LONG).show()
                         GOOGLE_AUTH_TOKEN = true
                         view.findViewById<Button>(R.id.button_next_setup).setBackgroundResource(R.drawable.button_blue_soft)
@@ -116,6 +117,17 @@ class Login : Fragment() {
                 // Catch any unrecognized credential type here.
                 Log.e(TAG, "Unexpected type of credential")
             }
+        }
+    }
+
+    private fun decodeJWTAndGetSub(token: String): String? {
+        return try {
+            val jwt = JWT(token)
+            val sub = jwt.subject // The "sub" value is usually mapped to the subject field
+            sub
+        } catch (e: Exception) {
+            Log.e("Login", "Invalid token: ${e.message}")
+            null
         }
     }
 
