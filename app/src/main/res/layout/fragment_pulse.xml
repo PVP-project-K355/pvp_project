@@ -43,6 +43,7 @@
             android:id="@+id/prevDayButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_red"
             android:layout_alignParentStart="true"
             android:layout_marginStart="16dp"
             android:layout_marginTop="30dp"
@@ -55,14 +56,16 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
+            android:textColor="@color/black"
             android:text="Today's Date"
-            android:textSize="18sp" />
+            android:textSize="24sp" />
 
         <!-- Next Day Button (if needed) -->
         <Button
             android:id="@+id/nextDayButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/button_red"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
@@ -103,6 +106,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:text="Health Summary"
+        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -118,6 +122,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
+        android:background="@drawable/button_red"
         android:text="test fetch and insert"
         app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
         app:layout_constraintEnd_toEndOf="parent"

@@ -50,8 +50,9 @@
 
     <TextView
         android:id="@+id/asktologin_text"
-        android:layout_width="370dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingHorizontal="50dp"
         android:fontFamily="@font/lexend"
         android:text="To continue, please login."
         android:textAlignment="center"
@@ -59,9 +60,7 @@
         android:textSize="28sp"
         app:layout_constraintBottom_toTopOf="@+id/button_google"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.487"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.666" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

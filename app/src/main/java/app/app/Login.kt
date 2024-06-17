@@ -18,6 +18,7 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.auth0.android.jwt.JWT
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
@@ -37,6 +38,7 @@ class Login : Fragment() {
         //Bad solution to fitbit post navigation problem
         if(existsFitbitToken() == true)
             findNavController().navigate(R.id.action_login_to_loginWatch)
+
         dbHelper = DBHelper(requireContext())
 //        val db = dbHelper.writableDatabase
 //        val ver = db.getVersion()
