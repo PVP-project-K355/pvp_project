@@ -4,10 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sleep">
+    tools:context=".Sleep"
+    tools:ignore="MissingClass">
 
     <!--HEADER-->
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/blue_sleep"
@@ -27,13 +29,120 @@
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_moon" />
+
     </RelativeLayout>
+    <TextView
+        android:id="@+id/currentDateTextView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="70dp"
+        android:layout_marginBottom="10dp"
+        android:text="Date"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/sleepPieChart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <!--BOTTOM MAIN PAGE BUTTON-->
+    <!-- PieChart for Sleep Data -->
+
+    <!-- Progress Bar -->
+
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/sleepPieChart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginBottom="72dp"
+        app:layout_constraintBottom_toTopOf="@+id/sleepDurationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/sleepGoalTextView"
+        style="@style/SleepDurationTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Sleep goal: 0h 0m"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sleepPieChart"
+        app:layout_constraintEnd_toEndOf="@id/sleepPieChart"
+        app:layout_constraintTop_toBottomOf="@id/sleepPieChart" />
+    <TextView
+        android:id="@+id/sleepDurationTextView"
+        style="@style/SleepDurationTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="380dp"
+        android:text="Total Sleep: 0h 0m"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
+
+    </TextView>
+
+    <TextView
+        android:id="@+id/deepSleepDurationTextView"
+        style="@style/SleepDurationTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Deep sleep: 0h 0m"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/sleepDurationTextView"
+        app:layout_constraintEnd_toEndOf="@id/sleepDurationTextView"
+        app:layout_constraintTop_toBottomOf="@id/sleepDurationTextView" />
+    <TextView
+        android:id="@+id/remSleepDurationTextView"
+        style="@style/SleepDurationTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Rem sleep: 0h 0m"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/deepSleepDurationTextView"
+        app:layout_constraintEnd_toEndOf="@id/deepSleepDurationTextView"
+        app:layout_constraintTop_toBottomOf="@id/deepSleepDurationTextView" />
+    <TextView
+        android:id="@+id/lightSleepDurationTextView"
+        style="@style/SleepDurationTextViewStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Light sleep: 0h 0m"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@id/remSleepDurationTextView"
+        app:layout_constraintEnd_toEndOf="@id/remSleepDurationTextView"
+        app:layout_constraintTop_toBottomOf="@id/remSleepDurationTextView" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginBottom="0dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+    <!--BOTTOM MAIN PAGE BUTTON-->
+
+
     <Button
         android:id="@+id/maingpage_button"
         style="@style/MainPageButton"
         android:background="@drawable/button_blue_soft"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

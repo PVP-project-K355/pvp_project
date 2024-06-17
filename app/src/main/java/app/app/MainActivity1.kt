@@ -137,6 +137,7 @@ class MainActivity1 : AppCompatActivity() {
 
                         if (id != -1L) {
                             Log.d("DB", "Access token saved successfully with ID: $id")
+
                         } else {
                             Log.e("DB", "Failed to save access token to database")
                             // Handle failure to save token
