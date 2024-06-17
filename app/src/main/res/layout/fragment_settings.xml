@@ -33,7 +33,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:layout_marginStart="25dp"
-    android:layout_marginEnd="140dp"
+    android:layout_marginEnd="25dp"
     android:layout_marginBottom="25dp"
     android:text="Change subscription"
     android:textAlignment="center"
@@ -58,6 +58,22 @@
     app:layout_constraintBottom_toTopOf="@+id/goToData"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/logged_in_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/gradient_green"
+        android:text="Logged in"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/changeAcc"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/changeAcc"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
     <Button
     android:id="@+id/goToData"
     android:layout_width="0dp"
