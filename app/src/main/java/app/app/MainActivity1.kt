@@ -62,7 +62,7 @@ class MainActivity1 : AppCompatActivity() {
         {
             setContentView(R.layout.activity_main1)
         }
-        //handleCallbackIntent(getIntent())
+        handleCallbackIntent(getIntent())
     }
 
     override fun onNewIntent(intent: Intent?) {

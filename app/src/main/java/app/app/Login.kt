@@ -24,11 +24,10 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import kotlinx.coroutines.launch
 
-private var GOOGLE_AUTH_TOKEN = true
-private var mToast: Toast? = null
-
 class Login : Fragment() {
 
+    private var GOOGLE_AUTH_TOKEN = true
+    private var mToast: Toast? = null
     private lateinit var dbHelper: DBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
