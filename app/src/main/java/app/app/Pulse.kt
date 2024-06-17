@@ -19,7 +19,7 @@ class Pulse : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = inflater.inflate(R.layout.fragment_pulse, container, false)
+        val view = inflater.inflate(R.layout.fragment_pulse, container, false)
         view.findViewById<Button>(R.id.maingpage_button).setOnClickListener { NavHostFragment.findNavController(this@Pulse).popBackStack(R.id.mainpage, false) }
         return view
     }

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import okhttp3.*
@@ -17,7 +18,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
-private var FITBIT_AUTH_TOKEN = true
+private var FITBIT_AUTH_TOKEN = false
 private val CLIENT_ID = "23RTB5"
 private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
 private val SCOPES = "activity heartrate sleep profile"
@@ -25,6 +26,15 @@ private val SCOPES = "activity heartrate sleep profile"
 //data class TokensData(val accessToken: String, val refreshToken: String, val expiresIn: Int)
 
 class LoginWatchFragment : Fragment() {
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val buttonNext = view.findViewById<Button>(R.id.button_next_setup)
+        if(FITBIT_AUTH_TOKEN)
+            buttonNext.setBackgroundResource(R.drawable.button_blue_soft)
+        else
+            buttonNext.setBackgroundResource(R.drawable.button_white)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,6 +73,17 @@ class LoginWatchFragment : Fragment() {
         startActivity(intent)
         FITBIT_AUTH_TOKEN = true
 
+        saveFitbitToken()
+    }
+
+    private fun saveFitbitToken()
+    {
+        val sharedPreference = this.activity?.getSharedPreferences(
+            SHARED_PREFS_NAME,
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val editor = sharedPreference?.edit()
+        editor?.putBoolean("FITBIT_AUTH_TOKEN", true)?.commit()
     }
 }
 
