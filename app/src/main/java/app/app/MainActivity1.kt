@@ -50,16 +50,20 @@ class MainActivity1 : AppCompatActivity() {
 
         // Forcing first-time launch for testing
         if (!launched) {
-            editor.remove("first_time_launch").commit()
+            editor.clear().commit()
             launched = true
         }
 
-        if (sharedPreference.getBoolean("first_time_launch", true)) {
+        Log.e("TEST", sharedPreference.getBoolean("first_time_launch", true).toString())
 
+        if (sharedPreference.getBoolean("first_time_launch", true))
+        {
+            Log.e("TEST", "SETUP LAUNCH")
             setContentView(R.layout.activity_setup)
         }
         else
         {
+            Log.e("TEST", "MAIN LAUNCH")
             setContentView(R.layout.activity_main1)
         }
         handleCallbackIntent(getIntent())
@@ -76,7 +80,6 @@ class MainActivity1 : AppCompatActivity() {
             Log.d("FitbitCallback", "Action: ${intent.action}")
             Log.d("FitbitCallback", "Data URI: ${intent.data}")
             Log.d("FitbitCallback", "All Extras: ${intent.extras}")
-
 
             // Check if the intent action or data requires handling
                 // Perform your intent handling logic here
