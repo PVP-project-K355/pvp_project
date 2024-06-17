@@ -127,21 +127,21 @@ class MainActivity : AppCompatActivity() {
             println("Threshold exists")
         }
 
-        if(dbHelper.getApi(1)==null){
-            //Example API data
-            val newApi = API(
-                clientId = "Petras",
-                clientSecret = "petraspetras",
-                accessToken = "petrasdu",
-                refreshToken = "petrastrys",
-                expiresIn = 365
-            )
-            //Inserting api data into database
-            //dbHelper.addApi(newApi)
-        }
-        else{
-            println("API exists")
-        }
+//        if(dbHelper.getApi(1)==null){
+//            //Example API data
+//            val newApi = API(
+//                clientId = "Petras",
+//                clientSecret = "petraspetras",
+//                accessToken = "petrasdu",
+//                refreshToken = "petrastrys",
+//                expiresIn = 365
+//            )
+//            //Inserting api data into database
+//            //dbHelper.addApi(newApi)
+//        }
+//        else{
+//            println("API exists")
+//        }
 
         if(dbHelper.getContact(1)==null){
             //Example contact data
@@ -183,8 +183,6 @@ class MainActivity : AppCompatActivity() {
         Log.d("FitbitAuth", "Authorization URL: $authUrl")
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(authUrl))
         startActivity(intent)
-
-
     }
 
     private fun handleCallbackIntent(intent: Intent) {
@@ -245,6 +243,7 @@ class MainActivity : AppCompatActivity() {
                     val tokensData = extractTokens(responseBodyString)
 
                     if (tokensData != null) {
+                        dbHelper.saveAccessToken(tokensData.accessToken, tokensData.expiresIn)
                         runOnUiThread {
 //                            val tokenInfo = "Access Token: ${tokensData.accessToken}\n" +
 //                                    "Refresh Token: ${tokensData.refreshToken}\n" +
