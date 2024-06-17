@@ -1,34 +1,36 @@
 package app.app
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.cardview.widget.CardView
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-
-import android.content.Intent
-import android.provider.Settings
 import android.widget.Toast
-import androidx.credentials.*
-import androidx.credentials.exceptions.*
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.GetCredentialResponse
+import androidx.credentials.exceptions.GetCredentialException
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.google.android.libraries.identity.googleid.*
-import kotlinx.coroutines.*
-import java.io.File
+import androidx.navigation.findNavController
 import com.auth0.android.jwt.JWT
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GetSignInWithGoogleOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import kotlinx.coroutines.launch
 
 private var GOOGLE_AUTH_TOKEN = false
+private var mToast: Toast? = null
 
 class Login : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -77,11 +79,15 @@ class Login : Fragment() {
                 //error
                 if (e.type == "android.credentials.GetCredentialException.TYPE_NO_CREDENTIAL") {
                     Log.e("LOGIN_ERROR", e.message.toString())
-                    Toast.makeText(activityContext, "Please add a Google account to your device.", Toast.LENGTH_LONG).show()
+                    mToast?.cancel()
+                    mToast = Toast.makeText(activityContext, "Please add a Google account to your device.", Toast.LENGTH_LONG)
+                    mToast?.show()
                     startActivity(Intent(Settings.ACTION_ADD_ACCOUNT))
                 } else {
                     Log.e("LOGIN_ERROR", e.message.toString())
-                    Toast.makeText(activityContext, "Error: " + e.message.toString(), Toast.LENGTH_LONG).show()
+                    mToast?.cancel()
+                    mToast = Toast.makeText(activityContext, "Error: " + e.message.toString(), Toast.LENGTH_LONG)
+                    mToast?.show()
                 }
             }
         }
@@ -101,15 +107,24 @@ class Login : Fragment() {
                             .createFrom(credential.data)
                         val subValue = decodeJWTAndGetSub(googleIdTokenCredential.idToken)
                         Log.e("LOGIN_SUCCESS", "ID: $subValue")
-                        Toast.makeText(requireContext(), "Login success!", Toast.LENGTH_LONG).show()
+                        mToast?.cancel()
+                        mToast = Toast.makeText(requireContext(), "Login success!", Toast.LENGTH_LONG)
+                        mToast?.show()
                         GOOGLE_AUTH_TOKEN = true
+
                         view.findViewById<Button>(R.id.button_next_setup).setBackgroundResource(R.drawable.button_blue_soft)
                     } catch (e: GoogleIdTokenParsingException) {
                         Log.e(TAG, "Received an invalid google id token response", e)
+                        mToast?.cancel()
+                        mToast = Toast.makeText(requireContext(), "Error: invalid token response", Toast.LENGTH_LONG)
+                        mToast?.show()
                     }
                 } else {
                     // Catch any unrecognized custom credential type here.
                     Log.e(TAG, "Unexpected type of credential")
+                    mToast?.cancel()
+                    mToast = Toast.makeText(requireContext(), "Error: unexpected credential", Toast.LENGTH_LONG)
+                    mToast?.show()
                 }
             }
 
@@ -136,6 +151,12 @@ class Login : Fragment() {
         if(GOOGLE_AUTH_TOKEN)
         {
             view.findNavController().navigate(R.id.action_login_to_loginWatch)
+        }
+        else
+        {
+            mToast?.cancel()
+            mToast = Toast.makeText(requireContext(), "Please login.", Toast.LENGTH_LONG)
+            mToast?.show()
         }
     }
 }
