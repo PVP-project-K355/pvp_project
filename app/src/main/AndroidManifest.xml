@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature
         android:name="android.hardware.telephony"
@@ -21,23 +22,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SeniorMonitoringApp">
-        <activity
-            android:name=".Setup"
-            android:exported="false" />
+
+
+<!--        <activity-->
+<!--            android:name=".Setup"-->
+<!--            android:exported="false" />-->
+
         <activity
             android:name=".MainActivity1"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:theme="@style/App.Theme.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!-- <data -->
-                <!-- android:host="callbackdata" -->
-                <!-- android:scheme="seniorhealthmonitoringapplication2024pvp" /> -->
+                <data android:scheme="seniorhealthmonitoringapplication2024pvp" android:host="callbackdata" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

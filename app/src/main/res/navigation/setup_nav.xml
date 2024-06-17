@@ -34,7 +34,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginWatch"
-        android:name="app.app.LoginWatch"
+        android:name="app.app.LoginWatchFragment"
         android:label="fragment_login_watch"
         tools:layout="@layout/fragment_login_watch" >
         <action
