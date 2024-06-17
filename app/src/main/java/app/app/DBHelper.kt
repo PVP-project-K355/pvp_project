@@ -6,6 +6,10 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 //import com.github.mikephil.charting.data.Entry
 
 data class User(
@@ -84,11 +88,7 @@ class DBHelper(context: Context) :
 
         //API table
         private const val table_api = "API_data"
-        private const val api_id = "Id"
-        private const val api_clientId = "Client_id"
-        private const val api_clientSecret = "Client_secret"
         private const val api_accessToken = "Access_token"
-        private const val api_refresfToken = "Refresh_token"
         private const val api_expiresIn = "Expires_in"
 
     }
@@ -128,11 +128,7 @@ class DBHelper(context: Context) :
         db.execSQL(createThresholdTable)
 
         val createAPITable = ("CREATE TABLE $table_api("
-                + "$api_id INTEGER PRIMARY KEY,"
-                + "$api_clientId TEXT,"
-                + "$api_clientSecret TEXT,"
                 + "$api_accessToken TEXT,"
-                + "$api_refresfToken TEXT,"
                 + "$api_expiresIn INTEGER"
                 + ")")
         db.execSQL(createAPITable)
@@ -366,68 +362,50 @@ class DBHelper(context: Context) :
 
     //API table
     //Add api data
-    fun addApi(api: API): Long{
-        val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(api_clientId, EncryptionUtils.encrypt(api.clientId))
-        values.put(api_clientSecret, EncryptionUtils.encrypt(api.clientSecret))
-        values.put(api_accessToken, EncryptionUtils.encrypt(api.accessToken))
-        values.put(api_refresfToken, EncryptionUtils.encrypt(api.refreshToken))
-        values.put(api_expiresIn, api.expiresIn)
-
-        val id = db.insert(table_api, null, values)
-        db.close()
-        return id
-    }
-
-    //Get api data
     @SuppressLint("Range")
-    fun getApi(id: Int): API? {
-        var apiData: API? = null
+    fun getValidAccessToken(): String? {
         val db = readableDatabase
-        val selection = "id = ?"
-        val selectionArgs = arrayOf(id.toString())
-        val cursor: Cursor = db.query(table_api, null, selection, selectionArgs, null, null, null)
-
-        if (cursor.moveToFirst()) {
-            val clientId = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_clientId)))
-            val clientSecret = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_clientSecret)))
-            val accessToken = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_accessToken)))
-            val refreshToken = EncryptionUtils.decrypt(cursor.getString(cursor.getColumnIndex(api_refresfToken)))
-            val expiresIn = cursor.getInt(cursor.getColumnIndex(api_expiresIn))
-
-            apiData = API(id, clientId, clientSecret, accessToken, refreshToken, expiresIn)
-        }
-
+        val cursor: Cursor = db.query(
+            table_api,
+            arrayOf(api_accessToken, api_expiresIn),
+            null,
+            null,
+            null,
+            null,
+            null
+        )
+        var accessToken: String? = null
+        cursor.moveToFirst()
+        accessToken = cursor.getString(cursor.getColumnIndex(api_accessToken))
         cursor.close()
         db.close()
-        return if (apiData != null) apiData else null
+        return accessToken
     }
 
-    //Update api data
-    fun updateApi(api: API): Int{
+    fun saveAccessToken(accessToken: String, expiresIn: Int): Long {
         val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(api_clientId, EncryptionUtils.encrypt(api.clientId))
-        values.put(api_clientSecret, EncryptionUtils.encrypt(api.clientSecret))
-        values.put(api_accessToken, EncryptionUtils.encrypt(api.accessToken))
-        values.put(api_refresfToken, EncryptionUtils.encrypt(api.refreshToken))
-        values.put(api_expiresIn, api.expiresIn)
 
-        return db.update(
-            table_api, values, "$api_id = ?",
-            arrayOf(api.id.toString())
-        )
-    }
+        // Calculate expiration time in milliseconds
+        val expirationTimeMillis = System.currentTimeMillis() + expiresIn * 1000L
 
-    //Delete api data
-    fun deleteApi(api: API) {
-        val db = this.writableDatabase
-        db.delete(
-            table_api, "$api_id = ?",
-            arrayOf(api.id.toString())
-        )
+        // Format expiration time as a string
+        val expirationTimeString = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            .format(Date(expirationTimeMillis))
+
+        // Prepare data for insertion
+        val values = ContentValues().apply {
+            put(api_accessToken, accessToken)
+            put(api_expiresIn, expirationTimeString)
+        }
+
+        // Clear old token
+        db.delete(table_api, null, null)
+
+        // Insert new token with expiration time
+        val id = db.insert(table_api, null, values)
+
         db.close()
-    }
 
+        return id
+    }
 }

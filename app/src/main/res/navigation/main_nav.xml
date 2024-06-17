@@ -34,6 +34,12 @@
         <action
             android:id="@+id/action_settings_to_settingsThresholdPage"
             app:destination="@id/settingsThresholdPage" />
+        <action
+            android:id="@+id/action_settings_to_Edit_User_Data_Page"
+            app:destination="@id/Edit_User_Data_Page" />
+        <action
+            android:id="@+id/action_settings_to_SubscriptionPage"
+            app:destination="@id/SubscriptionPage" />
     </fragment>
     <fragment
         android:id="@+id/sleep"
@@ -65,4 +71,9 @@
         android:name="app.app.Edit_User_Data_Page"
         android:label="fragment_edit_user_data_page"
         tools:layout="@layout/fragment_edit__user__data__page"/>
+    <fragment
+        android:id="@+id/SubscriptionPage"
+        android:name="app.app.SubscriptionPage"
+        android:label="fragment_subscription_page"
+        tools:layout="@layout/fragment_subscription_page"/>
 </navigation>

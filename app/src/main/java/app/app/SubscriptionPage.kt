@@ -15,10 +15,11 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [Settings.newInstance] factory method to
+ * Use the [SubscriptionPage.newInstance] factory method to
  * create an instance of this fragment.
  */
-class Settings : Fragment() {
+class SubscriptionPage : Fragment() {
+    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -34,24 +35,10 @@ class Settings : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        view.findViewById<Button>(R.id.maingpage_button).setOnClickListener { NavHostFragment.findNavController(this@Settings).popBackStack(R.id.mainpage, false) }
-
-        view.findViewById<Button>(R.id.goToThreshold).setOnClickListener {
-            NavHostFragment.findNavController(this@Settings).navigate(R.id.settingsThresholdPage)
-        }
-
-        view.findViewById<Button>(R.id.goToData).setOnClickListener {
-            NavHostFragment.findNavController(this@Settings).navigate(R.id.Edit_User_Data_Page)
-        }
-
-        //view.findViewById<Button>(R.id.changeAcc).setOnClickListener {
-        //    NavHostFragment.findNavController(this@Settings).navigate(R.id.Edit_User_Data_Page)
-        //}
-
-        view.findViewById<Button>(R.id.changeSub).setOnClickListener {
-            NavHostFragment.findNavController(this@Settings).navigate(R.id.SubscriptionPage)
-        }
+        // Inflate the layout for this fragment
+        //return inflater.inflate(R.layout.fragment_subscription_page, container, false)
+        var view = inflater.inflate(R.layout.fragment_subscription_page, container, false)
+        view.findViewById<Button>(R.id.goToSettingsUser).setOnClickListener { NavHostFragment.findNavController(this@SubscriptionPage).popBackStack(R.id.goToSettings, false) }
         return view
     }
 
@@ -62,12 +49,12 @@ class Settings : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment settings.
+         * @return A new instance of fragment SubscriptionPage.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            Settings().apply {
+            SubscriptionPage().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
