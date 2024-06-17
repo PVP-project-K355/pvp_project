@@ -47,4 +47,21 @@
             android:textColor="@color/black"
             android:textSize="25sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/asktologin_text"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/lexend"
+        android:text="To continue, please login."
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.487"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.666" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
