@@ -18,20 +18,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/contact_image"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="5dp"
         android:text="John Smith"
         android:textStyle="bold"
-        android:textSize="16sp"
-        android:layout_alignParentTop="true"/>
+        android:textSize="14sp"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/contact_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/contact_image"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="10dp"
         android:layout_below="@id/contact_name"
-        android:text="+370 609 08009"/>
+        android:text="+370 609 08009"
+        android:textColor="@color/black"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -40,31 +43,26 @@
         android:orientation="horizontal"
         android:gravity="center">
 
-
         <Button
             android:id="@+id/edit_contact_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="2dp"
             android:layout_centerVertical="true"
-            android:text="EDIT"
             android:background="@drawable/button_yellow_soft"
-            android:textColor="@android:color/black"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"/>
+            android:text="EDIT"
+            android:textColor="@android:color/black" />
+
         <Button
             android:id="@+id/delete_contact_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="2dp"
             android:layout_centerVertical="true"
             android:text="DELETE"
             android:background="@drawable/button_red"
             android:textColor="@android:color/black"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"/></LinearLayout>
+            android:layout_marginStart="10dp" /></LinearLayout>
 
 
 </RelativeLayout>

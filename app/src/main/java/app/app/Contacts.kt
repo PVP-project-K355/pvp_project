@@ -101,7 +101,7 @@ class Contacts : Fragment() {
         }
 
         buttonDelete.setOnClickListener {
-            dbHelper.deleteContact(contact!!)
+            //dbHelper.deleteContact(contact!!)
             dialog.dismiss()
             loadContacts(requireView())
         }
