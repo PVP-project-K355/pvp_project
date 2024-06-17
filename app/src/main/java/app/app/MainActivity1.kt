@@ -24,7 +24,7 @@ import org.json.JSONObject
 import java.io.IOException
 import kotlin.math.log
 
-private val SHARED_PREFS_NAME = "MyAppPrefs"
+const val SHARED_PREFS_NAME = "MyAppPrefs"
 private var launched = false
 
 private var FITBIT_AUTH_TOKEN = false
@@ -55,14 +55,13 @@ class MainActivity1 : AppCompatActivity() {
         }
 
         if (sharedPreference.getBoolean("first_time_launch", true)) {
+
             setContentView(R.layout.activity_setup)
-            // This should execute after pressing finish
-            editor.putBoolean("first_time_launch", false).commit()
-        } else {
-
-            setContentView(R.layout.fragment_mainpage)
         }
-
+        else
+        {
+            setContentView(R.layout.activity_main1)
+        }
         //handleCallbackIntent(getIntent())
     }
 
@@ -96,7 +95,6 @@ class MainActivity1 : AppCompatActivity() {
                 }
         }
     }
-
 
     private fun exchangeCodeForToken(code: String) {
         val client = OkHttpClient()
@@ -150,7 +148,6 @@ class MainActivity1 : AppCompatActivity() {
         })
     }
 
-
     private fun extractTokens(responseData: String): TokensData? {
         return try {
             val jsonObject = JSONObject(responseData)
@@ -162,7 +159,6 @@ class MainActivity1 : AppCompatActivity() {
             null
         }
     }
-
 
     override fun onSupportNavigateUp(): Boolean {
         navController = findNavController(R.id.fragmentContainerView)

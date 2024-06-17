@@ -17,7 +17,7 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
-private var FITBIT_AUTH_TOKEN = false
+private var FITBIT_AUTH_TOKEN = true
 private val CLIENT_ID = "23RTB5"
 private val REDIRECT_URI = "seniorhealthmonitoringapplication2024pvp://callbackdata"
 private val SCOPES = "activity heartrate sleep profile"
