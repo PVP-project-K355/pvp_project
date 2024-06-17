@@ -8,6 +8,7 @@
 
     <!--HEADER-->
     <RelativeLayout
+        android:id="@+id/relativeLayout2"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:background="@color/gray_header"
@@ -43,21 +44,7 @@
     app:layout_constraintBottom_toTopOf="@+id/changeAcc"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent" />
-    <Button
-    android:id="@+id/changeAcc"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="25dp"
-    android:layout_marginEnd="140dp"
-    android:layout_marginBottom="25dp"
-    android:text="Change account"
-    android:textAlignment="center"
-    android:textColor="#000000"
-    android:textSize="24sp"
-    app:backgroundTint="#A6A6A6"
-    app:layout_constraintBottom_toTopOf="@+id/goToData"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/logged_in_label"
         android:layout_width="wrap_content"
@@ -74,28 +61,17 @@
         android:paddingEnd="20dp"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"/>
-    <Button
-    android:id="@+id/goToData"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="25dp"
-    android:layout_marginEnd="25dp"
-    android:layout_marginBottom="25dp"
-    android:text="Edit user data"
-    android:textAlignment="center"
-    android:textColor="#000000"
-    android:textSize="24sp"
-    app:backgroundTint="#A6A6A6"
-    app:layout_constraintBottom_toTopOf="@+id/goToThreshold"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent" />
+
+
+    <!--BOTTOM MAIN PAGE BUTTON-->
+
     <Button
         android:id="@+id/goToThreshold"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="52dp"
         android:text="Edit Thresholds"
         android:textAlignment="center"
         android:textColor="#000000"
@@ -103,11 +79,43 @@
         app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toTopOf="@+id/maingpage_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/goToData"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginBottom="20dp"
+        android:text="Edit user data"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
+        app:layout_constraintBottom_toTopOf="@+id/goToThreshold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/changeAcc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="32dp"
+        android:text="Change account"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        app:backgroundTint="#A6A6A6"
+        app:layout_constraintBottom_toTopOf="@+id/goToData"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!--BOTTOM MAIN PAGE BUTTON-->
     <Button
         android:id="@+id/maingpage_button"
         style="@style/MainPageButton"
@@ -115,4 +123,34 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="128dp"
+        android:layout_height="128dp"
+        android:layout_marginStart="140dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="140dp"
+        android:scaleType="center"
+        app:layout_constraintBottom_toTopOf="@+id/profile_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/relativeLayout2"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/lexend"
+        android:text="Firstname Lastname"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/changeSub"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,4 +90,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.2")
 
     implementation("com.auth0.android:jwtdecode:2.0.0")
+
+    implementation("com.github.bumptech.glide:glide:4.16.0")
 }

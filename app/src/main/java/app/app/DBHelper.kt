@@ -248,29 +248,30 @@ class DBHelper(context: Context) :
         return id
     }
 
-//    //Get user data
-//    @SuppressLint("Range")
-//    fun getUser(id: Int): User? {
-//        var user: User? = null
-//        val db = readableDatabase
-//        val selection = "id = ?"
-//        val selectionArgs = arrayOf(id.toString())
-//        val cursor: Cursor = db.query(table_user, null, selection, selectionArgs, null, null, null)
-//
-//        if (cursor.moveToFirst()) {
-//            val name = cursor.getString(cursor.getColumnIndex(user_name))
-//            val surname = cursor.getString(cursor.getColumnIndex(user_surname))
-//            val height = cursor.getDouble(cursor.getColumnIndex(user_height))
-//            val weight = cursor.getDouble(cursor.getColumnIndex(user_weight))
-//            val birth = cursor.getString(cursor.getColumnIndex(user_birthdate))
-//
-//            user = User(id, name, surname, height, weight, birth)
-//        }
-//
-//        cursor.close()
-//        db.close()
-//        return if (user != null) user else null
-//    }
+    //Get login data
+    @SuppressLint("Range")
+    fun getLogin(id: Int): LoginData? {
+        var login: LoginData? = null
+        val db = readableDatabase
+        val selection = "id = ?"
+        val selectionArgs = arrayOf(id.toString())
+        val cursor: Cursor = db.query(table_login, null, selection, selectionArgs, null, null, null)
+
+        if (cursor.moveToFirst()) {
+            val token = cursor.getString(cursor.getColumnIndex(login_token))
+            val name = cursor.getString(cursor.getColumnIndex(login_name))
+            val surname = cursor.getString(cursor.getColumnIndex(login_surname))
+            val email = cursor.getString(cursor.getColumnIndex(login_email))
+            val uri = cursor.getString(cursor.getColumnIndex(login_uri))
+            val status = cursor.getInt(cursor.getColumnIndex(login_status))
+
+            login = LoginData(id, token, name, surname, email, uri, status)
+        }
+
+        cursor.close()
+        db.close()
+        return if (login != null) login else null
+    }
 //
 //    //Update user data
 //    fun updateUser(user: User): Int {
