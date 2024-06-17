@@ -25,7 +25,7 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.selects.RegistrationFunction
 import java.io.File
 
-private var GOOGLE_AUTH_TOKEN = false
+private var GOOGLE_AUTH_TOKEN = true
 
 class Login : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {

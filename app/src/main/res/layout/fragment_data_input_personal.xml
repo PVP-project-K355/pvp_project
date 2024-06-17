@@ -6,49 +6,104 @@
     android:layout_height="match_parent"
     tools:context=".DataInputPersonal">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingHorizontal="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Date of birth"/>
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="date"/>
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="Weight"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Weight"/>
-        <EditText
-            android:id="@+id/editTextNumberSigned"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberSigned"/>
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/inputWeight"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2.5"
+                android:background="@drawable/gradient_white"
+                android:fontFamily="@font/lexend"
+                android:inputType="number"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:maxLength="3"/>
 
+            <TextView
+                android:id="@+id/inputWeightUnits"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_white_pressed"
+                android:fontFamily="@font/lexend"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="kg"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="Height"
+            android:layout_marginBottom="10dp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Height"/>
-        <EditText
-            android:id="@+id/editTextNumberSigned2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="numberSigned"/>
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <EditText
+                android:id="@+id/inputHeight"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2.5"
+                android:background="@drawable/gradient_white"
+                android:fontFamily="@font/lexend"
+                android:inputType="numberSigned"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:maxLength="3"/>
+
+            <TextView
+                android:id="@+id/inputHeightUnits"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_white_pressed"
+                android:fontFamily="@font/lexend"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:text="cm"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
     </LinearLayout>
+
 
 
     <LinearLayout

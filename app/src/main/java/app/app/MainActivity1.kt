@@ -1,13 +1,14 @@
 package app.app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 
-private val SHARED_PREFS_NAME = "MyAppPrefs"
+const val SHARED_PREFS_NAME = "MyAppPrefs"
 private var launched = false
 
 class MainActivity1 : AppCompatActivity() {
@@ -32,9 +33,6 @@ class MainActivity1 : AppCompatActivity() {
         if(sharedPreference.getBoolean("first_time_launch", true))
         {
             setContentView(R.layout.activity_setup)
-
-            //this should execute after pressing finish
-            editor.putBoolean("first_time_launch", false).commit()
         }
         else
         {

@@ -6,19 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [DataInputThresholds.newInstance] factory method to
- * create an instance of this fragment.
- */
 class DataInputThresholds : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -26,10 +18,6 @@ class DataInputThresholds : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -37,28 +25,19 @@ class DataInputThresholds : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_data_input_thresholds, container, false)
-        view.findViewById<Button>(R.id.button_next_setup).setOnClickListener{ view.findNavController().navigate(R.id.action_dataInputThresholds_to_mainActivity1) }
+        view.findViewById<Button>(R.id.button_next_setup).setOnClickListener{ finishSetup(view) }
         view.findViewById<Button>(R.id.button_back_setup).setOnClickListener { NavHostFragment.findNavController(this@DataInputThresholds).popBackStack() }
         return view
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment DataInputThresholds.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            DataInputThresholds().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun finishSetup(view: View)
+    {
+        val sharedPreference = this.activity?.getSharedPreferences(
+            SHARED_PREFS_NAME,
+            AppCompatActivity.MODE_PRIVATE
+        )
+        val editor = sharedPreference?.edit()
+        editor?.putBoolean("first_time_launch", false)?.commit()
+        view.findNavController().navigate(R.id.action_dataInputThresholds_to_mainActivity1)
     }
 }
