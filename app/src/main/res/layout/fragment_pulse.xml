@@ -107,11 +107,10 @@
         android:layout_marginTop="20dp"
         android:text="Health Summary"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/graphView" />
-
     <!--BOTTOM MAIN PAGE BUTTON-->
 
 

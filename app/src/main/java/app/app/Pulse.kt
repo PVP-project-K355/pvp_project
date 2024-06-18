@@ -43,6 +43,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
 import android.telephony.SmsManager
+import androidx.core.content.ContextCompat
+import com.github.mikephil.charting.components.LimitLine
 
 class Pulse : Fragment() {
 
@@ -322,8 +324,8 @@ class Pulse : Fragment() {
                 position = XAxis.XAxisPosition.BOTTOM
                 granularity = 1f
             }
-            axisLeft.axisMinimum = 0f
-            axisLeft.axisMaximum = 200f
+            axisLeft.axisMinimum = 20f
+            axisLeft.axisMaximum = 160f
             axisRight.isEnabled = false
             legend.isEnabled = false
             description.isEnabled = false
@@ -343,19 +345,54 @@ class Pulse : Fragment() {
         }
 
         val dataSet = LineDataSet(displayEntries, "Heart Rate Data")
+
+        val redColor = ContextCompat.getColor(requireContext(), R.color.red)
+        val blueColor = ContextCompat.getColor(requireContext(), R.color.blue_sleep)
+
         dataSet.apply {
-            color = getColor(R.color.pastel_green)
-            setCircleColor(getColor(R.color.pastel_green))
+            color = redColor
+            setCircleColor(redColor)
             setDrawValues(false)
             setDrawCircles(true)
             setDrawCircleHole(false)
-            circleRadius = 3f
+            circleRadius = 1f
             lineWidth = 2f
             mode = LineDataSet.Mode.CUBIC_BEZIER
+            cubicIntensity = 0.2f
         }
 
         val lineData = LineData(dataSet)
         graphView.data = lineData
+
+
+        var threshold : Threshold?
+        if(dbHelper.getThreshold(1)!= null){
+            threshold = dbHelper.getThreshold(1)
+        }
+        else{
+            threshold = Threshold(id = 1, minRate = 10, maxRate = 100, stepsGoal = 30000)
+        }
+
+        val limitLineMax = LimitLine(threshold?.maxRate.toString().toFloat(), "Max").apply {
+            lineWidth = 2f
+            lineColor = redColor
+            labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            textSize = 10f
+            textColor = redColor
+        }
+        val leftAxis = graphView.axisLeft
+        leftAxis.addLimitLine(limitLineMax)
+
+        val limitLineMin = LimitLine(threshold?.minRate.toString().toFloat(), "Min").apply {
+            lineWidth = 2f
+            lineColor = blueColor
+            labelPosition = LimitLine.LimitLabelPosition.RIGHT_TOP
+            textSize = 10f
+            textColor = blueColor
+        }
+        leftAxis.addLimitLine(limitLineMin)
+
+
         graphView.invalidate()
         requireActivity().runOnUiThread {
                  progressBar.visibility = View.GONE

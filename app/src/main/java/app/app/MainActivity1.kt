@@ -49,10 +49,10 @@ class MainActivity1 : AppCompatActivity() {
         val editor = sharedPreference.edit()
 
         //Forcing first-time launch for testing
-        if (!launched) {
-            editor.clear().commit()
-            launched = true
-        }
+//        if (!launched) {
+//            editor.clear().commit()
+//            launched = true
+//        }
 
         Log.e("TEST", sharedPreference.getBoolean("first_time_launch", true).toString())
 
