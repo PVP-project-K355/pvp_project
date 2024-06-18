@@ -57,8 +57,8 @@ class Settings : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
-        val name = dbHelper.getLogin(1)?.name
-        val surname = dbHelper.getLogin(1)?.surname
+        val name = dbHelper.getUser(1)?.name
+        val surname = dbHelper.getUser(1)?.surname
         val uri = dbHelper.getLogin(1)?.uri?.toUri()
         val fullname = "$name $surname"
 
@@ -157,6 +157,16 @@ class Settings : Fragment() {
                             .load(uri)
                             .into(view.findViewById(R.id.profile_picture))
                         view.findViewById<TextView>(R.id.profile_name).text = fullname
+
+                        val user = User(
+                            id = 1,
+                            name = name,
+                            surname = surname,
+                            height = dbHelper.getUser(1)?.height.toString().toDouble(),
+                            weight = dbHelper.getUser(1)?.weight.toString().toDouble(),
+                            birthdate = dbHelper.getUser(1)?.birthdate.toString()
+                        )
+                        dbHelper.updateUser(user)
 
                         mToast?.cancel()
                         mToast = Toast.makeText(requireContext(), "Account changed!", Toast.LENGTH_LONG)

@@ -7,6 +7,159 @@
     tools:context=".DataInputThresholds">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/relativeLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lexend"
+            android:text="Minimum heart rate"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/inputMinrate"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2.5"
+                android:background="@drawable/gradient_white"
+                android:fontFamily="@font/lexend"
+                android:hint="Minimum heart rate"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_header" />
+
+            <TextView
+                android:id="@+id/inputMinrateUnits"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_white_pressed"
+                android:fontFamily="@font/lexend"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/lexend"
+            android:text="Maximum heart rate"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/inputMaxrate"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2.5"
+                android:background="@drawable/gradient_white"
+                android:fontFamily="@font/lexend"
+                android:hint="Maximum heart rate"
+                android:inputType="number"
+                android:maxLength="3"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_header" />
+
+            <TextView
+                android:id="@+id/inputMaxrateUnits"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_white_pressed"
+                android:fontFamily="@font/lexend"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/lexend"
+            android:text="Daily step goal"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="50dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/inputSteps"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="2.5"
+                android:background="@drawable/gradient_white"
+                android:fontFamily="@font/lexend"
+                android:hint="Your target steps"
+                android:inputType="number"
+                android:maxLength="5"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_header" />
+
+            <TextView
+                android:id="@+id/inputStepsUnits"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:background="@drawable/gradient_white_pressed"
+                android:fontFamily="@font/lexend"
+                android:gravity="center"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
