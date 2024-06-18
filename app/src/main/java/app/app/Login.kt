@@ -38,6 +38,7 @@ class Login : Fragment() {
         //Bad solution to fitbit post navigation problem
         if(existsFitbitToken() == true)
             findNavController().navigate(R.id.action_login_to_loginWatch)
+
         dbHelper = DBHelper(requireContext())
 //        val db = dbHelper.writableDatabase
 //        val ver = db.getVersion()

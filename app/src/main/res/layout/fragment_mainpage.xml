@@ -99,6 +99,22 @@
                     style="@style/MainPageButtonIcon"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/nav_button_reports"
+            style="@style/CardView.MainPageNavButton">
+            <LinearLayout
+                style="@style/MainPageNavButtonLayout"
+                android:background="@drawable/button_white"
+                tools:ignore="UseCompoundDrawables">
+                <TextView
+                    android:text="@string/reports"
+                    style="@style/MainPageNavButtonText"/>
+
+                <ImageView
+                    android:src="@drawable/ic_report"
+                    style="@style/MainPageButtonIcon"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.gridlayout.widget.GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
