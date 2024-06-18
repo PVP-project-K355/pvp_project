@@ -121,8 +121,9 @@ class Pulse : Fragment() {
         }
 
         testButton.setOnClickListener {
-            launchHRDCoroutine()
+
         }
+        launchHRDCoroutine()
 
         return view
     }
@@ -140,7 +141,6 @@ class Pulse : Fragment() {
     private suspend fun fetchHRDPeriodic(delay:Long){
         var index = 0
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
         while (true) {
             val dateUTC = OffsetDateTime.now(ZoneOffset.UTC).format(formatter)
             Log.d("Perioic coroutine", "Fetch coroutine loop ${index}")
@@ -218,7 +218,7 @@ class Pulse : Fragment() {
                             if (!sentMesg){
                                 sentMesg = true
                                 try {
-                                    val message = "TEST message to test app function"
+                                    val message = "Warning, Heart rate past set limits detected"
                                     val allContacts = dbHelper.getAllContacts()
                                     val smsManager:SmsManager = requireContext().getSystemService(SmsManager::class.java)
 
