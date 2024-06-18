@@ -33,9 +33,9 @@
     <Button
         android:id="@+id/generate_report_button"
         style="@style/MainPageButton"
-        android:background="@drawable/button_yellow_soft"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
+        android:background="@drawable/button_white"
         android:text="Generate Report"
         app:layout_constraintBottom_toTopOf="@+id/send_report_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
     <Button
         android:id="@+id/send_report_button"
         style="@style/MainPageButton"
-        android:background="@drawable/button_yellow_soft"
+        android:background="@drawable/button_white"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
         android:text="Send Report"

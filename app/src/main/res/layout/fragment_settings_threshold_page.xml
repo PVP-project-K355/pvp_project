@@ -7,48 +7,28 @@
 
     <Button
         android:id="@+id/goToSettings"
+        style="@style/MainPageButton"
+
+        android:background="@drawable/button_grey"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="30dp"
         android:text="BACK TO SETTINGS"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:backgroundTint="#A6A6A6"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/save"
+        style="@style/MainPageButton"
+        android:background="@drawable/button_green"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="30dp"
         android:text="Save"
         android:textColor="#000000"
         android:textSize="24sp"
-        app:backgroundTint="#228B22"
-        app:layout_constraintBottom_toTopOf="@+id/goToSettings"
-        app:layout_constraintEnd_toStartOf="@+id/cancel"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/cancel"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="30dp"
-        android:text="Cancel"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:backgroundTint="#DC143C"
         app:layout_constraintBottom_toTopOf="@+id/goToSettings"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/save" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/stepsGoalIn"
@@ -141,22 +121,31 @@
         app:layout_constraintBottom_toTopOf="@+id/minRateIn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.50"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/materialToolbar" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/materialToolbar"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="55dp"
-        android:background="#A6A6A6"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintBottom_toTopOf="@+id/minHeartRate"
+    <!--HEADER-->
+    <RelativeLayout
+        android:id="@+id/relativeLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:background="@color/gray_header"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            style="@style/MainPageNavButtonText"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:text="@string/settings" />
+
+        <ImageView
+            android:layout_width="35dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_settings" />
+    </RelativeLayout>
 
     <TextView
         android:id="@+id/textView"
@@ -170,7 +159,6 @@
         android:textColor="#000000"
         android:textSize="34sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/materialToolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

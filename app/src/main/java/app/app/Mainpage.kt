@@ -26,6 +26,7 @@ class Mainpage : Fragment() {
         view.findViewById<CardView>(R.id.nav_button_sleep).setOnClickListener{view.findNavController().navigate(R.id.action_mainpage_to_sleep)}
         view.findViewById<CardView>(R.id.nav_button_contacts).setOnClickListener{view.findNavController().navigate(R.id.action_mainpage_to_contacts)}
         view.findViewById<CardView>(R.id.nav_button_settings).setOnClickListener{view.findNavController().navigate(R.id.action_mainpage_to_settings)}
+        view.findViewById<CardView>(R.id.nav_button_reports).setOnClickListener{view.findNavController().navigate(R.id.action_mainpage_to_report)}
 
         return view
     }
