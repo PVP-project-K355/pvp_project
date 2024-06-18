@@ -103,7 +103,7 @@ class DataInputThresholds : Fragment() {
 
     private fun validateForm(view: View)
     {
-        if( minrate != "" && maxrate != "" && steps != "" && minrate < maxrate)
+        if( minrate != "" && maxrate != "" && steps != "" && inputMinrate.text.toString().toDouble() < inputMaxrate.text.toString().toDouble())
         {
             view.findViewById<Button>(R.id.button_next_setup).setBackgroundResource(R.drawable.button_blue_soft)
             FORM_VALIDATION = true
