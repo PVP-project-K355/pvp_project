@@ -13,16 +13,6 @@ import android.widget.TextView
 import android.widget.Toast
 import java.util.Calendar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [Edit_User_Data_Page.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Edit_User_Data_Page : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -32,7 +22,6 @@ class Edit_User_Data_Page : Fragment() {
     private lateinit var birthDate: TextView
     private lateinit var nameSurname: EditText
     private lateinit var saveButton: Button
-    private lateinit var cancelButton: Button
     private lateinit var backButton: Button
     private lateinit var chooseDate: Button
 
@@ -40,10 +29,6 @@ class Edit_User_Data_Page : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -60,18 +45,11 @@ class Edit_User_Data_Page : Fragment() {
         birthDate = view.findViewById(R.id.birthDateIn)
         nameSurname = view.findViewById(R.id.nameSurname)
         saveButton = view.findViewById(R.id.saveUser)
-        cancelButton = view.findViewById(R.id.cancelUser)
         backButton = view.findViewById(R.id.goToSettingsUser)
         chooseDate = view.findViewById(R.id.chooseBirth)
 
         saveButton.setOnClickListener {
             saveUserData()
-        }
-
-        cancelButton.setOnClickListener {
-            loadUserData()
-            showToast("Changes have been canceled")
-            parentFragmentManager.popBackStack() // Go back to previous fragment
         }
 
         backButton.setOnClickListener {
@@ -85,17 +63,6 @@ class Edit_User_Data_Page : Fragment() {
         loadUserData()
 
         return view
-    }
-
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Edit_User_Data_Page().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 
     private fun saveUserData() {

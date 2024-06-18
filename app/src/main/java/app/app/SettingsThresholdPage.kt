@@ -7,38 +7,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.navigation.fragment.NavHostFragment
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SettingsThresholdPage.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SettingsThresholdPage : Fragment() {
-    private var param1: String? = null
-    private var param2: String? = null
 
     private lateinit var minSteps: EditText
     private lateinit var minRate: EditText
     private lateinit var maxRate: EditText
     private lateinit var save: Button
-    private lateinit var cancel: Button
     private lateinit var settings: Button
 
     private lateinit var dbHelper: DBHelper
 
+    lateinit var inputMinrateUnits : TextView
+    lateinit var inputMaxrateUnits : TextView
+    lateinit var inputStepsUnits : TextView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
@@ -55,7 +42,6 @@ class SettingsThresholdPage : Fragment() {
         minRate = view.findViewById(R.id.minRateIn)
         maxRate = view.findViewById(R.id.maxRateIn)
         save = view.findViewById(R.id.save)
-        cancel = view.findViewById(R.id.cancel)
         settings = view.findViewById(R.id.goToSettings)
 
         // Set click listeners
@@ -63,39 +49,14 @@ class SettingsThresholdPage : Fragment() {
             saveThreshold()
         }
 
-        cancel.setOnClickListener {
-            loadThreshold()
-            showToast("Changes have been canceled")
-            navigateBackToSettings()
-        }
-
         settings.setOnClickListener {
             navigateBackToSettings()
         }
 
-        // Load threshold data
+        //Load threshold data
         loadThreshold()
 
         return view
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsThresholdPage.
-         */
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SettingsThresholdPage().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
     }
 
     private fun saveThreshold() {
