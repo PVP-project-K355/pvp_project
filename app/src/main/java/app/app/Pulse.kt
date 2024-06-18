@@ -42,6 +42,7 @@ import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
 import java.util.Locale
+import android.telephony.SmsManager
 
 class Pulse : Fragment() {
 
@@ -195,6 +196,8 @@ class Pulse : Fragment() {
 
     private fun testHRDThresholds(date: String, entries: MutableList<HeartRate>){
         if (!entries.isEmpty()){
+            var sentMesg = false
+
             val currentTimeStamp = System.currentTimeMillis() / 1000
             val currentMinTestTimestampThreshold = currentTimeStamp - 3600
             var threshold : Threshold?
@@ -210,7 +213,31 @@ class Pulse : Fragment() {
                 if (entry.date > currentMinTestTimestampThreshold){
                     if (threshold != null) {
                         if (entry.heartRate >= threshold.maxRate || entry.heartRate <= threshold.minRate){
-                            Log.d("Threshold limit", "timestamp: ${entry.date} Heartrate: ${entry.heartRate}")
+                            if (!sentMesg){
+                                sentMesg = true
+                                try {
+                                    val message = "TEST message to test app function"
+                                    val allContacts = dbHelper.getAllContacts()
+                                    val smsManager:SmsManager = requireContext().getSystemService(SmsManager::class.java)
+
+                                    if (allContacts.isNotEmpty()){
+                                        allContacts.forEach{ c ->
+                                            smsManager.sendTextMessage(c.phoneNumber, null, message, null, null)
+                                        }
+                                        Log.d("msg send", "MSG sent")
+                                    }
+                                    else{
+                                        println("Contacts not found")
+                                    }
+
+                                } catch (e: Exception) {
+                                    Log.d("failed message send", e.message.toString())
+                                }
+
+                            }
+                            else{
+                                Log.d("Threshold limit", "timestamp: ${entry.date} Heartrate: ${entry.heartRate}")
+                            }
                         }
                     }
                 }
@@ -248,12 +275,12 @@ class Pulse : Fragment() {
                         response.body?.close()
                     }
                 } else {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        requireContext(),
-                        "Error retrieving heart rate data",
-                        Toast.LENGTH_SHORT
-                    ).show()
+//                    progressBar.visibility = View.GONE
+//                    Toast.makeText(
+//                        requireContext(),
+//                        "Error retrieving heart rate data",
+//                        Toast.LENGTH_SHORT
+//                    ).show()
                 }
             }
         })
@@ -336,8 +363,9 @@ class Pulse : Fragment() {
     }
 
     private fun fetchHeartRateData(accessToken: String, date: String) {
-        progressBar.visibility = View.VISIBLE
-
+        requireActivity().runOnUiThread {
+            progressBar.visibility = View.VISIBLE
+        }
         val client = OkHttpClient()
         val endpoint = "https://api.fitbit.com/1/user/-/activities/heart/date/$date/1d/1sec.json"
 
@@ -368,12 +396,16 @@ class Pulse : Fragment() {
                         response.body?.close()
                     }
                 } else {
-                    progressBar.visibility = View.GONE
-                    Toast.makeText(
-                        requireContext(),
-                        "Error retrieving heart rate data",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    requireActivity().runOnUiThread {
+                        progressBar.visibility = View.GONE
+//                        Toast.makeText(
+//                        requireContext(),
+//                        "Error retrieving heart rate data",
+//                        Toast.LENGTH_SHORT
+//                        ).show()
+                    }
+                    Log.d("FitbitHeartRateDATA", "fucked up")
+
                 }
             }
         })
