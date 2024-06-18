@@ -37,18 +37,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/inputSurname"
+                android:id="@+id/inputName"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="2.5"
                 android:background="@drawable/gradient_white"
-                android:fontFamily="@font/lexend"
-                android:inputType="textCapWords"
-                android:hint="Your name"
                 android:digits="ąčęėįšųūžĄČĘĖĮŠŲŪŽabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                android:textColorHint="@color/gray_header"
+                android:fontFamily="@font/lexend"
+                android:hint="Your name"
+                android:inputType="textCapWords"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_header" />
 
             <TextView
                 android:id="@+id/inputSurnameUnits"
@@ -85,18 +85,18 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/inputName"
+                android:id="@+id/inputSurname"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="2.5"
-                android:hint="Your surname"
-                android:textColorHint="@color/gray_header"
                 android:background="@drawable/gradient_white"
-                android:fontFamily="@font/lexend"
-                android:inputType="textCapWords"
                 android:digits="ąčęėįšųūžĄČĘĖĮŠŲŪŽabcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:fontFamily="@font/lexend"
+                android:hint="Your surname"
+                android:inputType="textCapWords"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textColorHint="@color/gray_header" />
 
             <TextView
                 android:id="@+id/inputNameUnits"
@@ -146,7 +146,7 @@
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/inputWeightUnits"
+                android:id="@+id/inputStepsUnits"
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"

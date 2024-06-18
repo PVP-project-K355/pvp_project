@@ -28,7 +28,7 @@ import kotlinx.coroutines.launch
 
 class Login : Fragment() {
 
-    private var GOOGLE_AUTH_TOKEN = true
+    private var GOOGLE_AUTH_TOKEN = false
     private var mToast: Toast? = null
     private lateinit var dbHelper: DBHelper
 

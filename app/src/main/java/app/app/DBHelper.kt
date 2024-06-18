@@ -186,6 +186,8 @@ class DBHelper(context: Context) :
         values.put(user_height, user.height)
         values.put(user_weight, user.weight)
         values.put(user_birthdate, user.birthdate)
+        // delete contents
+        db.execSQL("delete from $table_user");
         val id = db.insert(table_user, null, values)
         db.close()
         return id
@@ -242,7 +244,8 @@ class DBHelper(context: Context) :
         values.put(login_email, login.email)
         values.put(login_uri, login.uri)
         values.put(login_status, login.status)
-        db.execSQL("delete from $table_login");
+        // delete contents
+        db.execSQL("delete from $table_login")
         val id = db.insert(table_login, null, values)
         db.close()
         return id
@@ -272,22 +275,23 @@ class DBHelper(context: Context) :
         db.close()
         return if (login != null) login else null
     }
-//
-//    //Update user data
-//    fun updateUser(user: User): Int {
-//        val db = this.writableDatabase
-//        val values = ContentValues()
-//        values.put(user_name, user.name)
-//        values.put(user_surname, user.surname)
-//        values.put(user_height, user.height)
-//        values.put(user_weight, user.weight)
-//        values.put(user_birthdate, user.birthdate)
-//
-//        return db.update(
-//            table_user, values, "$user_id = ?",
-//            arrayOf(user.id.toString())
-//        )
-//    }
+
+    //Update user data
+    fun updateLogin(login: LoginData): Int {
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(login_token, login.token)
+        values.put(login_name, login.name)
+        values.put(login_surname, login.surname)
+        values.put(login_email, login.email)
+        values.put(login_uri, login.uri)
+        values.put(login_status, login.status)
+
+        return db.update(
+            table_user, values, "$user_id = ?",
+            arrayOf(login.id.toString())
+        )
+    }
 
     //Heart rate table
     //Add heart rate data
@@ -409,7 +413,7 @@ class DBHelper(context: Context) :
         values.put(threshold_minRate, threshold.minRate)
         values.put(threshold_maxRate, threshold.maxRate)
         values.put(threshold_stepGoal, threshold.stepsGoal)
-
+        db.execSQL("delete from $table_threshold")
         val id = db.insert(table_threshold, null, values)
         db.close()
         return id

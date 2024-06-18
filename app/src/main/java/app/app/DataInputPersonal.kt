@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -34,8 +35,12 @@ class DataInputPersonal : Fragment() {
     private var name = ""
     private var surname = ""
 
+    private var mToast: Toast? = null
+    private lateinit var dbHelper: DBHelper
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        dbHelper = DBHelper(requireContext())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -49,10 +54,18 @@ class DataInputPersonal : Fragment() {
         inputName = view.findViewById<EditText>(R.id.inputName)
         inputSurname = view.findViewById<EditText>(R.id.inputSurname)
 
-        inputWeightUnits = view.findViewById<TextView>(R.id.inputWeightUnits)
+        inputWeightUnits = view.findViewById<TextView>(R.id.inputStepsUnits)
         inputHeightUnits = view.findViewById<TextView>(R.id.inputHeightUnits)
         inputNameUnits = view.findViewById<TextView>(R.id.inputNameUnits)
         inputSurnameUnits = view.findViewById<TextView>(R.id.inputSurnameUnits)
+
+        name = dbHelper.getLogin(1)?.name.toString()
+        surname = dbHelper.getLogin(1)?.surname.toString()
+        view.findViewById<EditText>(R.id.inputName).setText(name)
+        view.findViewById<EditText>(R.id.inputSurname).setText(surname)
+        validateInput(inputName, inputNameUnits, view)
+        validateInput(inputSurname, inputSurnameUnits, view)
+        validateForm(view)
 
         inputName.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -129,7 +142,24 @@ class DataInputPersonal : Fragment() {
 
     private fun next(view: View)
     {
-        if(FORM_VALIDATION)
+        if(FORM_VALIDATION) {
+            dbHelper.addUser(
+                User(
+                    1,
+                    inputName.text.toString(),
+                    inputSurname.text.toString(),
+                    inputHeight.text.toString().toDouble(),
+                    inputWeight.text.toString().toDouble(),
+                    ""
+                )
+            )
             view.findNavController().navigate(R.id.action_dataInputPersonal_to_dataInputThresholds)
+        }
+        else
+        {
+            mToast?.cancel()
+            mToast = Toast.makeText(requireContext(), "Please enter your data.", Toast.LENGTH_LONG)
+            mToast?.show()
+        }
     }
 }
